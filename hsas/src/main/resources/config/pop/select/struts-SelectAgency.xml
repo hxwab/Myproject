@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+	<package name="selectAgency" extends="main" namespace="/selectAgency">
+		<action name="toList" class="csdc.action.pop.select.AgencyAction" method="toList">
+			<result>/jsp/pop/popSelect/popSelectAgency.jsp</result>
+		</action>
+
+		<action name="list" class="csdc.action.pop.select.AgencyAction" method="list">
+			<result type="json"><param name="root">jsonMap</param></result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
+		</action>
+		
+		<action name="checkName" class="csdc.action.pop.select.AgencyAction" method="checkName">
+			<result type="json"><param name="root">jsonMap</param></result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
+		</action>
+		
+		<action name="simpleSearch" class="csdc.action.pop.select.AgencyAction" method="simpleSearch">
+			<result type="chain">list</result>
+		</action>
+		
+		<action name="sort" class="csdc.action.pop.select.AgencyAction" method="sort">
+			<result type="chain">list</result>
+		</action>
+		
+		<action name="toPage" class="csdc.action.pop.select.AgencyAction" method="toPage">
+			<result type="chain">list</result>
+		</action>	
+
+	</package>
+
+</struts>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="secondReview" extends="main" namespace="/product/secondReview">
+	
+		<action name="toList" class="secondReviewAction" method="toList">
+			<result>/jsp/product/secondReview/list.jsp</result>
+		</action>
+
+		<action name="list" class="secondReviewAction" method="list">
+			<result type="json"><param name="root">jsonMap</param></result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
+		</action>
+		
+		<action name="simpleSearch" class="secondReviewAction" method="simpleSearch">
+			<result type="chain">list</result>
+		</action>
+		
+		<action name="changeYear" class="secondReviewAction" method="changeYear">
+			<result type="chain">list</result>
+		</action>
+		
+		<action name="advSearch" class="secondReviewAction" method="advSearch">
+			<result type="chain">list</result>
+		</action>
+		
+		<action name="toPage" class="secondReviewAction" method="toPage">
+			<result type="chain">list</result>
+		</action>
+		
+		<action name="sort" class="secondReviewAction" method="sort">
+			<result type="chain">list</result>
+		</action>
+		
+		<action name="changePageSize" class="firstAuditAction" method="changePageSize">
+			<result type="chain">list</result>
+		</action>
+		
+		<action name="toView" class="secondReviewAction" method="toView">
+			<result>/jsp/product/secondReview/view.jsp</result>
+		</action>
+
+		<action name="view" class="secondReviewAction" method="view">
+			<result type="json"><param name="root">jsonMap</param></result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
+		</action>
+	
+		<action name="prev" class="secondReviewAction" method="prev">
+			<result type="redirectAction">
+				<param name="actionName">view</param>
+				<param name="entityId">${entityId}</param>
+			</result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
+		</action>
+
+		<action name="next" class="secondReviewAction" method="next">
+			<result type="redirectAction">
+				<param name="actionName">view</param>
+				<param name="entityId">${entityId}</param>
+			</result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
+		</action>
+		
+		<action name="addChiefReview" class="secondReviewAction" method="addChiefReview">
+			<result type="json"><param name="root">jsonMap</param></result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
+		</action>
+		
+		<action name="modifyChiefReview" class="secondReviewAction" method="modifyChiefReview">
+			<result type="json"><param name="root">jsonMap</param></result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
+		</action>
+		
+		<action name="addReview" class="secondReviewAction" method="addReview">
+			<result type="json"><param name="root">jsonMap</param></result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
+		</action>
+		
+		<action name="modifyReview" class="secondReviewAction" method="modifyReview">
+			<result type="json"><param name="root">jsonMap</param></result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
+		</action>
+		
+		<action name="audit" class="secondReviewAction" method="audit">
+			<result type="json"><param name="root">jsonMap</param></result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
+		</action>
+		
+		<!-- 导出 -->
+	    <action name="exportListData" class="secondReviewAction" method="exportListData">
+        	<result name="success" type="stream">
+				<param name="contentType">application/vnd.ms-excel</param>
+				<param name="contentDisposition">attachment;fileName="${fileName}"</param>
+				<param name="inputName">listDataStream</param>
+				<param name="bufferSize">1024</param>
+			</result>
+	   	</action>	
+	   	
+		</package>
+</struts>

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+	<package name="news" extends="main" namespace="/portal/news">
+		<action name="toAdd" class="newsAction" method="toAdd">
+			<result name = "success">/jsp/portal/news/add.jsp</result>
+		</action>
+		
+		<action name="add" class="newsAction" method="add">
+			<result type="json">
+				<param name="root">jsonMap</param>
+			</result>
+		</action>
+		
+		<action name="toView" class="newsAction" method="toView">
+			<result name = "success">/jsp/portal/news/view.jsp</result>
+		</action>
+		
+		<action name="view" class="newsAction" method="view">
+			<result type="json">
+				<param name="root">jsonMap</param>
+			</result>
+		</action>
+		
+		<action name="toModify" class="newsAction" method="toModify">
+			<result name = "success">/jsp/portal/news/modify.jsp</result>
+		</action>
+		
+		<action name="modify" class="newsAction" method="modify">
+			<result type="json">
+				<param name="root">jsonMap</param>
+			</result>
+		</action>
+		
+		<action name="toList" class="newsAction" method="toList">
+			<result name = "success">/jsp/portal/news/list.jsp</result>
+		</action>
+		
+		<action name="list" class="newsAction" method="list">
+			<result type="json">
+				<param name="root">jsonMap</param>
+			</result>
+		</action>
+		
+		<action name="simpleSearch"  class="newsAction" method="simpleSearch">
+			<result type="chain">list</result>
+		</action>
+		
+		<action name="sort" class="newsAction" method="sort">
+			<result type="chain">list</result>
+		</action>
+		
+		<action name="toPage" class="newsAction" method="toPage">
+			<result type="chain">list</result>
+		</action>
+		
+		<action name="delete"  class="newsAction" method="delete">
+			<result type="chain">list</result>
+		</action>
+		
+		<action name="prev" class="newsAction" method="prev">
+			<result type="redirectAction">
+				<param name="actionName">view</param>
+				<param name="entityId">${entityId}</param>
+			</result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
+		</action>
+
+		<action name="next" class="newsAction" method="next">
+			<result type="redirectAction">
+				<param name="actionName">view</param>
+				<param name="entityId">${entityId}</param>
+			</result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
+		</action>
+		
+	</package>
+	
+	<package name="download" extends="main" namespace="/portal/download">
+	
+		<action name="toList" class="downloadAction" method="toList">
+			<result>/jsp/portal/download/list.jsp</result>
+		</action>
+		
+		<action name="list" class="downloadAction" method="list">
+			<result type="json">
+				<param name="root">jsonMap</param>
+			</result>
+		</action>
+		
+		<action name="toAdd" class="downloadAction" method="toAdd">
+			<result>/jsp/portal/download/add.jsp</result>
+			<interceptor-ref name="fileUpload">  
+        	    <param name="maximumSize">50000000</param>  
+                <param name="allowedTypes">application/vnd.ms-powerpoint</param>  
+   	  	 </interceptor-ref>  
+	    <interceptor-ref name="defaultStack" /> 
+		</action>
+		
+		<action name="add" class="downloadAction" method="add">
+			<result type="json">
+				<param name="root">jsonMap</param>
+			</result>
+			<result name = "input" type="json"> <param name="root">jsonMap</param></result>
+		</action>
+		
+		<action name="toDownload" class="downloadAction" method="toDownload">
+			<result>/jsp/portal/download/list.jsp</result>
+		</action>
+		
+		<action name="download"  class="downloadAction" method="download" >
+			<result name ="success" type="stream">
+				<param name="contentType">applicationnd/vnd.ms-excel;charset=utf-8</param>
+				<param name="bufferSize">4096</param>
+				<param name="inputName">fileStream</param>
+				<param name="contentDisposition">attachment;filename=${fileName}</param>
+			</result>
+		</action>
+		
+		<action name="downloadPaper"  class="downloadAction" method="downloadPaper" >
+			<result name ="success" type="stream">
+				<param name="contentType">applicationnd/vnd.ms-excel;charset=utf-8</param>
+				<param name="bufferSize">4096</param>
+				<param name="inputName">fileStream</param>
+				<param name="contentDisposition">attachment;filename=${fileName}</param>
+			</result>
+		</action>
+		
+		<action name="sort" class="downloadAction" method="sort">
+			<result type="chain">list</result>
+		</action>
+		
+		<action name="delete"  class="downloadAction" method="delete">
+			<result type="chain">list</result>
+		</action>
+		
+		<action name="toPage" class="downloadAction" method="toPage">
+			<result type="chain">list</result>
+		</action>
+		
+		<action name="simpleSearch"  class="downloadAction" method="simpleSearch">
+			<result type="chain">list</result>
+		</action>
+		
+	</package>
+	
+	
+	<package name="aboutUs" extends="main" namespace="/portal/aboutUs">
+		<action name="toView" class="aboutUsAction" method="toView">
+			<result>/jsp/portal/aboutUs/view.jsp</result>
+		</action>
+	</package>
+	
+</struts>

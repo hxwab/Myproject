@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="journal" extends="main" namespace="/system/dataDic/journal">
+		<action name="toView" class="journalAction" method="toView">
+			<result>/jsp/system/dataDic/journal/view.jsp</result>
+		</action>
+
+		<action name="view" class="journalAction" method="view">
+			<result type="json"><param name="root">jsonMap</param></result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
+		</action>
+		
+		<action name="createJournalTree" class="journalAction" method="createJournalTree" />
+	
+	    <action name="update" class="journalAction" method="update">
+			<result type="json"><param name="root">jsonMap</param></result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
+		</action>
+		
+	</package>
+</struts> 
