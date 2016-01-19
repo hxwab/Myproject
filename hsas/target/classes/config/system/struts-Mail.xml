@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="mail" extends="main" namespace="/system/mail">
+		<action name="toList" class="mailAction" method="toList">
+			<result>/jsp/system/mail/list.jsp</result>
+		</action>
+		
+		<action name="list" class="mailAction" method="list">
+			<result type="json"><param name="root">jsonMap</param></result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
+		</action>
+		
+		<action name="toAdd" class="mailAction" method="toAdd">
+			<result>/jsp/system/mail/add.jsp</result>
+		</action>
+		
+		<!-- 保存新邮件 -->
+		<action name="addMail" class="mailAction" method="addMail">
+			<result type="redirectAction">
+				<param name="actionName">viewMail</param>
+				<param name="mailId">${mailId}</param>
+			</result>
+		</action>
+		
+		<!-- 查看邮件 -->
+		<action name="viewMail" class="mailAction" method="viewMail">
+			<result>/mailer/viewMail.jsp</result>
+		</action>
+		
+		<!-- 邮件群发 -->
+		<action name="sendAllMails" class="mailAction" method="sendAllMails">
+			<result type="redirectAction">
+				<param name="actionName">list</param>
+			</result>
+		</action>
+		
+		<!-- 发送选中邮件 -->
+		<action name="groupSendMail" class="mailAction" method="groupSendMail">
+			<result type="redirectAction">
+				<param name="actionName">list</param>
+			</result>
+		</action>
+		
+		<action name="simpleSearch" class="mailAction" method="simpleSearch">
+			<result type="chain">list</result>
+		</action>
+		
+		<action name="advSearch" class="mailAction" method="advSearch">
+			<result type="chain">list</result>
+		</action>
+		
+	</package>
+</struts>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="solicitPapers" extends="main" namespace="/solicitPapers">
+		<action name="toList" class="solicitPapersAction" method="toList">
+			<result>/jsp/solicitPapers/list.jsp</result>
+		</action>
+
+		<action name="list" class="solicitPapersAction" method="list">
+			<result type="json"><param name="root">jsonMap</param></result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
+		</action>
+		
+		<action name="toAdd" class="solicitPapersAction" method="toAdd">
+			<result>/jsp/solicitPapers/add.jsp</result>
+		</action>
+		
+		<action name="add" class="solicitPapersAction" method="add">
+			<result type="json">
+				<param name="root">jsonMap</param>
+			</result>
+		</action>
+		
+		<action name="delete" class="solicitPapersAction" method="delete">
+			<result type="json"><param name="root">jsonMap</param></result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
+		</action>
+		
+		<action name="toView" class="solicitPapersAction" method="toView">
+			<result>/jsp/solicitPapers/view.jsp</result>
+		</action>
+
+		<action name="view" class="solicitPapersAction" method="view">
+			<result type="json"><param name="root">jsonMap</param></result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
+		</action>
+		
+		<action name="toModify" class="solicitPapersAction" method="toModify">
+			<result>/jsp/solicitPapers/modify.jsp</result>
+		</action>
+
+		<action name="modify" class="solicitPapersAction" method="modify">
+			<result type="json"><param name="root">jsonMap</param></result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
+		</action>
+		
+		<action name="sort" class="solicitPapersAction" method="sort">
+			<result type="chain">list</result>
+		</action>
+		
+		<action name="simpleSearch" class="solicitPapersAction" method="simpleSearch">
+			<result type="chain">list</result>
+		</action>
+		
+		<action name="advSearch" class="solicitPapersAction" method="advSearch">
+			<result type="chain">list</result>
+		</action>
+		
+		<action name="prev" class="solicitPapersAction" method="prev">
+			<result type="redirectAction">
+				<param name="actionName">view</param>
+				<param name="entityId">${entityId}</param>
+			</result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
+		</action>
+
+		<action name="next" class="solicitPapersAction" method="next">
+			<result type="redirectAction">
+				<param name="actionName">view</param>
+				<param name="entityId">${entityId}</param>
+			</result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
+		</action>
+		
+		<action name="toPage" class="solicitPapersAction" method="toPage">
+			<result type="chain">list</result>
+		</action>
+		
+		
+		<action name="download"  class="downloadAction" method="download" >
+			<result name ="success" type="stream">
+				<param name="contentType">applicationnd/vnd.ms-excel;charset=utf-8</param>
+				<param name="bufferSize">4096</param>
+				<param name="inputName">fileStream</param>
+				<param name="contentDisposition">attachment;filename=${fileName}</param>
+			</result>
+		</action>
+	</package>
+</struts>

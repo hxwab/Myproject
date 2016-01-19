@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+	<package name="personInfo" extends="main" namespace="/personInfo">
+	
+	
+		<action name="toView" class="personInfoAction" method="toView">
+			<result name= "success">/jsp/selfspace/view.jsp </result>
+		</action>
+	
+		<action name="view" class="personInfoAction" method="view">
+			<result type="json">
+				<param name="root">jsonMap</param>
+			</result>
+		</action>
+		
+		<action name="toModify" class="personInfoAction" method="toModify">
+			<result name= "success">/jsp/selfspace/modify.jsp </result>
+		</action>
+	
+		<action name="modify" class="personInfoAction" method="modify">
+			<result type="json">
+				<param name="root">jsonMap</param>
+			</result>
+		</action>
+
+		<action name="toModifyPassword" class="personInfoAction" method="toModifyPassword">
+			<result name= "success">/jsp/selfspace/modifyPassword.jsp </result>
+		</action>
+		<action name="modifyPassword" class="personInfoAction" method="modifyPassword">
+			<result type="json">
+				<param name="root">jsonMap</param>
+			</result>
+		</action>
+		
+		<action name="confirmExportOverView" class="personInfoAction" method="confirmExportOverView">
+        	<result name="success" type="stream">
+				<param name="contentType">application/vnd.ms-excel</param>
+				<param name="contentDisposition">attachment;fileName="${fileFileName}"</param>
+				<param name="inputName">downloadFile</param>
+			</result>
+	   	</action>
+		
+		
+	</package>
+
+</struts>

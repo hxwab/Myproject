@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+	<package name="view" extends="main" namespace="/view">
+	
+		<action name="toViewPerson" class="viewAction" method="toViewPerson">
+			<result>/jsp/pop/popView/popViewPerson.jsp</result>
+		</action>
+		
+		<action name="viewPerson" class="viewAction" method="viewPerson">
+			<result type="json"><param name="root">jsonMap</param></result>
+		</action>
+		
+		<action name="toViewAgency" class="viewAction" method="toViewAgency">
+			<result>/jsp/pop/popView/popViewAgency.jsp</result>
+		</action>
+		<action name="viewAgency" class="viewAction" method="viewAgency">
+			<result type="json"> <param name="root">jsonMap</param></result>
+		</action>
+
+	</package>
+
+</struts>
