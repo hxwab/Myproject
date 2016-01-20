@@ -336,3 +336,6 @@ div.dataTables_paginate { margin: 17px 164px 24px !important; }
 .green {color:#64CA64}
 .display-none{display:none}
 .table-merge td{padding:5px}
+
+.table-header td{
+}

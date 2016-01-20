@@ -32,7 +32,7 @@
                              <tr>
                                  <td width = "50" class = "text-right"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></td>
                                  <td width = "100" class = "text-right view-key">成果名称：</td>
-                                 <td width = "100">${product.name }</td>
+                                 <td width = "350">${product.name }</td>
                                  <td width = "150"></td>
                                  <td width = "100"></td>
                                  <td ></td>
@@ -162,7 +162,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr >
+							<tr class="table-header">
 								<td width="100">专家</td>
 								<td>复评意见</td>
 								<td width="100">是否主审</td>
@@ -170,15 +170,15 @@
 						{if isReviewed == 1 }
 							<tr>
 								<td>${myOpinion[1]}</td>
-								<td>${myOpinion[0]}</td>
-								<td>{if myOpinion[2] == 0}否{else}是{/if}</td>
+								<td>{if myOpinion[0] != ""}<span class="label label-info label-custom">${myOpinion[0]}</span>{/if}</td>
+								<td>{if myOpinion[2] == 0}<span class="label label-danger label-custom">否</span>{else}<span class="label label-success label-custom">是</span>{/if}</td>
 							</tr>
 							{if auditAble == 1 }
 							{for item in otherOpinioin}
 							<tr>
 								<td>${item[1] }</td>
 								<td>{if item[0] == ""} 未评 {else}${item[0] }{/if}</td>
-								<td>{if item[2] == 1} 是{else}否{/if}</td>
+								<td>{if item[2] == 1} <span class="label label-success label-custom">是</span>{else}<span class="label label-danger label-custom">否</span>{/if}</td>
 							</tr>
 							{/for}
 							{/if}
@@ -250,7 +250,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr >
+							<tr class="table-header">
 								<td width="100">专家</td>
 								<td>复评意见</td>
 								<td width="100">是否主审</td>
@@ -259,8 +259,8 @@
 						{for item in allOpinioin}
 							<tr>
 								<td>${item[1] }</td>
-								<td>{if item[0] == ""} 未评 {else}${item[0] }{/if}</td>
-								<td>{if item[2] == 1} 是{else}否{/if}</td>
+								<td><span class="label label-info label-custom">{if item[0] == ""} 未评 {else}${item[0] }{/if}</span></td>
+								<td>{if item[2] == 1}<span class="label label-success label-custom"> 是</span>{else}<span class="label label-danger label-custom">否</span>{/if}</td>
 							</tr>
 						{/for}
 						{else}

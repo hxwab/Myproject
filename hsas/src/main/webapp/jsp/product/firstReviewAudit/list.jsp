@@ -99,8 +99,8 @@
 			                    <td width ="85"><a id="sortcolumn0" href="" class="{if sortColumn == 0}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}" title="点击按角色名称排序">评审编号</a></td>
 			                    <td><a id="sortcolumn1" href="" class="{if sortColumn == 1}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按角色描述排序">成果名称</a></td>
 			                    <td width="100" class=""><a id="sortcolumn2" href="" class="{if sortColumn == 2}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按作者姓名排序">作者姓名</a></td>
-			                	<td width="120" class=""><a id="sortcolumn3" href="" class="{if sortColumn == 3}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按机构名称排序">机构名称 </a></td>
-			                  	<td width="150" class=""><a id="sortcolumn4" href="" class="{if sortColumn == 4}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按所属分组排序">所属分组</a></td>
+			                	<td width="120" class=""><a id="sortcolumn3" href="" class="{if sortColumn == 3}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按单位排序">单位 </a></td>
+			                  	<td width="150" class=""><a id="sortcolumn4" href="" class="{if sortColumn == 4}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按分组排序">分组</a></td>
 			                  	<td width="90" class=""><a id="sortcolumn5" href="" class="{if sortColumn == 5}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按成果类型排序"> 成果类型</a></td>
 			                  	<td width="150" class=""><a id="sortcolumn6" href="" class="{if sortColumn == 6}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按发表刊物排序">发表刊物 </a></td>
 			                  	<td width="100" class=""><a id="sortcolumn7" href="" class="{if sortColumn == 7}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按发表时间排序">发表时间</a></td>
@@ -122,7 +122,7 @@
 			                    <td class="">${item.laData[7]}</td>
 			                    <td class="">${item.laData[8]}</td>
 			                    <td class="">${item.laData[9]}</td>
-			                    <td class="text-center">{if item.laData[10] == 2} <span class="label label-success label-custom">同意</span> {elseif item.laData[10] == 1}<span class="label label-warning label-custom">不同意</span> {else}<span class="label label-default label-custom">未审核</span> {/if}</td>
+			                    <td class="text-center">{if item.laData[10] == 2} <span class="label label-success label-custom">同意</span> {elseif item.laData[10] == 1}<span class="label label-danger label-custom">不同意</span> {else}<span class="label label-default label-custom">未审核</span> {/if}</td>
 			                </tr>
 			                {forelse}
 			                <tr>
@@ -149,7 +149,7 @@
         			<table width="100%">
         				<tr>
         					<td><label><input type="radio" name="auditResult" value="2"> <span class="label label-success label-custom">同意</span></label></td>
-        					<td><label><input type="radio" name="auditResult" value="1"> <span class="label label-warning label-custom">不同意</span><label></td>
+        					<td><label><input type="radio" name="auditResult" value="1"> <span class="label label-danger label-custom">不同意</span><label></td>
         				</tr>
         			</table>
         		</div>

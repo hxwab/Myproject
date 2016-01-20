@@ -128,7 +128,7 @@
 			                    <td class="">${item.laData[8]}</td>
 			                    <td class="">${item.laData[9]}</td>
 			                    <td class="">{if item.laData[10] ==1} 基础类 {elseif item.laData[10] == 2} 应用决策类 {else} 著作类 {/if} </td>
-			                    <td class="text-center">{if item.laData[11] == 1} <span class="label label-success label-custom">是</span> {else}<span class="label label-warning label-custom">否</span> {/if}</td>
+			                    <td class="text-center">{if item.laData[11] == 1} <span class="label label-success label-custom">是</span> {else}<span class="label label-danger label-custom">否</span> {/if}</td>
 			                    <td class="">${item.laData[12]}</td>
 			                </tr>
 			                {forelse}
@@ -181,7 +181,7 @@
 			                    <td class="">${item.laData[7]}</td>
 			                    <td class="">${item.laData[8]}</td>
 			                    <td class="">${item.laData[9]}</td>
-			                    <td class="text-center">{if item.laData[11] == 1} <span class="label label-success label-custom">是</span> {else}<span class="label label-warning label-custom">否</span> {/if}</td>
+			                    <td class="text-center">{if item.laData[11] == 1} <span class="label label-success label-custom">是</span> {else}<span class="label label-danger label-custom">否</span> {/if}</td>
 			                </tr>
 			                {forelse}
 			                <tr>

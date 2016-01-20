@@ -38,7 +38,6 @@ public class FinalAuditAction extends BaseAction {
 	
 	private  static final String HQL = "select p.id,p.number,p.name, p.status,p.authorName,p.agencyName,p.type,p.hsasFinalAuditResult,p.rewardLevel,p.applyYear from Product p where 1=1 ";
 	private static final String[] COLUMN = {
-		"p.id",
 		"p.number",
 		"p.name",
 		"p.status",

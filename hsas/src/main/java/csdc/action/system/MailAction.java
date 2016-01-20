@@ -28,18 +28,20 @@ public class MailAction extends BaseAction {
 	
 	private final static String DATE_FORMAT = "yyyy-MM-dd";
 	private final static String PAGE_NAME = "mailListPage";
-	private final static String HQL4SELECT = "select mail.id, mail.subject, mail.sended, mail.body, mail.isHtml, " +
+	private final static String HQL4SELECT = "select mail.id, mail.subject, mail.sendTo, mail.sended," +
 				"mail.createDate, mail.sendTimes, mail.finishDate from Mail mail where 1=1" ;
 	private static final String PAGE_BUFFER_ID = "mail.id";
 	private final static String[] SORT_COLUMNS = new String[] {
 		"mail.subject",
-		"mail.createDate"
+		"mail.sendTo",
+		"mail.createDate",
+		"mail.sendTimes",
+		"mail.finishDate"
 	};
 	private Mail mail;
 	@Autowired
 	private IMailService mailService;
-	private String mailId;
-	private String[] mailids;
+
 
 
 	private	int sending;
@@ -59,7 +61,7 @@ public class MailAction extends BaseAction {
 		mail.setIsHtml(0);
 		mail.setSendTo(Mailer.getUniqueList(mail.getSendTo()));
 		mail.setSended("");
-		mailId = mailService.addMail(mail);
+		entityId = mailService.addMail(mail);
 		if (sendNow){ 
 			Mailer.send(mail);
 		}
@@ -75,7 +77,7 @@ public class MailAction extends BaseAction {
 	public String addMail() throws Exception {
 		sendNow = true;
 		createMail();
-		String hql = "select mail.id, mail.sendTo, mail.sended, mail.subject, mail.body, mail.isHtml, mail.createDate, mail.sendTimes, mail.finishDate from Mail mail, User user where 1=1 by mail.createDate desc, mail.id desc";
+		String hql = "select mail.id, mail.sendTo, mail.sended, mail.subject, mail.body, mail.isHtml, mail.createDate, mail.sendTimes, mail.finishDate from Mail mail where 1=1 by mail.createDate desc, mail.id desc";
 		Map session = ActionContext.getContext().getSession();
 		session.put("hql", hql);
 		return SUCCESS;
@@ -89,13 +91,13 @@ public class MailAction extends BaseAction {
 	public String viewMail() {
 		ActionContext context = ActionContext.getContext();
 		Map session = context.getSession();
-		mail = (Mail)baseService.query(Mail.class, mailId);
+		mail = (Mail)baseService.query(Mail.class, entityId);
 		// 若果没有邮件管理权限，就判断该邮件是否属于自己
 	
 	//	mail.setAccountId((Account)baseService.query(Account.class, mail.getAccount().getId()));
 		mail.setAccountId(mail.getAccountId());
 
-		sending = Mailer.curSendTo.contains(mailId) ? 1 : 0;
+		sending = Mailer.curSendTo.contains(entityId) ? 1 : 0;
 		if (mail.getSended() != null){
 			mail.setSended(mail.getSended().replaceAll(";", "; "));
 		}
@@ -132,10 +134,11 @@ public class MailAction extends BaseAction {
 	@SuppressWarnings("unchecked")
 	public String groupSendMail() throws Exception {
 		
-		for(int i = 0; i < mailids.length; i++) {
-			mail = (Mail) dao.query(Mail.class, mailids[i]);
-			Mailer.send(mail);
-		}
+	    for( String id :entityIds){
+		    mail = (Mail) dao.query(Mail.class, id);
+		     Mailer.send(mail);
+          }
+	    
 		return SUCCESS;
 	}
 	
@@ -172,10 +175,10 @@ public class MailAction extends BaseAction {
 	@Override
 	public String view() {
 		jsonMap.clear();
-		mail = mailService.getMailById(mailId);
+		mail = mailService.getMailById(entityId);
 		jsonMap.put("mail", mail);
 
-		return null;
+		return SUCCESS;
 	}
 
 	@Override
@@ -225,6 +228,9 @@ public class MailAction extends BaseAction {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+
 
 
 	@Override
@@ -279,13 +285,7 @@ public class MailAction extends BaseAction {
 		this.mailService = mailService;
 	}
 
-	public String getMailId() {
-		return mailId;
-	}
 
-	public void setMailId(String mailId) {
-		this.mailId = mailId;
-	}
 
 	public static String getDateFormat() {
 		return DATE_FORMAT;
@@ -299,13 +299,6 @@ public class MailAction extends BaseAction {
 		return HQL4SELECT;
 	}
 
-	public String[] getMailids() {
-		return mailids;
-	}
-
-	public void setMailids(String[] mailids) {
-		this.mailids = mailids;
-	}
 
 	public static String[] getSortColumns() {
 		return SORT_COLUMNS;

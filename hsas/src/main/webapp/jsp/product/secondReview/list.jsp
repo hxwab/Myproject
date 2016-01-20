@@ -193,8 +193,8 @@
 							    <td class="">${item.laData[8]}</td>
 							    <td class="">${item.laData[9]}</td>
 							    <td class="">${item.laData[10]}</td>
-							    <td class="text-center">{if item.laData[11] == 0}<span class="label label-warning label-custom">否</span>{else}<span class="label label-success label-custom">是</span>{/if}</td>
-							    <td class="text-center">{if item.laData[12] == 0}<span class="label label-warning label-custom">否</span>{else}<span class="label label-success label-custom">是</span>{/if}</td>
+							    <td class="text-center">{if item.laData[11] == 0}<span class="label label-danger label-custom">否</span>{else}<span class="label label-success label-custom">是</span>{/if}</td>
+							    <td class="text-center">{if item.laData[12] == 0}<span class="label label-danger label-custom">否</span>{else}<span class="label label-success label-custom">是</span>{/if}</td>
 							</tr>
 			                {forelse}
 			                <tr>

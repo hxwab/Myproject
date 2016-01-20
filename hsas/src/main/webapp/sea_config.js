@@ -64,3 +64,7 @@ seajs.modify('cookie', function(require, exports, module) {
 seajs.modify('form', function(require, exports, module) {
 	module.exports = $.form
 })
+//将 jQuery bootstrap 插件自动包装成 CMD 接口
+seajs.modify('bootstrap', function(require, exports, module) {
+	module.exports = $.bootstrap
+})

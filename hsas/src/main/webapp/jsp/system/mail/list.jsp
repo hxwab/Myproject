@@ -32,17 +32,15 @@
 						<table border="0" cellspacing="0" cellpadding="0" class="table_td_padding form-group pull-right">
 							<tbody>
 							<tr>
-							 <td align="right">
-							<span class="choose_bar">
-							<select name="searchType" id="search_searchType" class="select form-control input-sm">
-								<option value="-1" selected="selected">--不限--</option>
-								<!-- 名称、作者、发表时间、指标类型、模板类型、备注 -->
-								<option value="1">邮件主题</option>
-								<option value="2">邮件正文</option>
-								<option value="3">创建账号</option>
-								<option value="4">创建者</option>
-							</select>
-							</span>
+								<td align="right">
+									<span class="choose_bar">
+									<select name="searchType" id="search_searchType" class="select form-control input-sm">
+										<option value="-1" selected="selected">--不限--</option>
+										<!-- 名称、作者、发表时间、指标类型、模板类型、备注 -->
+										<option value="1">邮件主题</option>
+										<option value="2">接收邮箱</option>
+									</select>
+									</span>
 									<input id="keyword" class="form-control input-sm keyword" type="text" name="keyword" size="10" value="">
 									<input id="list_pagenumber" type="hidden" name="pageNumber" value="">
 									<input id="list_sortcolumn" type="hidden" name="sortColumn" value="0">
@@ -107,7 +105,6 @@
 										<td align="right"></td>
 										<td class = "btn-group" style = "display:block">
 											<input id="list_button_advSearch" type="button" value="检索" class="btn btn-default ">
-											<input id="list_search_hide" type="button" value="隐藏条件" class="btn btn-default ">
 										</td>
 									</tr>
 								</tbody>
@@ -125,12 +122,11 @@
 							<tr class="table_title_tr">
 								<td width="20"><input id="check" name="check" type="checkbox" title="点击全选/不选本页所有项目"/></td>
 								<td width="50" class="text-center">序号</td>
-								<td width=""><a id="sortcolumn0" href="" class="{if sortColumn == 0}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}" title="点击按账号名称排序">邮件主题</a></td>
-								<td width="100" ><a id="sortcolumn1" href="" class="{if sortColumn == 1}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按创建时间排序">创建账号</a></td>
-								<td width="100" ><a id="sortcolumn2" href="" class="{if sortColumn == 2}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按创建时间排序">创建者</a></td>
-								<td width="100" ><a id="sortcolumn3" href="" class="{if sortColumn == 3}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按有效时间排序">创建时间</a></td>
-								<td width="100"><a id="sortcolumn4" href="" class="{if sortColumn == 4}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按账号状态排序">首次完成时间</a></td>
-								<td width="100"><a id="sortcolumn5" href="" class="{if sortColumn == 5}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按角色分配排序">状态</a></td>
+								<td width="300"><a id="sortcolumn0" href="" class="{if sortColumn == 0}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}" title="点击按账号名称排序">邮件主题</a></td>
+								<td width="300"><a id="sortcolumn1" href="" class="{if sortColumn == 1}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}" title="点击按接收邮箱排序">接收邮箱</a></td>
+								<td width="100" ><a id="sortcolumn2" href="" class="{if sortColumn == 2}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按创建时间排序">创建时间</a></td>
+								<td width="100" ><a id="sortcolumn3" href="" class="{if sortColumn == 3}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按尝试发送次数排序">尝试发送次数</a></td>
+								<td width="100"><a id="sortcolumn4" href="" class="{if sortColumn == 4}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按完成时间排序">完成时间</a></td>
 							</tr>
 						</thead>
 						<tbody>
@@ -138,12 +134,11 @@
 							<tr>
 								<td><input type="checkbox" name="entityIds" value="${item.laData[0]}"/></td>
 								<td class="text-center">${item.num}</td>
-								<td class="table_txt_td"><a href="jsp/system/mail/view.jsp" title="点击查看详细信息" type="1">${item.laData[1]}</a></td>
-								<td >${item.laData[3]}</td>
-								<td >${item.laData[7]}</td>
-								<td ></td>
-								<td ></td>
-								<td ></td>
+								<td class="table_txt_td"><a id="${item.laData[0]}" class="link1" href="javascript:void();" title="点击查看详细信息">${item.laData[1]}</a></td>
+								<td >{if item.laData[2]!=""}${item.laData[2]}{else}${item.laData[3]}{/if}</td>
+								<td >${item.laData[4]}</td>
+								<td >${item.laData[5]}</td>
+								<td >${item.laData[6]}</td>
 							</tr>
 							{forelse}
 							<tr>

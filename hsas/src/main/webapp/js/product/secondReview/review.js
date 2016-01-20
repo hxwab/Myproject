@@ -12,11 +12,18 @@ define(function(require, exports, module){
 	var view = require("view");
 	var reviewResult = {};// 暂存审核意见
 	var showReviewResult = function(data){
+		 if (data.errorInfo == null || data.errorInfo == "") {
+			$("#entityId").val(data.entityId);
 			reviewResult.level = data.rewardLevel;
 			reviewResult.opinion = data.myOpinion && data.myOpinion[0];
 			reviewResult.leaderAuditResult = (data.isBacked == 1 ? 1 : null);
 			$("#secondReview").html(TrimPath.processDOMTemplate("second-review_template", data));
-			$.isLoading("hide");//关闭加载信息
+			view.show("productView",showProductInfo);
+		 }
+		 else {
+				alert(data.errorInfo);
+			}
+		 $.isLoading("hide");//关闭加载信息
 	}
 	var showProductInfo = function(results){
 	     if (results.errorInfo == null || results.errorInfo == "") {
@@ -29,6 +36,7 @@ define(function(require, exports, module){
 				alert(results.errorInfo);
 			}
 			  $.isLoading("hide");//关闭加载信息
+			  
 		}
 	// 组长添加复评意见
 	$("body").on("click", ".chiefReviewer-add-second-review", function(){
@@ -200,12 +208,10 @@ define(function(require, exports, module){
 		}).showModal();
 	})
 	exports.init = function(){
-		view.show("productView",showProductInfo);
 		view.show(nameSpace,showReviewResult);
 		view.next(nameSpace,showReviewResult);
 		view.prev(nameSpace,showReviewResult);
 		view.back(nameSpace);
-//		showReviewResult(data);
 
 	}
 });

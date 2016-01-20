@@ -17,16 +17,21 @@
 		</action>
 		
 		<!-- 保存新邮件 -->
-		<action name="addMail" class="mailAction" method="addMail">
+		<action name="add" class="mailAction" method="add">
 			<result type="redirectAction">
 				<param name="actionName">viewMail</param>
 				<param name="mailId">${mailId}</param>
 			</result>
 		</action>
 		
+		<action name="toView" class="appealAction" method="toView">
+			<result>/jsp/product/appeal/view.jsp</result>
+		</action>
+		
 		<!-- 查看邮件 -->
-		<action name="viewMail" class="mailAction" method="viewMail">
-			<result>/mailer/viewMail.jsp</result>
+		<action name="view" class="mailAction" method="view">
+			<result type="json"><param name="root">jsonMap</param></result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
 		</action>
 		
 		<!-- 邮件群发 -->

@@ -9,7 +9,7 @@ define(function(require, exports, module){
 	require("validationInit");
 	require("js/pop/popInit.js");
 	var view = require("view");
-	var nameSpace = "product";
+	var nameSpace = "product/firstReview";
 	var loadReviewStanard = function(){
 			var productType = $("#productType").val();
 	        $("#form_first_review .wrapper").hide();
@@ -23,19 +23,36 @@ define(function(require, exports, module){
 	    		promptPosition: 'centerRight',
 	    		addPromptClass: 'formError-noArrow formError-text'
 	    	});
-	       
 	}
+	var showProductInfo = function(results){
+		if (results.errorInfo == null || results.errorInfo == "") {
+			$("#product_info").hide();
+		    $("#product_info").html(TrimPath.processDOMTemplate("product_info_template",results))
+		    $("#product_info").show();
+		    $("#product_detail_info").html(TrimPath.processDOMTemplate("product_detail_info_template",results));
+		} else {
+			alert(results.errorInfo);
+		}
+		  $.isLoading("hide");//关闭加载信息
+		
+	};
+	
 	var showDetail = function(results){
      if (results.errorInfo == null || results.errorInfo == "") {
-			 $("#product_info").hide();
-		     $("#product_info").html(TrimPath.processDOMTemplate("product_info_template",results))
-		     $("#product_info").show();
-		     $("#product_detail_info").html(TrimPath.processDOMTemplate("product_detail_info_template",results));
+    	 	 $("#entityId").val(results.entityId);
+    	 	 $("#productType").val(results.produtType);
+    	 	 if($("#hasSubmit").val() !== "1" && $("#accountType").val() == "2") {
+    	 		 loadReviewStanard();
+    	 	 } else {
+    	 		$('.tab-custom a[href="#product_detail_info"]').tab('show')
+    	 	 }
+		     view.show("productView", showProductInfo);
 		} else {
 			alert(results.errorInfo);
 		}
 		  $.isLoading("hide");//关闭加载信息
 	}
+	
 	
 	$("#form_first_review").ajaxForm({
 		type: "post",
@@ -77,15 +94,10 @@ define(function(require, exports, module){
 		}
 	});
 	exports.init = function(){
-		loadReviewStanard();
-		view.show("productView",showDetail);
-		view.next("productView",showDetail);
-    	view.prev("productView",showDetail);
-    	view.back("product/firstReview");
-//		$("body").on("click", ".list-group-item", function(){
-//			$(this).parent().find(".first-review-selected").removeClass("first-review-selected");
-//			$(this).addClass("first-review-selected");
-//			$("input", this)[0].checked = true;
-//		})
+		
+		view.show(nameSpace,showDetail);
+		view.next(nameSpace,showDetail);
+    	view.prev(nameSpace,showDetail);
+    	view.back(nameSpace);
 	}
 });

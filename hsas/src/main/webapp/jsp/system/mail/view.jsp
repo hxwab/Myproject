@@ -31,8 +31,9 @@
 			</div>
 			<span class="clearfix"></span><!-- 重要!! 用于清除按键组浮动 -->
 			
-			<div class="panel panel-default panel-view">
-					  <div class="panel-heading"><strong>基本信息</strong></div>
+			<textarea id = "view_template" style = "display:none"><!-- 前台模版 -->
+				<div class="panel panel-default panel-view">
+					<div class="panel-heading"><strong>基本信息</strong></div>
 					  <div class="panel-body">
 					    <table class="table table-striped view-table">
 					      <tbody>
@@ -73,10 +74,13 @@
 							如果您没有进行过找密码操作，请忽略此邮件。
 						</div>
 					</div>
-			<div class="row">
+			</textarea>
+			<div id = "view_container" style = "display:none"></div><!-- 模版解析后的容器 -->
+			
+		<div class="row">
    		<%@ include file="/jsp/footer.jsp"%>
 		<script>
-			seajs.use("js/system/mail/view.js", function(list) {
+			seajs.use("js/system/mail/view.js", function(view) {
 		         view.init(); 
 		    });
 		</script>

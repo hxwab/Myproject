@@ -18,6 +18,8 @@
                   <li class="active">初评</li>
                 </ol>
             </ol>
+            	<s:hidden id="hasSubmit" name="hasSubmit" />
+            	<s:hidden id="accountType" name="accountType" />
                 <div class="col-xs-12 main-content" style="margin-bottom: 10px;">
                 <div class="btn-group pull-right view-controler" role="group" aria-label="...">
                     <button type="button" class="btn  btn-default" id = "view_prev">上一条</button>
@@ -35,7 +37,7 @@
                                     <tr>
                                         <td width = "50" class = "text-right"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></td>
                                         <td width = "100" class = "text-right view-key">成果名称：</td>
-                                        <td width = "100">${product.name }</td>
+                                        <td width = "400">${product.name }</td>
                                         <td width = "150"></td>
                                         <td width = "100"></td>
                                         <td ></td>
@@ -105,8 +107,12 @@
                       </textarea>
                      <div class="tab-custom">
                      		<ul class="nav nav-tabs" role="tablist">
-								<li role="presentation" class="active"><a href="#firstReview" aria-controls="firstAudit" role="tab" data-toggle="tab">初评</a></li>
-								<li role="presentation" ><a href="#product_detail_info" aria-controls="basic" role="tab" data-toggle="tab">基本信息</a></li>
+                     		<s:if test = 'accountType == "2"'> <!--  expert -->
+                     			<s:if test = 'hasSubmit == "0"'> <!--  未初评 -->
+								<li role="presentation" class="active"><a href="#firstReview" aria-controls="firstReview" role="tab" data-toggle="tab">初评</a></li>
+								</s:if>
+							</s:if>
+								<li role="presentation" ><a href="#product_detail_info" aria-controls="product_detail_info" role="tab" data-toggle="tab">基本信息</a></li>
 							</ul>
 		                    <div class="tab-content ">
 			                     <div role="tabpanel" class="tab-pane fade " id="product_detail_info">
