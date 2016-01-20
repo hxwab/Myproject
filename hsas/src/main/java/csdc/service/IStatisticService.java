@@ -2,7 +2,7 @@ package csdc.service;
 
 import java.util.List;
 
-public interface IDataService {
+public interface IStatisticService {
 	
 	/**
 	 * 统计申报作者及获奖作者

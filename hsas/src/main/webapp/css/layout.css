@@ -145,4 +145,5 @@ a { cursor: pointer; }
 .panel-view .table-head{
 	background-color:#ddd;
 }
+table {table-layout:fixed;}
 

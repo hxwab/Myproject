@@ -33,19 +33,27 @@
 						  	<div class="panel-body">
 							    <table class="table table-striped view-table">
 							      <tbody>
+							     	<tr style="height:0;">
+										<td width = "50"></td>
+										<td width = "120"></td>
+										<td width = "300"></td>
+										<td width = "50"></td>
+										<td width = "120"></td>
+										<td width = "300"></td>
+									</tr>
 							      	<tr>
-										<td width = "50" class = "text-right"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></td>
-										<td width = "100" class = "text-right view-key">成果名称：</td>
+										<td class = "text-right"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></td>
+										<td class = "text-right view-key">成果名称：</td>
 										<td class = "text-left" colspan="4">${product.name}</td>
 										
 									</tr>
 									<tr>
-										<td width = "50" class = "text-right"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></td>
-										<td width = "100" class = "text-right view-key">申报编号：</td>
-										<td width = "250" class = "text-left">${product.number}</td>
-										<td width = "50" class = "text-right"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></td>
-										<td width = "100" class = "text-right view-key">作者：</td>
-										<td width = "250" class = "text-left"><a href = "${product.author.id}" class="pop-view-person">${product.author.name}</a></td>
+										<td class = "text-right"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></td>
+										<td class = "text-right view-key">申报编号：</td>
+										<td class = "text-left">${product.number}</td>
+										<td class = "text-right"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></td>
+										<td class = "text-right view-key">作者：</td>
+										<td class = "text-left"><a href = "${product.author.id}" class="pop-view-person">${product.author.name}</a></td>
 									</tr>
 									<tr>
 										<td class = "text-right"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></td>
@@ -91,18 +99,18 @@
 					    <div class="tab-custom">
 							<!-- Nav tabs -->
 							<ul class="nav nav-tabs" role="tablist">
-								<li role="presentation" class="active"><a href="#basic" aria-controls="basic" role="tab" data-toggle="tab">基本信息</a></li>
+								<li role="presentation"><a href="#basic" aria-controls="basic" role="tab" data-toggle="tab">基本信息</a></li>
 								<li role="presentation"><a href="#firstAudit" aria-controls="firstAudit" role="tab" data-toggle="tab">初审信息</a></li>
 								<li role="presentation"><a href="#firstReview" aria-controls="firstReview" role="tab" data-toggle="tab">初评信息</a></li>
 								<li role="presentation"><a href="#secondReview" aria-controls="secondReview" role="tab" data-toggle="tab">复评信息</a></li>
-								<li role="presentation"><a href="#finalAudit" aria-controls="finalAudit" role="tab" data-toggle="tab">终审信息</a></li>
+								<li role="presentation" class="active"><a href="#finalAudit" aria-controls="finalAudit" role="tab" data-toggle="tab">终审信息</a></li>
 							</ul>
 							<!-- end Nav tabs -->
 						
 							<!-- Tab panes -->
 							<div class="tab-content ">
 								<!-- 基本信息 -->
-								<div role="tabpanel" class="tab-pane fade in active" id="basic">
+								<div role="tabpanel" class="tab-pane fade" id="basic">
 									<table class="table table-striped table-bordered">
 										<tbody>
 											<tr>
@@ -249,17 +257,16 @@
 								</div>
 								
 								<!-- 终审信息 -->
-								<div role="tabpanel" class="tab-pane fade " id="finalAudit">
+								<div role="tabpanel" class="tab-pane fade in active" id="finalAudit">
 									<table class="table table-striped table-bordered">
 										<tbody>
 											<tr>
 												<td width = "100" class = "text-right view-key">终审审核结果</td>
 												<td width = "500" class = "text-left" >
-													{if product.hsasFinalAuditResult == 0}
+													{if product.hsasFinalAuditResult == 1}不同意
+													{elseif product.hsasFinalAuditResult == 2}同意
+													{else}
 														<button class="btn  btn-primary btn-final-audit" type="button">审核</button>
-													{elseif product.universityAuditResult == 1}不同意
-													{elseif product.universityAuditResult == 2}同意
-													{else}未知
 													{/if}
 												</td>
 											</tr>

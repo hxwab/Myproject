@@ -73,23 +73,20 @@ public class FinalAuditService extends BaseService implements IFinalAuditService
 			} else if( result.equals("2")){
 				product.setHsasFinalAuditResult(2);
 				product.setHsasFinalAuditOpinion("同意！"+opinion);
-
 			}else{
 				product.setHsasFinalAuditResult(0);
-		
 			}
 			product.setStatus(7);
 		} 
-			
 		
 		product.setUpdateDate(new Date());
 		dao.modify(product);
 		return "success";
-		
-		
 	}
 
+	
 	public Product getProductById(String productId) {
 		return dao.query(Product.class, productId);
 	}
+	
 }

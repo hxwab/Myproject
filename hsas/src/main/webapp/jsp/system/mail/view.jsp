@@ -9,6 +9,7 @@
     </head>
     <body>
    		<%@ include file="/jsp/innerNav.jsp"%>
+   		<s:hidden id="entityId" name="entityId" value="%{entityId}" />
    		<a name="top" id="top"></a>
 			<div class="row mySlide">
 				<ol class="breadcrumb mybreadcrumb">当前位置：
@@ -39,23 +40,27 @@
 					      <tbody>
 							<tr>
 								<td width = "50" class = "text-right"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></td>
-								<td class = "text-right view-key" width = "100">邮件主题：</td><td class = "text-left" colspan='4'>占位符</td>
+								<td class = "text-right view-key" width = "100">邮件主题：</td>
+								<td class = "text-left">${mail.subject}</td>
+								<td width = "50" class = "text-right"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></td>
+								<td class = "text-right view-key" width = "100">收件人：</td>
+								<td class = "text-left">{if mail.sendTo!=null}${mail.sendTo}{else}${mail.sended}{/if}</td>
 							</tr>
 							<tr>
 								<td width = "50" class = "text-right"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></td>
-								<td class = "text-right view-key" width = "100">收件人：</td><td class = "text-left" colspan='4'>占位符</td>
+								<td width = "100" class = "text-right view-key">创建账号：</td>
+								<td class = "text-left" width='200'>${mail.subject}</td>
+								<td width = "50" class = "text-right"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></td>
+								<td width = "130" class = "text-right view-key" >创建者：</td>
+								<td class = "text-left" >${mail.subject} </td>
 							</tr>
 							<tr>
 								<td width = "50" class = "text-right"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></td>
-								<td width = "100" class = "text-right view-key">创建账号：</td><td class = "text-left" width='200'>100</td>
+								<td width = "100" class = "text-right view-key">创建时间：</td>
+								<td class = "text-left" width='200'>${mail.createDate}</td>
 								<td width = "50" class = "text-right"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></td>
-								<td width = "130" class = "text-right view-key" >创建者：</td><td class = "text-left" >2015 </td>
-							</tr>
-							<tr>
-								<td width = "50" class = "text-right"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></td>
-								<td width = "100" class = "text-right view-key">创建时间：</td><td class = "text-left" width='200'>100</td>
-								<td width = "50" class = "text-right"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></td>
-								<td width = "130" class = "text-right view-key" >首次完成时间：</td><td class = "text-left" >2015 </td>
+								<td width = "130" class = "text-right view-key" >尝试次数：</td>
+								<td class = "text-left" >${mail.sendTimes}</td>
 							</tr>
 						  </tbody>
 			    		</table>
@@ -65,13 +70,7 @@
 					<div class="panel panel-default panel-view">
 						<div class="panel-heading"><strong>邮件内容</strong></div>
 						<div class="panel-body">
-							欢迎您访问湖北省社会科学联合会！
-							<br/>
-							请点击以下链接进行密码重置，该链接24小时之内有效：
-							http://csdc.info:80/smdb/selfspace/toResetPassword.action?entityId=f31c4a822f063bde012f07288730025f&pwRetrieveCode=716239bc9734dae6aae8175c61cd7614
-							<br/>
-							如果该链接无法点击，请复制前面的链接地址到浏览器直接访问。
-							如果您没有进行过找密码操作，请忽略此邮件。
+							<div style="min-height:200px;">${mail.body}</div>
 						</div>
 					</div>
 			</textarea>

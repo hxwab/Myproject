@@ -43,7 +43,6 @@
 		                            </td>
 		                            <td class = "btn-group" style = "display:block">
 		                                 <input id="list_button_query" type="button" value="检索" class="btn btn-default ">
-		                                 <input id="list_search_more" type="button" value="更多条件" class="btn btn-default ">
 		                            </td>
 		                        </tr>
 		                        </tbody>
@@ -92,18 +91,20 @@
 				<!-- 显示列表 -->
 				<textarea id="list_template" style="display:none;">
 						<table id="list_table" width="100%" border="0" cellspacing="0" cellpadding="0"
-			                   class="table table-striped table-bordered dataTable no-footer">
+			                   class="table table-striped table-bordered dataTable no-footer" style="table-layout:fixed;">
 			                <thead id="list_head">
 			                <tr class="table_title_tr">
-			                	<td width="20"><input id="check" name="check" type="checkbox" title="点击全选/不选本页所有项目"/></td>
-			                    <td width="50" class="text-center">序号</td>
-			                    <td width=80"><a id="sortcolumn0" href="" class="{if sortColumn == 0}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按评审编号排序">评审编号</a></td>
-			                    <td width=300"><a id="sortcolumn1" href="" class="{if sortColumn == 1}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}" title="点击按成果名称排序">成果名称</a></td>
-			                    <td width="60"><a id="sortcolumn2" href="" class="{if sortColumn == 2}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按作者排序">作者</a></td>
-			                    <td width="100"><a id="sortcolumn3" href="" class="{if sortColumn == 3}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按单位排序">单位</a></td>
-			                	<td width="60"><a id="sortcolumn4" href="" class="{if sortColumn == 4}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按类型排序">类型</a></td>
-			                	<td width="80"><a id="sortcolumn5" href="" class="{if sortColumn == 5}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按推荐等级排序">推荐等级</a></td>
-			                	<td width="80"><a id="sortcolumn6" href="" class="{if sortColumn == 6}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按终审状态排序">终审状态</a></td>
+			                	<td width="30"><input id="check" name="check" type="checkbox" title="点击全选/不选本页所有项目"/></td>
+			                    <td width="40" class="text-center">序号</td>
+			                    <td width="250"><a id="sortcolumn0" href="" class="{if sortColumn == 0}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}" title="点击按成果名称排序">成果名称</a></td>
+			                    <td width="60"><a id="sortcolumn1" href="" class="{if sortColumn == 1}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按作者排序">作者</a></td>
+			                    <td width="100"><a id="sortcolumn2" href="" class="{if sortColumn ==2}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按单位排序">单位</a></td>
+			                	<td width="100"><a id="sortcolumn3" href="" class="{if sortColumn == 3}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按成果类型排序">成果类型</a></td>
+			                	<td width="120"><a id="sortcolumn4" href="" class="{if sortColumn == 4}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按分组排序">分组</a></td>
+			                	<td width="80"><a id="sortcolumn5" href="" class="{if sortColumn == 5}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按出版社/刊物排序">出版社/刊物</a></td>
+			                	<td width="100"><a id="sortcolumn6" href="" class="{if sortColumn == 6}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按出版/发表时间排序">出版/发表时间</a></td>
+			                	<td width="80"><a id="sortcolumn7" href="" class="{if sortColumn == 7}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按推荐等级排序">推荐等级</a></td>
+			                	<td width="80"><a id="sortcolumn8" href="" class="{if sortColumn == 8}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按终审状态排序">终审状态</a></td>
 			                </tr>
 			                </thead>
 			                <tbody>
@@ -112,13 +113,15 @@
 			                
 			                	<td class="text-center"><input type="checkbox" name="entityIds" value="${item.laData[0]}" {if item.laData[2] == 1} disabled {/if}/></td>
 			                    <td class="text-center">${item.num}</td>
-			                    <td class="text-center">${item.laData[1]}</td>
-			                    <td class="table_txt_td"><a id="${item.laData[0]}" class="link1" title="点击查看详细信息" type="${item.laData[3]}">${item.laData[2]}</a></td>
-			                    <td class="text-center">${item.laData[4]}</td>
-			                    <td class="text-center">${item.laData[5]}</td>
-		                      	<td class="text-center">{if item.laData[6] ==1}著作 {else}论文 {/if} </td>
+			                    <td class="table_txt_td"><a id="${item.laData[0]}" class="link1" title="点击查看详细信息">${item.laData[1]}</a></td>
+			                    <td class="text-center">${item.laData[2]}</td>
+			                    <td class="text-center">${item.laData[3]}</td>
+		                      	<td class="text-center">{if item.laData[4] ==1}著作 {else}论文 {/if} </td>
+		                      	<td class="text-center">${item.laData[5]}</td>
+		                      	<td class="text-center">${item.laData[6]}</td>
+		                      	<td class="text-center">${item.laData[7]}</td>
 		                      	<td class="text-center">{if item.laData[8] ==1}一等奖 {elseif item.laData[8] ==2}二等奖{elseif item.laData[8] ==3}三等奖 {else}未知{/if} </td>
-		                      	<td class="text-center">{if item.laData[7] ==1}不同意 {elseif item.laData[7] ==2}同意 {else}未审{/if} </td>
+		                      	<td class="text-center">{if item.laData[9] ==1}不同意 {elseif item.laData[9] ==2}同意 {else}未审{/if} </td>
 			                </tr>
 			                {forelse}
 			                <tr>

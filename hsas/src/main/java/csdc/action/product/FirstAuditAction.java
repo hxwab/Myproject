@@ -20,7 +20,7 @@ import com.opensymphony.xwork2.ActionContext;
 import csdc.action.BaseAction;
 import csdc.model.Account;
 import csdc.model.Product;
-import csdc.service.IDataService;
+import csdc.service.IStatisticService;
 import csdc.service.IFirstAuditService;
 import csdc.tool.ApplicationContainer;
 import csdc.tool.FileTool;
@@ -82,7 +82,7 @@ public class FirstAuditAction extends BaseAction {
 	private IFirstAuditService firstAuditService;
 	
 	@Autowired
-	private IDataService dataService;
+	private IStatisticService dataService;
 	
 	private String fileName;
 	
@@ -99,7 +99,8 @@ public class FirstAuditAction extends BaseAction {
 		try {
 			
 			laData=firstAuditService.addExternalInfo(laData);
-			list = dataService.calcApplyAuthor("2016");
+			//list = dataService.calcApplyAuthor("2016");
+			list = dataService.calcService(5, "2016");
 		} catch (Exception e) {
 			// TODO: handle exception 
 			e.printStackTrace();

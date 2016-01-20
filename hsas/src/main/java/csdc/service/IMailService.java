@@ -3,6 +3,7 @@ package csdc.service;
 import java.io.File;
 import java.util.List;
 
+import csdc.model.Account;
 import csdc.model.Mail;
 
 
@@ -29,7 +30,7 @@ public interface IMailService {
 	 * 批量删除邮件
 	 * @param mailIds待删除的邮件ID集合
 	 */
-	public void deleteMail(List<String> mailIds);
+	//public void deleteMail(List<String> mailIds);
 
 
 	/**
@@ -55,5 +56,6 @@ public interface IMailService {
 	 */
 	public String uploadToDmss(Mail mail) throws Exception;
 	public Mail getMailById(String mailId);
+	public Account getAccountById(String accountId);
 
 }

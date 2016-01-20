@@ -1,5 +1,6 @@
 package csdc.action.system;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -83,29 +84,6 @@ public class MailAction extends BaseAction {
 		return SUCCESS;
 	}
 	
-	/**
-	 * 查看ID为mailId的邮件详情
-	 * @return 跳转成功
-	 */
-	@SuppressWarnings("unchecked")
-	public String viewMail() {
-		ActionContext context = ActionContext.getContext();
-		Map session = context.getSession();
-		mail = (Mail)baseService.query(Mail.class, entityId);
-		// 若果没有邮件管理权限，就判断该邮件是否属于自己
-	
-	//	mail.setAccountId((Account)baseService.query(Account.class, mail.getAccount().getId()));
-		mail.setAccountId(mail.getAccountId());
-
-		sending = Mailer.curSendTo.contains(entityId) ? 1 : 0;
-		if (mail.getSended() != null){
-			mail.setSended(mail.getSended().replaceAll(";", "; "));
-		}
-		if (mail.getSendTo() != null){
-			mail.setSendTo(mail.getSendTo().replaceAll(";", "; "));
-		}
-		return SUCCESS;
-	}
 	
 	/**
 	 * 发送所有还未完全发送成功的邮件
@@ -176,7 +154,14 @@ public class MailAction extends BaseAction {
 	public String view() {
 		jsonMap.clear();
 		mail = mailService.getMailById(entityId);
+		SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT);
+		Date createDate = mail.getCreateDate();
+		df.format(createDate);
+		mail.setCreateDate(createDate);
+		String accountId = mail.getAccountId();
+		Account account = mailService.getAccountById(accountId);
 		jsonMap.put("mail", mail);
+		jsonMap.put("account", account);
 
 		return SUCCESS;
 	}

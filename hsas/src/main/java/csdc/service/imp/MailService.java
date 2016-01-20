@@ -26,11 +26,7 @@ public class MailService extends BaseService implements IMailService {
 
 	}
 
-	@Override
-	public void deleteMail(List<String> mailIds) {
-		// TODO Auto-generated method stub
-		
-	}
+
 
 	@Override
 	public List<String> generateEmailList(List recieverType) {
@@ -67,5 +63,22 @@ public class MailService extends BaseService implements IMailService {
 		  }
 	}
 
+	@Override
+	public Account getAccountById(String accountId) {
+	      if(accountId==null ||accountId.equals("")){
+				
+				return null;
+			  } else {
+				
+				return dao.query(Account.class, accountId);
+			  }
+	}
 
-}
+
+
+		
+	}
+	
+
+
+

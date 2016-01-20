@@ -17,16 +17,21 @@
 		</action>
 		
 		<!-- 保存新邮件 -->
-		<action name="addMail" class="mailAction" method="addMail">
+		<action name="add" class="mailAction" method="add">
 			<result type="redirectAction">
 				<param name="actionName">viewMail</param>
 				<param name="mailId">${mailId}</param>
 			</result>
 		</action>
 		
+		<action name="toView" class="mailAction" method="toView">
+			<result>/jsp/system/mail/view.jsp</result>
+		</action>
+		
 		<!-- 查看邮件 -->
-		<action name="viewMail" class="mailAction" method="viewMail">
-			<result>/mailer/viewMail.jsp</result>
+		<action name="view" class="mailAction" method="view">
+			<result type="json"><param name="root">jsonMap</param></result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
 		</action>
 		
 		<!-- 邮件群发 -->
@@ -49,6 +54,35 @@
 		
 		<action name="advSearch" class="mailAction" method="advSearch">
 			<result type="chain">list</result>
+		</action>
+		
+        <action name="changePageSize" class="mailAction" method="changePageSize">
+			<result type="chain">list</result>
+		</action>
+		
+
+		<action name="toPage" class="mailAction" method="toPage">
+			<result type="chain">list</result>
+		</action>
+		
+		<action name="sort" class="mailAction" method="sort">
+			<result type="chain">list</result>
+		</action>
+		
+		<action name="prev" class="mailAction" method="prev">
+			<result type="redirectAction">
+				<param name="actionName">view</param>
+				<param name="entityId">${entityId}</param>
+			</result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
+		</action>
+
+		<action name="next" class="mailAction" method="next">
+			<result type="redirectAction">
+				<param name="actionName">view</param>
+				<param name="entityId">${entityId}</param>
+			</result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
 		</action>
 		
 	</package>

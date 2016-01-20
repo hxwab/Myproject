@@ -36,18 +36,17 @@ public class FinalAuditAction extends BaseAction {
 	 */
 	private static final long serialVersionUID = -7118166128512170277L;
 	
-	private  static final String HQL = "select p.id,p.number,p.name, p.status,p.authorName,p.agencyName,p.type,p.hsasFinalAuditResult,p.rewardLevel,p.applyYear from Product p where 1=1 ";
+	private  static final String HQL = "select p.id, p.name,p.authorName,p.agencyName, p.type,p.groupName, p.publishName, p.publishDate, p.rewardLevel, p.hsasFinalAuditResult from Product p where 1=1 ";
 	private static final String[] COLUMN = {
-		"p.number",
 		"p.name",
-		"p.status",
-		"p.author",
+		"p.authorName",
 		"p.agencyName",
 		"p.type",
-		"p.hsasFinalAuditResult",
+		"p.groupName",
+		"p.publishName", 
+		"p.publishDate",
 		"p.rewardLevel",
-		"p.applyYear"
-		
+		"p.hsasFinalAuditResult"
 	};// 用于拼接的排序列
 	
 	private static final String PAGE_NAME = "finalAuditPage";// 列表页面名称
@@ -148,9 +147,7 @@ public class FinalAuditAction extends BaseAction {
 		Map map = new HashMap();
 		hql.append(HQL);
 		
-		
 		hql.append(" and(p.rewardLevel in(1,2,3,4)) and p.status in(7)");
-		
 			
 		if(account.getType()==1||account.getType()==2){
 			
@@ -196,7 +193,7 @@ public class FinalAuditAction extends BaseAction {
 	
 	
 	/**
-	 * 导出成果获奖一览表
+	 * 导出成果获奖一览表,
 	 * @return
 	 * @author xn
 	 */
@@ -224,7 +221,7 @@ public class FinalAuditAction extends BaseAction {
 					"获奖金额"
 					
 				};
-			hql4Export.append("select p.id,p.number,p.name,p.authorName,p.agencyName,p.researchType ,p.rewardLevel from Product p where p.applyYear=:year order by p.number" );
+			hql4Export.append("select p.id,p.reviewNumber,p.name,p.authorName,p.agencyName,p.researchType ,p.groupName,p.rewardLevel from Product p where p.applyYear=:year order by p.groupName,p.reviewNumber" );
 		
 		int currentYear = new Date().getYear()+1900;
 		Map map = new HashMap();
@@ -246,14 +243,15 @@ public class FinalAuditAction extends BaseAction {
 	
 			for (Object object : list) {
 				Object[] o = (Object[]) object;
-				Object[] data = new Object[7];
+				Object[] data = new Object[8];
 				data[0] = index++;
 				data[1] = o[1];//成果编号
 				data[2] = o[2];//成果名称
 				data[3] = o[3];//第一作者
 				data[4] = o[4];//依托机构
 				data[5] = o[5];//成果类型
-				data[6] = rewardLevel(Integer.parseInt(o[6].toString()));//获奖等
+				data[6] = o[6];//groupName
+				data[7] = rewardLevel(Integer.parseInt(o[7].toString()));//获奖等
 				
 				dataList.add(data);
 			}

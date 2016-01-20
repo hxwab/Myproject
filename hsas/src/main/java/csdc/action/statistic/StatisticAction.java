@@ -1,4 +1,4 @@
-package csdc.action.data;
+package csdc.action.statistic;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,11 +13,11 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.sun.net.httpserver.Authenticator.Success;
 
 import csdc.action.BaseAction;
-import csdc.service.IDataService;
+import csdc.service.IStatisticService;
 
 @Component
 @Scope(value = "prototype")
-public class DataAction extends ActionSupport {
+public class StatisticAction extends ActionSupport {
 
 	/**
 	 * 
@@ -25,12 +25,12 @@ public class DataAction extends ActionSupport {
 	private static final long serialVersionUID = 6155743774300271538L;
 	
 	
-	private int type;  //查询类型 ：1申报情况、2初评成果、3复评、4单位申报5、作者6、奖项
+	private int type;  //查询类型 ：1 申报情况、2 初评成果、3 复评、4 单位申报 5、作者年龄 6、奖项
 	private String year; //查询年份
 	private Map  jsonMap = new HashMap();
 	
 	@Autowired
-	private IDataService dataService;
+	private IStatisticService statisticService;
 	
 	public String  toCaclResult(){
 		
@@ -39,7 +39,7 @@ public class DataAction extends ActionSupport {
 	
 	public String  caclResult(){
 		
-		List list = dataService.calcService(type, year);
+		List list = statisticService.calcService(type, year);
 		jsonMap.put("result", list);
 		return SUCCESS;
 	}

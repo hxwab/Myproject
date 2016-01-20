@@ -94,21 +94,19 @@
 				</sec:authorize>
 				
 				<!--统计分析-->
-				<%--<sec:authorize ifAllGranted='ROLE_USER'>
+				<sec:authorize ifAllGranted='ROLE_USER'>
 				<li>
 					<a class="fnav" href="javasript:void(0);">统计分析</a>
 					<ul class="dropdown-menu">
-						<li><a href="javascript:void(0)">初评统计</a></li>
-						<li><a href="javascript:void(0)">复评统计</a></li>
-						<li><a href="javascript:void(0)">奖项分布</a></li>
-						<li><a href="javascript:void(0)">年龄统计</a></li>
-						<li><a href="javascript:void(0)">单位申报总数</a></li>
-						<li><a href="javascript:void(0)">年度信息统计</a></li>
+						<li><a href="statistic/toCaclResult.action?type=1&update=1">初评统计</a></li>
+						<li><a href="statistic/toCaclResult.action?type=2&update=1">复评统计</a></li>
+						<li><a href="statistic/toCaclResult.action?type=3&update=1">奖项分布</a></li>
+						<li><a href="statistic/toCaclResult.action?type=4&update=1">年龄统计</a></li>
+						<li><a href="statistic/toCaclResult.action?type=5&update=1">单位申报总数</a></li>
+						<li><a href="statistic/toCaclResult.action?type=6&update=1">年度信息统计</a></li>
 					</ul>
 				</li>
 				</sec:authorize>
-				
-				--%>
 				
 				<!--个人空间-->
 				<sec:authorize ifAllGranted='ROLE_USER'>

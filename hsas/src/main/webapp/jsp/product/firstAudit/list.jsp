@@ -60,18 +60,18 @@
 					<table id="list_table" class="table table-striped table-bordered dataTable no-footer" width="100%" border="0" cellspacing="0" cellpadding="0">
 						<thead id="list_head">
 							<tr class="table_title_tr">
-								<td width="15"><input id="check" name="check" type="checkbox" title="点击全选/不选本页所有项目"/></td>
-								<td width="50" class="text-center">序号</td>
-								<td width="200" class="text-center"><a id="sortcolumn0" href="" class="{if sortColumn == 0}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}" title="点击按成果名称排序">成果名称</a></td>
-								<td width="60" class="text-center"><a id="sortcolumn1" href="" class="{if sortColumn == 1}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按作者排序">作者</a></td>
-								<td width="100" class="text-center"><a id="sortcolumn2" href="" class="{if sortColumn == 2}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按单位排序">单位</a></td>
-								<td width="100" class="text-center"><a id="sortcolumn3" href="" class="{if sortColumn == 3}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按成果类型排序">成果类型</a></td>
-								<td width="120" class="text-center"><a id="sortcolumn4" href="" class="{if sortColumn == 4}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按分组排序">分组</a></td>
-								<td width="120" class="text-center"><a id="sortcolumn5" href="" class="{if sortColumn == 5}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按出版社/刊物排序">出版社/刊物</a></td>
-								<td width="120" class="text-center"><a id="sortcolumn6" href="" class="{if sortColumn == 6}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按出版/发表时间排序">出版/发表时间</a></td>
-								<td width="100" class="text-center"><a id="sortcolumn7" href="" class="{if sortColumn == 7}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按校级审核排序">校级审核</a></td>
-								<td width="100" class="text-center"><a id="sortcolumn8" href="" class="{if sortColumn == 8}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按社科联审核排序">社科联审核</a></td>
-								<td width="80" class="text-center"><a id="sortcolumn9" href="" class="{if sortColumn == 9}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按提交状态排序">提交状态</td>
+								<td width="30"><input id="check" name="check" type="checkbox" title="点击全选/不选本页所有项目"/></td>
+								<td width="40">序号</td>
+								<td width="250"><a id="sortcolumn0" href="" class="{if sortColumn == 0}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}" title="点击按成果名称排序">成果名称</a></td>
+								<td width="60"><a id="sortcolumn1" href="" class="{if sortColumn == 1}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按作者排序">作者</a></td>
+								<td width="100"><a id="sortcolumn2" href="" class="{if sortColumn == 2}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按单位排序">单位</a></td>
+								<td width="100"><a id="sortcolumn3" href="" class="{if sortColumn == 3}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按成果类型排序">成果类型</a></td>
+								<td width="120"><a id="sortcolumn4" href="" class="{if sortColumn == 4}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按分组排序">分组</a></td>
+								<td width="80"><a id="sortcolumn5" href="" class="{if sortColumn == 5}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按出版社/刊物排序">出版社/刊物</a></td>
+								<td width="100"><a id="sortcolumn6" href="" class="{if sortColumn == 6}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按出版/发表时间排序">出版/发表时间</a></td>
+								<td width="80"><a id="sortcolumn7" href="" class="{if sortColumn == 7}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按校级审核排序">校级审核</a></td>
+								<td width="80"><a id="sortcolumn8" href="" class="{if sortColumn == 8}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按社科联审核排序">社科联审核</a></td>
+								<td width="80"><a id="sortcolumn9" href="" class="{if sortColumn == 9}{if sortColumnLabel == 1}up_css{else}down_css{/if}{/if}"  title="点击按提交状态排序">提交状态</td>
 							</tr>
 						</thead>
 						<tbody>

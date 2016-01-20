@@ -230,7 +230,7 @@ public class ProductViewAction  extends ActionSupport{
 				}else{
 					dataMap.put("name1", member1.getName());
 					dataMap.put("age1", new Date().getYear()-member1.getBirthday().getYear());
-					dataMap.put("agency1", member1.getAgency().getName());
+					dataMap.put("agency1", member1.getAgencyName());
 					dataMap.put("job1", position2);
 					dataMap.put("workDivision1", workDivision2);
 				}
@@ -244,7 +244,7 @@ public class ProductViewAction  extends ActionSupport{
 				}else{
 					dataMap.put("name2", member2.getName());
 					dataMap.put("age2", new Date().getYear()-member2.getBirthday().getYear());
-					dataMap.put("agency2", member2.getAgency().getName());
+					dataMap.put("agency2", member2.getAgencyName());
 					dataMap.put("job2", position3);
 					dataMap.put("workDivision2", workDivision3);
 				}
@@ -258,7 +258,7 @@ public class ProductViewAction  extends ActionSupport{
 				}else{
 					dataMap.put("name3", member3.getName());
 					dataMap.put("age3", new Date().getYear()-member3.getBirthday().getYear());
-					dataMap.put("agency3", member3.getAgency().getName());
+					dataMap.put("agency3", member3.getAgencyName());
 					dataMap.put("job3", position4);
 					dataMap.put("workDivision3", workDivision4);
 				}
@@ -273,7 +273,7 @@ public class ProductViewAction  extends ActionSupport{
 				}else{
 					dataMap.put("name4", member4.getName());
 					dataMap.put("age4", new Date().getYear()-member4.getBirthday().getYear());
-					dataMap.put("agency4", member4.getAgency().getName());
+					dataMap.put("agency4", member4.getAgencyName());
 					dataMap.put("job4", position5);
 					dataMap.put("workDivision4", workDivision5);
 				}

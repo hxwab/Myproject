@@ -33,19 +33,26 @@
 						  	<div class="panel-body">
 							    <table class="table table-striped view-table">
 							      <tbody>
+							      	<tr style="height:0;">
+										<td width = "50"></td>
+										<td width = "120"></td>
+										<td width = "300"></td>
+										<td width = "50"></td>
+										<td width = "120"></td>
+										<td width = "300"></td>
+									</tr>
 							      	<tr>
-										<td width = "50" class = "text-right"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></td>
-										<td width = "100" class = "text-right view-key">成果名称：</td>
+										<td class = "text-right"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></td>
+										<td class = "text-right view-key">成果名称：</td>
 										<td class = "text-left" colspan="4">${product.name}</td>
-										
 									</tr>
 									<tr>
-										<td width = "50" class = "text-right"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></td>
-										<td width = "100" class = "text-right view-key">申报编号：</td>
-										<td width = "250" class = "text-left">${product.number}</td>
-										<td width = "50" class = "text-right"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></td>
-										<td width = "100" class = "text-right view-key">作者：</td>
-										<td width = "250" class = "text-left"><a href = "${product.author.id}" class="pop-view-person">${product.author.name}</a></td>
+										<td class = "text-right"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></td>
+										<td class = "text-right view-key">申报编号：</td>
+										<td class = "text-left">${product.number}</td>
+										<td class = "text-right"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></td>
+										<td class = "text-right view-key">作者：</td>
+										<td class = "text-left"><a href = "${product.author.id}" class="pop-view-person">${product.author.name}</a></td>
 									</tr>
 									<tr>
 										<td class = "text-right"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></td>

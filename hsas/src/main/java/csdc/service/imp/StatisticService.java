@@ -10,10 +10,10 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import csdc.service.IDataService;
+import csdc.service.IStatisticService;
 
 @Service
-public class DataService extends BaseService implements IDataService {
+public class StatisticService extends BaseService implements IStatisticService {
 
 	
 	
@@ -105,7 +105,7 @@ public class DataService extends BaseService implements IDataService {
 		//统计所有作者及40岁以上获奖人数
 		String hql1= "select count(distinct pa.person) ,sum(case when timestampdiff(year,pa.person.birthday,p.createDate)<=40 AND (p.rewardLevel=1 or p.rewardLevel=2 or p.rewardLevel=3 or p.rewardLevel=4 ) THEN 1 else null end)  from ProductAuthor pa left join pa.product p  where p.applyYear=:applyYear";
 
-		List list =dao.query(hql);
+		List list =dao.query(hql,map);
 		list.addAll(dao.query(hql1, map));
 
 		return  list;
@@ -114,7 +114,7 @@ public class DataService extends BaseService implements IDataService {
 	@Override
 	public List calcApplyProduct(String year) {
 		
-		String hql = "select sum(case when p.status>=4 THEN 1 else null end),sum(case when p.status>=6 THEN 1 else null end),sum(case when p.status>=7 THEN 1 else null end) from Product p  where p.applyYear=:applyYear  ";
+		String hql = "select count(p.id),sum(case when p.status>=4 THEN 1 else null end),sum(case when p.status>=6 THEN 1 else null end),sum(case when p.status>=7 THEN 1 else null end) from Product p  where p.applyYear=:applyYear  ";
 		Map map = new HashMap();
 		map.put("applyYear", year);
 		return dao.query(hql, map);
@@ -232,23 +232,22 @@ public class DataService extends BaseService implements IDataService {
 		
 		
 		DecimalFormat df = (DecimalFormat)NumberFormat.getInstance(Locale.CHINESE); 
-	    df.applyPattern("00.00%"); 
+	    df.applyPattern("#0.00%"); 
 	    
 		List newLaData = new ArrayList();
 		String[] nItem;
 		
-		Object data1 = laData.get(0);
-		Object data2 = laData.get(1);
-		String[] item1 = (String[]) data1;
-		String[] item2 = (String[]) data2;
-		String [] item = new String[item1.length+item2.length+2];
+		Object[] data1 = (Object[]) laData.get(0);
+		Object[] data2 = (Object[]) laData.get(1);
 		
-		item[0] = item1[0];
-		item[1] = item1[1];
-		item[2] = df.format(Double.parseDouble(item1[1])/Double.parseDouble(item1[0]));
-		item[3] = item2[0];
-		item[4] = item2[1];
-		item[5] = df.format(Double.parseDouble(item2[1])/Double.parseDouble(item2[0]));	
+		String [] item = new String[data1.length+data2.length+2];
+		
+		item[0] = data1[0].toString();
+		item[1] =  data1[1].toString();
+		item[2] = df.format(Double.parseDouble(data1[1].toString())/Double.parseDouble(data1[0].toString()));
+		item[3] = data2[0].toString();
+		item[4] = data2[1].toString();
+		item[5] = df.format(Double.parseDouble(data2[1].toString())/Double.parseDouble(data2[0].toString()));	
 		newLaData.add(item);
 		return newLaData;
 	}

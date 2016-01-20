@@ -35,7 +35,7 @@
 	<include file="config/pop/select/struts-SelectGroup.xml"/>
 	<include file="config/pop/select/struts-SelectDiscipline.xml"/>
 	<include file="config/pop/struts-View.xml"/>
-	<include file="config/data/struts-Data.xml"/>
+	<include file="config/statistic/struts-Statistic.xml"/>
 		
 	<package name="main" extends="json-default">
 		<interceptors>
