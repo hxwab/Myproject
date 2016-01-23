@@ -125,18 +125,20 @@ public class StatisticService extends BaseService implements IStatisticService {
 		Map map = new HashMap();
 		map.put("applyYear", year);
 		//初评情况
-		String hql = "select p.groupName , sum(case when p.type='著作' THEN 1 else null end),sum(case when p.type='系列论文' and p.researchType ='基础类'THEN 1 else null end),sum(case when p.type='系列论文' and p.researchType ='应用对策类'THEN 1 else null end)," +
-						"sum(case when p.type='单篇论文' and p.researchType ='基础类'THEN 1 else null end),sum(case when p.type='单篇论文' and p.researchType ='应用对策类'THEN 1 else null end)," +
-						"sum(case when p.type='调研报告' and p.researchType ='基础类'THEN 1 else null end),sum(case when p.type='调研报告' and p.researchType ='应用对策类'THEN 1 else null end), " +
-						"sum(case when p.type='单篇论文' or p.type ='系列论文' THEN 1 else null end),sum(case when p.type='调研报告' THEN 1 else null end) " +
-						"from Product p  where p.status >=4 and p.applyYear=:applyYear  group by p.groupName ";
+		String hql = "select p.groupName ,	sum(case when p.type='著作' THEN 1 else null end),"+
+				"sum(case when p.type='单篇论文' and p.researchType ='基础类'THEN 1 else null end),sum(case when p.type='单篇论文' and p.researchType ='应用对策类'THEN 1 else null end)," +
+				"sum(case when p.type='系列论文' and p.researchType ='基础类'THEN 1 else null end),sum(case when p.type='系列论文' and p.researchType ='应用对策类'THEN 1 else null end)," +
+				"sum(case when p.type='调研报告' and p.researchType ='基础类'THEN 1 else null end),sum(case when p.type='调研报告' and p.researchType ='应用对策类'THEN 1 else null end) ," +
+				"sum(case when p.type='单篇论文' or p.type ='系列论文' or p.type='调研报告' THEN 1 else null end) " +
+				"from Product p  where p.status >=4 and p.applyYear=:applyYear group by p.groupName ";
 
 		//合计
-		String hql1 = "select '合计' , sum(case when p.type='著作' THEN 1 else null end),sum(case when p.type='系列论文' and p.researchType ='基础类'THEN 1 else null end),sum(case when p.type='系列论文' and p.researchType ='应用对策类'THEN 1 else null end)," +
-						"sum(case when p.type='单篇论文' and p.researchType ='基础类'THEN 1 else null end),sum(case when p.type='单篇论文' and p.researchType ='应用对策类'THEN 1 else null end)," +
-						"sum(case when p.type='调研报告' and p.researchType ='基础类'THEN 1 else null end),sum(case when p.type='调研报告' and p.researchType ='应用对策类'THEN 1 else null end) ," +
-						"sum(case when p.type='单篇论文' or p.type ='系列论文' THEN 1 else null end),sum(case when p.type='调研报告' THEN 1 else null end) " +
-						"from Product p  where p.status >=4 and p.applyYear=:applyYear ";
+		String hql1 = "select '合计' ,sum(case when p.type='著作' THEN 1 else null end), "+
+				"sum(case when p.type='单篇论文' and p.researchType ='基础类'THEN 1 else null end),sum(case when p.type='单篇论文' and p.researchType ='应用对策类'THEN 1 else null end)," +
+				"sum(case when p.type='系列论文' and p.researchType ='基础类'THEN 1 else null end),sum(case when p.type='系列论文' and p.researchType ='应用对策类'THEN 1 else null end)," +
+				"sum(case when p.type='调研报告' and p.researchType ='基础类'THEN 1 else null end),sum(case when p.type='调研报告' and p.researchType ='应用对策类'THEN 1 else null end), " +
+				"sum(case when p.type='单篇论文' or p.type ='系列论文' or p.type='调研报告' THEN 1 else null end) " +
+				"from Product p  where p.status >=4 and p.applyYear=:applyYear  ";
 		List  list = dao.query(hql, map);
 		list.addAll(dao.query(hql1, map));
 		
@@ -147,17 +149,19 @@ public class StatisticService extends BaseService implements IStatisticService {
 	public List calc2ReviewProduct(String year) {
 		Map map = new HashMap();
 		map.put("applyYear", year);
-		String hql = "select p.groupName , sum(case when p.type='著作' THEN 1 else null end),sum(case when p.type='系列论文' and p.researchType ='基础类'THEN 1 else null end),sum(case when p.type='系列论文' and p.researchType ='应用对策类'THEN 1 else null end)," +
+		String hql = "select p.groupName ,sum(case when p.type='著作' THEN 1 else null end), "+
 				"sum(case when p.type='单篇论文' and p.researchType ='基础类'THEN 1 else null end),sum(case when p.type='单篇论文' and p.researchType ='应用对策类'THEN 1 else null end)," +
+				"sum(case when p.type='系列论文' and p.researchType ='基础类'THEN 1 else null end),sum(case when p.type='系列论文' and p.researchType ='应用对策类'THEN 1 else null end)," +
 				"sum(case when p.type='调研报告' and p.researchType ='基础类'THEN 1 else null end),sum(case when p.type='调研报告' and p.researchType ='应用对策类'THEN 1 else null end) ," +
-				"sum(case when p.type='单篇论文' or p.type ='系列论文' THEN 1 else null end),sum(case when p.type='调研报告' THEN 1 else null end) " +
+				"sum(case when p.type='单篇论文' or p.type ='系列论文' or p.type='调研报告' THEN 1 else null end) " +
 				"from Product p  where p.status >=6 and p.applyYear=:applyYear group by p.groupName ";
 				
 				//合计
-		String hql1 = "select '合计' , sum(case when p.type='著作' THEN 1 else null end),sum(case when p.type='系列论文' and p.researchType ='基础类'THEN 1 else null end),sum(case when p.type='系列论文' and p.researchType ='应用对策类'THEN 1 else null end)," +
+		String hql1 = "select '合计' ,sum(case when p.type='著作' THEN 1 else null end),"+
 				"sum(case when p.type='单篇论文' and p.researchType ='基础类'THEN 1 else null end),sum(case when p.type='单篇论文' and p.researchType ='应用对策类'THEN 1 else null end)," +
+				"sum(case when p.type='系列论文' and p.researchType ='基础类'THEN 1 else null end),sum(case when p.type='系列论文' and p.researchType ='应用对策类'THEN 1 else null end)," +
 				"sum(case when p.type='调研报告' and p.researchType ='基础类'THEN 1 else null end),sum(case when p.type='调研报告' and p.researchType ='应用对策类'THEN 1 else null end), " +
-				"sum(case when p.type='单篇论文' or p.type ='系列论文' THEN 1 else null end),sum(case when p.type='调研报告' THEN 1 else null end) " +
+				"sum(case when p.type='单篇论文' or p.type ='系列论文' or p.type='调研报告' THEN 1 else null end) " +
 				"from Product p  where p.status >=6 and p.applyYear=:applyYear  ";
 		List  list = dao.query(hql, map);
 		list.addAll(dao.query(hql1, map));
@@ -172,8 +176,7 @@ public class StatisticService extends BaseService implements IStatisticService {
 		map.put("applyYear", year);
 		//奖项分布
 		String hql = "select  p.agencyName,sum(case when p.type='著作' and p.rewardLevel=2 THEN 1 else null end),sum(case when p.type='著作' and p.rewardLevel=3 THEN 1 else null end),sum(case when p.type='著作' and p.rewardLevel=4 THEN 1 else null end)," +
-				"sum(case when p.type='系列论文' or p.type='单篇论文'  and p.rewardLevel=2 THEN 1 else null end),sum(case when p.type='系列论文' or p.type='单篇论文' and p.rewardLevel=3 THEN 1 else null end),sum(case when p.type='系列论文' or p.type='单篇论文' and p.rewardLevel=4 THEN 1 else null end),"+
-				"sum(case when p.type='调研报告' and  p.rewardLevel=2 THEN 1 else null end),sum(case when p.type='调研报告' and p.rewardLevel=3 THEN 1 else null end),sum(case when p.type='调研报告' and  p.rewardLevel=4 THEN 1 else null end)," +
+				"sum(case when  (p.type='系列论文' or p.type='单篇论文' or p.type='调研报告' ) and p.rewardLevel=2 THEN 1 else null end),sum(case when (p.type='系列论文' or p.type='单篇论文'  or p.type='调研报告') and p.rewardLevel=3 THEN 1 else null end),sum(case when( p.type='系列论文' or p.type='单篇论文' or p.type='调研报告' ) and p.rewardLevel=4 THEN 1 else null end),"+
 				"sum(case when p.rewardLevel=2  or p.rewardLevel=3 or p.rewardLevel=4 THEN 1 else null end)"+
 				"from Product p  where p.applyYear=:applyYear group by p.agencyName";
 		return dao.query(hql, map);
@@ -184,8 +187,8 @@ public class StatisticService extends BaseService implements IStatisticService {
 		Map map = new HashMap();
 		map.put("applyYear", year);
 		//单位申报总数
-		String hql = "select  p.agencyName,sum(case when p.type='著作' THEN 1 else null end),sum(case when p.type='系列论文' THEN 1 else null end),"+
-		"sum(case when p.type='单篇论文' THEN 1 else null end),sum(case when p.type='调研报告' THEN 1 else null end),count(p.id)"+
+		String hql = "select  p.agencyName,sum(case when p.type='著作' THEN 1 else null end),sum(case when p.type='单篇论文' THEN 1 else null end)," +
+		"sum(case when p.type='系列论文' THEN 1 else null end),sum(case when p.type='调研报告' THEN 1 else null end),count(p.id)"+
 		"from Product p  where p.applyYear=:applyYear group by p.agencyName";
 		return dao.query(hql, map);
 	}
@@ -250,6 +253,13 @@ public class StatisticService extends BaseService implements IStatisticService {
 		item[5] = df.format(Double.parseDouble(data2[1].toString())/Double.parseDouble(data2[0].toString()));	
 		newLaData.add(item);
 		return newLaData;
+	}
+
+	@Override
+	public String getTheDefaultYear() {
+		String hql = "select max(p.applyYear) from Product p";
+		String  year = (String) dao.query(hql).get(0);
+		return year;
 	}
 	
 

@@ -47,8 +47,15 @@
                                         <td class = "text-left"  width = "100">${product.authorName }</td>
                                         <td width = "50" class = "text-right"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></td>
                                         <td width = "100" class = "text-right view-key">合作者：</td>
-                                        <td width ='' class = "text-left" >{for item in members} <a href = "${item[0].id}" class="pop-view-person">${item[0].name }</a>；{/for}</td>
-                                    </tr>
+										<td class = "text-left" >	
+										{for item in members} 
+											{if item_index != 0}
+												<a href = "${item[0].id}" class="pop-view-person">${item[0].name }</a>
+												{if item_index != members.length-1}；{/if}
+											{else}
+											{/if}
+										{/for}
+									</td>                                    </tr>
                                     <tr>
                                         <td width = "50" class = "text-right"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></td>
                                         <td width = "100" class = "text-right view-key">研究类型：</td>

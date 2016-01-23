@@ -129,7 +129,7 @@ public class Person implements java.io.Serializable {
 		this.ethnic = ethnic;
 	}
 
-	@JSON(format="yyyy-MM-dd")
+	//@JSON(format="yyyy-MM-dd")
 	public Date getBirthday() {
 		return birthday;
 	}

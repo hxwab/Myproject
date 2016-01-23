@@ -127,7 +127,7 @@ public class AccountAction extends BaseAction {
 		if(account==null||person==null||"".equals(agencyId)||type>1||agencyId==null){
 			jsonMap.put("tag", "2");
 			return INPUT;
-		}else if(accountService.checkAccountName(account.getUsername())){
+		}else if(!accountService.checkAccountName(account.getUsername())){
 			jsonMap.put("tag","3");
 			return INPUT;
 		}

@@ -52,5 +52,8 @@ public interface IStatisticService {
 	 * @return
 	 */
 	public List calcService(int  type, String year);
+	
+	
+	public String getTheDefaultYear();
 
 }

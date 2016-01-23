@@ -63,6 +63,8 @@ public class FinalAuditAction extends BaseAction {
 	
 	private int auditResult;
 	private String  auditOption;
+	private int type;//0： 终审   1：获奖成果
+	
 	@Override
 	public String toAdd() {
 		// TODO Auto-generated method stub
@@ -147,15 +149,21 @@ public class FinalAuditAction extends BaseAction {
 		Map map = new HashMap();
 		hql.append(HQL);
 		
-		hql.append(" and(p.rewardLevel in(1,2,3,4)) and p.status in(7)");
+		if(type ==0){
+			hql.append(" and(p.rewardLevel in(1,2,3,4)) and p.status in(7)");
+		}else if(type==1) {
+			hql.append(" and(p.rewardLevel in(1,2,3,4)) and p.status in(7) and  p.hsasFinalAuditResult =2");
+		}else{
+			hql.append(" and 1=0 ");
+		}
 			
 		if(account.getType()==1||account.getType()==2){
 			
 			//超级管理员所有的都可查询出来，不做任何限制
 		}else {
 			//非一般管理员用查询出来的为空
-			hql.append(" and p.id = :id");
-			map.put("id", "");
+			hql.append(" and 1=0 ");
+			
 		}
 		
 		

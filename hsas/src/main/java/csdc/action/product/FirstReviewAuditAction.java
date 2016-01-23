@@ -55,7 +55,7 @@ public class FirstReviewAuditAction extends BaseAction {
 		"pr.averageScore",
 		"pr.hsasReviewAuditResult"
 	};
-	private static final int SEARCH_TYPE_MAX = 6;
+	private static final int SEARCH_TYPE_MAX = 5;
 	@Autowired
 	private IFirstReviewService firstReviewService;
 	@Autowired
@@ -167,13 +167,13 @@ public class FirstReviewAuditAction extends BaseAction {
 		if (keyword != null && !keyword.isEmpty()) {
 			hql.append(" and ");
 			if (1<=searchType&&searchType<=SEARCH_TYPE_MAX) {
-				hql.append(SORT_COLUMNS[searchType-1]);
+				hql.append(SORT_COLUMNS[searchType]);
 				hql.append(" like :keyword");
 				map.put("keyword", "%" + keyword + "%");
 			} else { 
 				hql.append("(");
 				String column[] = new String[SEARCH_TYPE_MAX];
-				for(int i=0; i<SEARCH_TYPE_MAX; i++) {
+				for(int i=1; i<=SEARCH_TYPE_MAX; i++) {
 					column[i] = SORT_COLUMNS[i]+" like :keyword";
 				}
 				hql.append(StringTool.joinString(column, " or ")).append(")");

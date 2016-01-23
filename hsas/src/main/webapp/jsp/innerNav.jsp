@@ -98,12 +98,12 @@
 				<li>
 					<a class="fnav" href="javasript:void(0);">统计分析</a>
 					<ul class="dropdown-menu">
-						<li><a href="statistic/toCaclResult.action?type=1&update=1">初评统计</a></li>
-						<li><a href="statistic/toCaclResult.action?type=2&update=1">复评统计</a></li>
-						<li><a href="statistic/toCaclResult.action?type=3&update=1">奖项分布</a></li>
-						<li><a href="statistic/toCaclResult.action?type=4&update=1">年龄统计</a></li>
-						<li><a href="statistic/toCaclResult.action?type=5&update=1">单位申报总数</a></li>
-						<li><a href="statistic/toCaclResult.action?type=6&update=1">年度信息统计</a></li>
+						<li><a href="statistic/toCaclResult.action?type=1&update=1">成果入围</a></li>
+						<li><a href="statistic/toCaclResult.action?type=2&update=1">初评信息</a></li>
+						<li><a href="statistic/toCaclResult.action?type=3&update=1">复评信息</a></li>
+						<li><a href="statistic/toCaclResult.action?type=4&update=1">单位申报</a></li>
+						<li><a href="statistic/toCaclResult.action?type=5&update=1">作者年龄</a></li>
+						<li><a href="statistic/toCaclResult.action?type=6&update=1">奖项分布</a></li>
 					</ul>
 				</li>
 				</sec:authorize>
