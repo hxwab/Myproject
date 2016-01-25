@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="StatisticExpertTitleProject" extends="global" namespace="/statistic/review/expertTitle/project">
+		<!-- 进入列表 -->
+		<action name="toList" class="expertTitleStatisticProjectAction" method="toList">   
+			<result>/reviewstatic/listExpertTitleStatisticProject.jsp</result>
+		</action>
+		
+		<!-- 列表 -->
+		<action name="list" class="expertTitleStatisticProjectAction" method="list">
+			<result type="json"><param name="root">jsonMap</param></result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
+		</action>
+		
+		<!-- 排序 -->
+		<action name="sort" class="expertTitleStatisticProjectAction" method="sort">
+			<result type="chain">list</result>
+		</action>
+		
+		<!-- 改变pageSize -->
+		<action name="changePageSize" class="expertTitleStatisticProjectAction" method="changePageSize">
+			<result type="chain">list</result>
+		</action>
+		
+		<!-- 到指定页 -->
+		<action name="toPage" class="expertTitleStatisticProjectAction" method="toPage">
+			<result type="chain">list</result>
+		</action>
+		<!-- 初级检索 -->
+		<action name="simpleSearch" class="expertTitleStatisticProjectAction" method="simpleSearch">
+			<result type="chain">list</result>
+		</action>
+								
+	</package>
+</struts>

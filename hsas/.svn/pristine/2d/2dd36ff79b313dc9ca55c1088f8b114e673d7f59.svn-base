@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans:beans xmlns:security="http://www.springframework.org/schema/security" xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+	<security:global-method-security pre-post-annotations="enabled"/>
+    <security:http auto-config="true" use-expressions="true" access-denied-page="/jsp/403.jsp" lowercase-comparisons="false"
+				access-decision-manager-ref="accessDecisionManager">
+		
+		<security:intercept-url pattern="/css/**" filters="none"/>	
+		<security:intercept-url pattern="/js/**" filters="none"/>
+		<security:intercept-url pattern="/assets/**" filters="none"/>
+		<security:intercept-url pattern="/tools/**" filters="none"/>
+		<security:intercept-url pattern="/lib/**" filters="none"/>
+		<security:intercept-url pattern="/sea_config.js" filters="none"/>
+		<security:intercept-url pattern="/sea.js" filters="none"/>
+		
+		<security:intercept-url pattern="/upload/articleAttachments" filters="none"/>
+		<security:intercept-url pattern="/upload/slideImages/**" filters="none"/>
+		<security:intercept-url pattern="/upload/editorImages/**" filters="none"/>
+		
+		<security:intercept-url pattern="/toIndex.action" filters="none"/>
+		<security:intercept-url pattern="/timeout.action" filters="none"/>
+		
+		<security:intercept-url pattern="/upload/upload.action" filters="none"/>
+		<security:intercept-url pattern="/upload/discard.action" filters="none"/>
+		<security:intercept-url pattern="/upload/fetchGroupFilesSummary.action" filters="none"/>
+		
+		<security:intercept-url pattern="/portal/news/toAdd.action" access="hasRole('ROLE_PORT_EDITOR')"/>
+		<security:intercept-url pattern="/portal/news/toModify.action" access="hasRole('ROLE_PORT_EDITOR')"/>
+		<security:intercept-url pattern="/portal/news/delete.action" access="hasRole('ROLE_PORT_EDITOR')"/>
+		<security:intercept-url pattern="/portal/download/toAdd.action" access="hasRole('ROLE_PORT_EDITOR')"/>
+		<security:intercept-url pattern="/portal/download/delete.action" access="hasRole('ROLE_PORT_EDITOR')"/>
+		
+		<security:intercept-url pattern="/account/toList.action" access="hasAnyRole('ROLE_ACCOUNT_EDITOR','ROLE_ACCOUNT_BROWSE')"/>
+		<security:intercept-url pattern="/account/toAssignRole.action" access="hasRole('ROLE_ACCOUNT_EDITOR')"/>
+		<security:intercept-url pattern="/account/delete.action" access="hasRole('ROLE_ACCOUNT_EDITOR')"/>
+		<security:intercept-url pattern="/account/toAdd.action" access="hasRole('ROLE_ACCOUNT_EDITOR')"/>
+		<security:intercept-url pattern="/account/toModify.action" access="hasRole('ROLE_ACCOUNT_EDITOR')"/>
+		<security:intercept-url pattern="/account/enable.action" access="hasRole('ROLE_ACCOUNT_EDITOR')"/>
+		<security:intercept-url pattern="/account/disable.action" access="hasRole('ROLE_ACCOUNT_EDITOR')"/>
+		
+		<security:intercept-url pattern="/role/toList.action" access="hasAnyRole('ROLE_ROLE_EDITOR','ROLE_ROLE_BROWSE')"/>
+		<security:intercept-url pattern="/role/toAdd.action" access="hasRole('ROLE_ROLE_EDITOR')"/>
+		<security:intercept-url pattern="/role/delete.action" access="hasRole('ROLE_ROLE_EDITOR')"/>
+		<security:intercept-url pattern="/role/toModify.action" access="hasRole('ROLE_ROLE_EDITOR')"/>
+		
+		<security:intercept-url pattern="/right/toList.action" access="hasAnyRole('ROLE_RIGHT_EDITOR','ROLE_RIGTH_BROWSE')"/>
+		<security:intercept-url pattern="/right/toAdd.action" access="hasRole('ROLE_RIGHT_EDITOR')"/>
+		<security:intercept-url pattern="/right/delete.action" access="hasRole('ROLE_RIGHT_EDITOR')"/>
+		<security:intercept-url pattern="/right/toModify.action" access="hasRole('ROLE_RIGHT_EDITOR')"/>
+		
+		
+		<security:intercept-url pattern="/solicitPapers/delete.action" access="hasRole('ROLE_RIGHT_EDITOR')"/>
+		<security:intercept-url pattern="/solicitPapers/toModify.action" access="hasRole('ROLE_RIGHT_EDITOR')"/>
+		
+		
+		<security:intercept-url pattern="/system/dataDic/reward/toList.action" access="hasAnyRole('ROLE_BONUS','ROLE_BONUS_BROWSE')"/>
+		<security:intercept-url pattern="/system/dataDic/reward/toAdd.action" access="hasRole('ROLE_BONUS')"/>
+		<security:intercept-url pattern="/system/dataDic/reward/delete.action" access="hasRole('ROLE_BONUS')"/>
+		<security:intercept-url pattern="/system/dataDic/reward/toModify.action" access="hasAnyRole('ROLE_BONUS','ROLE_BONUS_BROWSE')"/>
+		<security:intercept-url pattern="/system/dataDic/reward/export.action" access="hasAnyRole('ROLE_BONUS','ROLE_BONUS_BROWSE')"/>
+		
+		<security:intercept-url pattern="/system/dataDic/group/toList.action" access="hasAnyRole('ROLE_DISCIPLINE','ROLE_DISCIPLINE_BROWSE')"/>
+		<security:intercept-url pattern="/system/dataDic/group/toAdd.action" access="hasRole('ROLE_DISCIPLINE')"/>
+		<security:intercept-url pattern="/system/dataDic/group/delete.action" access="hasRole('ROLE_DISCIPLINE')"/>
+		<security:intercept-url pattern="/system/dataDic/group/toModify.action" access="hasRole('ROLE_DISCIPLINE')"/>
+		<security:intercept-url pattern="/system/dataDic/group/export.action" access="hasRole('ROLE_DISCIPLINE')"/>
+		
+		<security:intercept-url pattern="/system/dataDic/agency/toList.action" access="hasRole('ROLE_AGENCY')"/>
+		<security:intercept-url pattern="/system/dataDic/agency/toAdd.action" access="hasRole('ROLE_AGENCY')"/>
+		<security:intercept-url pattern="/system/dataDic/agency/delete.action" access="hasRole('ROLE_AGENCY')"/>
+		<security:intercept-url pattern="/system/dataDic/agency/toModify.action" access="hasRole('ROLE_AGENCY')"/>
+		<security:intercept-url pattern="/system/dataDic/agency/export.action" access="hasRole('ROLE_AGENCY')"/>
+	
+		<security:intercept-url pattern="/system/mail/toList.action" access="hasAnyRole('ROLE_EMAIL','ROLE_EMAIL_BROWSE')"/>
+		<security:intercept-url pattern="/system/mail/toAdd.action" access="hasRole('ROLE_EMAIL')"/>
+		<security:intercept-url pattern="/system/mail/delete.action" access="hasRole('ROLE_EMAIL')"/>
+		<security:intercept-url pattern="/system/mail/toModify.action" access="hasRole('ROLE_EMAIL')"/>
+		<security:intercept-url pattern="/system/mail/send.action" access="hasRole('ROLE_EMAIL')"/>
+		
+		<!-- 专家管理 -->
+		<security:intercept-url pattern="/expert/toList.action" access="hasRole('ROLE_EXPERT_BROWSE')"/>
+		<security:intercept-url pattern="/expert/toView.action" access="hasRole('ROLE_EXPERT_BROWSE')"/>
+		<security:intercept-url pattern="/expert/toModify.action" access="hasRole('ROLE_EXPERT_EDITOR')"/>
+		<security:intercept-url pattern="/expert/toAdd.action" access="hasRole('ROLE_EXPERT_EDITOR')"/>
+		<security:intercept-url pattern="/expert/delete.action" access="hasRole('ROLE_EXPERT_EDITOR')"/>
+		<security:intercept-url pattern="/expert/authorize.action" access="hasRole('ROLE_EXPERT_EDITOR')"/>
+		<security:intercept-url pattern="/expert/unauthorize.action" access="hasRole('ROLE_EXPERT_EDITOR')"/>
+		
+		<!-- 评审管理 -->
+		<security:intercept-url pattern="/assignExpert/toFirstReviewList.action" access="hasAnyRole('ROLE_EMAIL','ROLE_EMAIL_BROWSE')"/>
+		<security:intercept-url pattern="/system/mail/send.action" access="hasRole('ROLE_EMAIL')"/>
+		
+		
+		<!-- 初审 -->
+		<security:intercept-url pattern="/product/firstAudit/toList.action" access="hasAnyRole('ROLE_FIRST_AUDIT_BROWSE','ROLE_FIRST_AUDIT_EDITOR')"/>
+		<security:intercept-url pattern="/product/firstAudit/toView.action" access="hasAnyRole('ROLE_FIRST_AUDIT_BROWSE','ROLE_FIRST_AUDIT_EDITOR')"/>
+		<security:intercept-url pattern="/product/firstAudit/toAudit.action" access="hasRole('ROLE_FIRST_AUDIT_EDITOR')"/>
+		<security:intercept-url pattern="/product/firstAudit/delete.action" access="hasRole('ROLE_FIRST_AUDIT_EDITOR')"/>
+		<security:intercept-url pattern="/product/firstAudit/toModify.action" access="hasRole('ROLE_FIRST_AUDIT_EDITOR')"/>
+		
+		<!-- 初评分组 -->
+		<!-- 复评分组 -->
+		<!-- 初评 -->
+		<security:intercept-url pattern="/product/firstReview/toList.action" access="hasAnyRole('ROLE_FIRST_REVIEW_BROWSE','ROLE_FIRST_REVIEW_SCORE')"/>
+		<security:intercept-url pattern="/product/firstReview/addFirstReview.action" access="hasRole('ROLE_FIRST_REVIEW_SCORE')"/>
+		<security:intercept-url pattern="/product/firstReview/audit.action" access="hasRole('ROLE_FIRST_REVIEW_AUDIT')"/>
+		<security:intercept-url pattern="/product/firstReview/exportListData.action" access="hasRole('ROLE_FIRST_REVIEW_AUDIT')"/>
+		
+		
+		
+		<!-- 复评 -->
+		<security:intercept-url pattern="/product/secondReview/toList.action" access="hasAnyRole('ROLE_SECOND_REVIEW_BROWSE','ROLE_SECOND_REVIEW_OPINION','ROLE_SECOND_REVIEW_AUDIT')"/>
+		<security:intercept-url pattern="/product/secondReview/toView.action" access="hasAnyRole('ROLE_SECOND_REVIEW_BROWSE','ROLE_SECOND_REVIEW_OPINION','ROLE_SECOND_REVIEW_AUDIT')"/>
+		<security:intercept-url pattern="/product/secondReview/addChiefReview.action" access="hasAnyRole('ROLE_SECOND_REVIEW_AUDIT')"/>
+		<security:intercept-url pattern="/product/secondReview/modifyChiefReview.action" access="hasAnyRole('ROLE_SECOND_REVIEW_AUDIT')"/>
+		<security:intercept-url pattern="/product/secondReview/addReview.action" access="hasAnyRole('ROLE_SECOND_REVIEW_OPINION','ROLE_SECOND_REVIEW_AUDIT')"/>
+		<security:intercept-url pattern="/product/secondReview/modifyReview.action" access="hasAnyRole('ROLE_SECOND_REVIEW_OPINION','ROLE_SECOND_REVIEW_AUDIT')"/>
+		<security:intercept-url pattern="/product/secondReview/audit.action" access="hasAnyRole('ROLE_SECOND_REVIEW_OPINION','ROLE_SECOND_REVIEW_AUDIT')"/>
+		<security:intercept-url pattern="/product/secondReview/exportListData.action" access="hasAnyRole('ROLE_SECOND_REVIEW_BROWSE','ROLE_SECOND_REVIEW_OPINION','ROLE_SECOND_REVIEW_AUDIT')"/>
+		
+		<!-- 复评 审核-->
+		<security:intercept-url pattern="/product/firstReviewAudit/toList.action" access="hasRole('ROLE_SECOND_REVIEW_AUDIT')"/>
+		<security:intercept-url pattern="/product/firstReviewAudit/addAuditResult.action" access="hasRole('ROLE_FIRST_REVIEW_AUDIT')"/>
+		<security:intercept-url pattern="/product/firstReviewAudit/audit.action" access="hasRole('ROLE_FIRST_REVIEW_AUDIT')"/>
+		<security:intercept-url pattern="/product/firstReviewAudit/exportListData.action" access="hasRole('ROLE_FIRST_REVIEW_AUDIT')"/>
+		
+		<!-- 终审 -->
+		<security:intercept-url pattern="/product/finalAudit/**" access="hasRole('ROLE_FINAL_AUDIT')"/>
+		
+		<!-- 申诉 -->
+		<security:intercept-url pattern="/product/appeal/**" access="hasRole('ROLE_APPEAL')"/>
+		
+		
+		
+		<security:intercept-url pattern="/product/**" access="permitAll"/>
+		<security:intercept-url pattern="/portal/**" access="permitAll"/>
+		<security:intercept-url pattern="/solicitPapers/toAdd.action" access="permitAll"/>
+		<security:intercept-url pattern="/solicitPapers/add.action" access="permitAll"/>
+		
+		<security:intercept-url pattern="/register/**" access="permitAll"/>
+		<security:intercept-url pattern="/selectAgency/**" access="permitAll"/>
+		<security:intercept-url pattern="/jsp/pop/**" access="permitAll"/>
+		
+		<security:intercept-url pattern="/home.action" access="isAuthenticated()"/>
+		<security:intercept-url pattern="/login/doLogin.action" access="isAuthenticated()"/>
+		
+		<security:intercept-url pattern="/jsp/index.jsp" access="permitAll"/>
+		
+		<!-- <security:intercept-url pattern="/**" access="denyAll" /> -->
+		
+		<security:form-login login-processing-url="/login"
+			login-page="/toIndex.action"
+			authentication-failure-url="/toIndex.action?error=0"
+			default-target-url="/login/doLogin.action"
+			always-use-default-target="true" />
+		<security:logout logout-url="/logout" logout-success-url="/toIndex.action" />
+		
+			<!-- 未配置的资源 -->
+		<security:intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
+		
+        <!-- 最多允许N个同时在线,若个数自定义,自行实现 -->
+        <security:session-management invalid-session-url="/toIndex.action" session-authentication-error-url="/jsp/error.jsp" session-fixation-protection="migrateSession">
+        	<security:concurrency-control max-sessions="10000" expired-url="/timeout.action" error-if-maximum-exceeded="true" />
+        </security:session-management>
+        <!-- 自定义过滤器 -->
+        <security:custom-filter before="FORM_LOGIN_FILTER" ref="myAuthenticationFilter"/>
+    </security:http>
+    
+	<beans:bean id="myAuthenticationFilter" class="csdc.tool.security.MyAuthenticationFilter">
+		<beans:property name="myAuthentication" ref="myAuthentication" />
+	</beans:bean>
+
+	<beans:bean id="myAuthentication" class="csdc.tool.security.MyAuthentication">
+	</beans:bean>
+
+	<beans:bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
+		<beans:property name="decisionVoters">
+			<beans:list>
+				<beans:bean class="org.springframework.security.access.vote.RoleVoter" />
+				<beans:bean class="org.springframework.security.access.vote.AuthenticatedVoter" />
+				<beans:bean class="org.springframework.security.web.access.expression.WebExpressionVoter" />
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+
+	<security:authentication-manager alias="authenticationManager">
+		<security:authentication-provider user-service-ref="myUserDetailsService">
+			<security:password-encoder hash="md5" />
+		</security:authentication-provider>
+	</security:authentication-manager>
+	<beans:bean id="myUserDetailsService" class="csdc.tool.security.MyUserDeitailsService">
+	</beans:bean>
+</beans:beans>

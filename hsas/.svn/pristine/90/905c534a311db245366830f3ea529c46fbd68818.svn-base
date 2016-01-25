@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+	<package name="statistic" extends="main" namespace="/statistic">
+	
+		<action name="toCaclResult" class="statisticAction" method="toCaclResult">
+			<result>/jsp/statistic/view.jsp</result>
+		</action>
+
+		<action name="caclResult" class="statisticAction" method="caclResult">
+			<result type="json"><param name="root">jsonMap</param></result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
+		</action>
+	</package>
+</struts>

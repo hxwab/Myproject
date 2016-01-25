@@ -1,0 +1,11 @@
+/.struts.mex
+/applicationContext.xml
+/config
+/csdc
+/fckeditor.properties
+/log4j.properties
+/mail.properties
+/matherLog.txt
+/smdb.jdbc.properties
+/struts.properties
+/struts.xml

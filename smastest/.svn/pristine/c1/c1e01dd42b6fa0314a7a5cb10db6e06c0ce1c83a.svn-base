@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+						http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+
+	<http auto-config="true" use-expressions="true" access-denied-page="/403.jsp"
+		  lowercase-comparisons="false">
+ 		
+		<intercept-url pattern="/css/**" filters="none"/>
+		<intercept-url pattern="/image/**" filters="none"/>
+		<intercept-url pattern="/javascript/**" filters="none"/>
+		<intercept-url pattern="/swfupload/**" filters="none"/>
+		<intercept-url pattern="/upload/**" filters="none"/>
+		<intercept-url pattern="/temp/**" filters="none"/>
+		<intercept-url pattern="/tool/**" filters="none"/>
+		<intercept-url pattern="/struts/**" filters="none"/>
+		<intercept-url pattern="/dwr/**" filters="none"/>
+		
+		<intercept-url pattern="/main/toIndex.action" filters="none"/>
+		<intercept-url pattern="/main/rand.action" filters="none" />
+		<intercept-url pattern="/main/timeout.action" filters="none"/>
+		<intercept-url pattern="/welcome.jsp" filters="none"/>
+		<intercept-url pattern="/index.jsp" filters="none"/>
+		<intercept-url pattern="/unknowError.jsp" filters="none"/>
+		<intercept-url pattern="/error.jsp" filters="none"/>
+		
+		<!-- 用户注册  -->
+		<intercept-url pattern="/user/toRegister.action" filters="none"/>
+		<intercept-url pattern="/user/register.action" filters="none"/>
+		<intercept-url pattern="/user/checkUsername.action" filters="none"/>
+		
+		<!-- 找回密码  -->
+		<intercept-url pattern="/user/toRetrievePassword.action" filters="none"/>
+		<intercept-url pattern="/user/retrievePassword.action" filters="none"/>
+		<intercept-url pattern="/selfspace/toResetPassword.action" filters="none"/>
+		<intercept-url pattern="/selfspace/resetPassword.action" filters="none"/>
+		
+		<intercept-url pattern="/validate/**" access="isAuthenticated()"/>
+
+		<!-- DWR URL管理  -->
+		<intercept-url pattern="/javascript/engine.js" access="hasAnyRole('ROLE_BASIC_RIGHT')"/>
+		<intercept-url pattern="/dwr/util.js" filters="none"/>
+		<intercept-url pattern="/dwr/interface/generalService.js" access="hasRole('ROLE_PROJECT_GENERAL')"/>
+		<intercept-url pattern="/dwr/interface/instpService.js" access="hasRole('ROLE_PROJECT_INSTP')"/>
+		
+		
+		<intercept-url pattern="/dwr/call/plaincall/generalService.getExpInfo.dwr" access="hasRole('ROLE_PROJECT_GENERAL')"/>
+		<intercept-url pattern="/dwr/call/plaincall/generalService.initParam.dwr" access="hasRole('ROLE_PROJECT_GENERAL')"/>
+		
+		<intercept-url pattern="/dwr/call/plaincall/instpService.getExpInfo.dwr" access="hasRole('ROLE_PROJECT_INSTP')"/>
+		<intercept-url pattern="/dwr/call/plaincall/instpService.initParam.dwr" access="hasRole('ROLE_PROJECT_INSTP')"/>
+		<!-- 登录用户的基本权限  -->
+		<intercept-url pattern="/user/login.action" access="isAuthenticated()"/>
+		<!-- 新增 -->
+		<intercept-url pattern="/user/toSwitchAccount.action" access="isAuthenticated()"/>
+		<intercept-url pattern="/user/checkAccount.action" access="isAuthenticated()"/>
+		<intercept-url pattern="/user/switchAccount.action" access="isAuthenticated()"/>
+		
+		<!-- 基本权限  -->
+		<intercept-url pattern="/main/right.action" access="hasRole('ROLE_BASIC_RIGHT')"/>
+		<!-- 个人空间  -->
+		<intercept-url pattern="/selfspace/viewInfo.action" access="hasRole('ROLE_BASIC_RIGHT')"/>
+		<intercept-url pattern="/user/toView.action" access="hasRole('ROLE_BASIC_RIGHT')"/>
+		<intercept-url pattern="/user/view.action" access="hasRole('ROLE_BASIC_RIGHT')"/>
+		<intercept-url pattern="/user/toModifyPassword.action" access="hasRole('ROLE_BASIC_RIGHT')"/>
+		<intercept-url pattern="/user/modifyPassword.action" access="hasRole('ROLE_BASIC_RIGHT')"/>
+		<intercept-url pattern="/selfspace/loadInfo.action" access="hasRole('ROLE_BASIC_RIGHT')"/>
+		<intercept-url pattern="/user/toModify.action" access="hasRole('ROLE_BASIC_RIGHT')"/>
+		<intercept-url pattern="/user/modify.action" access="hasRole('ROLE_BASIC_RIGHT')"/>
+		<intercept-url pattern="/selfspace/toModifyPassword.action" access="hasRole('ROLE_BASIC_RIGHT')"/>
+		<intercept-url pattern="/selfspace/modifyPassword.action" access="hasRole('ROLE_BASIC_RIGHT')"/>
+		
+		<!-- 专家管理  -->
+		<intercept-url pattern="/expert/toList.action" access="hasRole('ROLE_EXPERT')"/>
+		<intercept-url pattern="/expert/list.action" access="hasRole('ROLE_EXPERT')"/>
+		<intercept-url pattern="/expert/simpleSearch.action" access="hasRole('ROLE_EXPERT')"/>
+		<intercept-url pattern="/expert/sort.action" access="hasRole('ROLE_EXPERT')"/>
+		<intercept-url pattern="/expert/changePageSize.action" access="hasRole('ROLE_EXPERT')"/>		
+		<intercept-url pattern="/expert/toPage.action" access="hasRole('ROLE_EXPERT')"/>
+		<intercept-url pattern="/expert/toView.action" access="hasRole('ROLE_EXPERT')"/>
+		<intercept-url pattern="/expert/view.action" access="hasRole('ROLE_EXPERT')"/>
+		<intercept-url pattern="/expert/prev.action" access="hasRole('ROLE_EXPERT')"/>
+		<intercept-url pattern="/expert/next.action" access="hasRole('ROLE_EXPERT')"/>		
+		<intercept-url pattern="/expert/toAdd.action" access="hasRole('ROLE_EXPERT')"/>
+		<intercept-url pattern="/expert/add.action" access="hasRole('ROLE_EXPERT')"/>
+		<intercept-url pattern="/expert/toModify.action" access="hasRole('ROLE_EXPERT')"/>
+		<intercept-url pattern="/expert/modify.action" access="hasRole('ROLE_EXPERT')"/>
+		<intercept-url pattern="/expert/delete.action" access="hasRole('ROLE_EXPERT')"/>		
+		<intercept-url pattern="/expert/popExport.action" access="hasRole('ROLE_EXPERT')"/>
+		<intercept-url pattern="/expert/exportExpert.action" access="hasRole('ROLE_EXPERT')"/>
+		<intercept-url pattern="/expert/toDisableReview.action" access="hasRole('ROLE_EXPERT')"/>
+		<intercept-url pattern="/expert/disableReview.action" access="hasRole('ROLE_EXPERT')"/>
+		<intercept-url pattern="/expert/enableReview.action" access="hasRole('ROLE_EXPERT')"/>
+		<intercept-url pattern="/expert/fetchAutoData.action" access="hasRole('ROLE_EXPERT')"/>
+		
+		<intercept-url pattern="/expert/select/toList.action" access="hasRole('ROLE_EXPERT')"/>
+		<intercept-url pattern="/expert/select/list.action" access="hasRole('ROLE_EXPERT')"/>
+		<intercept-url pattern="/expert/select/simpleSearch.action" access="hasRole('ROLE_EXPERT')"/>
+		<intercept-url pattern="/expert/select/sort.action" access="hasRole('ROLE_EXPERT')"/>
+		<intercept-url pattern="/expert/select/toPage.action" access="hasRole('ROLE_EXPERT')"/>
+		<intercept-url pattern="/expert/select/changePageSize.action" access="hasRole('ROLE_EXPERT')"/>
+		<intercept-url pattern="/expert/select/toPopAdd.action" access="hasRole('ROLE_EXPERT')"/>
+		<intercept-url pattern="/expert/select/popAdd.action" access="hasRole('ROLE_EXPERT')"/>		
+		
+		<!-- 项目管理  -->
+		<!-- 一般项目管理  -->
+		<intercept-url pattern="/project/general/toList.action" access="hasRole('ROLE_PROJECT_GENERAL')"/>
+		<intercept-url pattern="/project/general/list.action" access="hasRole('ROLE_PROJECT_GENERAL')"/>
+		<intercept-url pattern="/project/general/simpleSearch.action" access="hasRole('ROLE_PROJECT_GENERAL')"/>
+		<intercept-url pattern="/project/general/sort.action" access="hasRole('ROLE_PROJECT_GENERAL')"/>
+		<intercept-url pattern="/project/general/changePageSize.action" access="hasRole('ROLE_PROJECT_GENERAL')"/>
+		<intercept-url pattern="/project/general/toPage.action" access="hasRole('ROLE_PROJECT_GENERAL')"/>
+		<intercept-url pattern="/project/general/toView.action" access="hasRole('ROLE_PROJECT_GENERAL')"/>
+		<intercept-url pattern="/project/general/view.action" access="hasRole('ROLE_PROJECT_GENERAL')"/>
+		<intercept-url pattern="/project/general/prev.action" access="hasRole('ROLE_PROJECT_GENERAL')"/>
+		<intercept-url pattern="/project/general/next.action" access="hasRole('ROLE_PROJECT_GENERAL')"/>
+		<intercept-url pattern="/project/general/toAdd.action" access="hasRole('ROLE_PROJECT_GENERAL')"/>
+		<intercept-url pattern="/project/general/add.action" access="hasRole('ROLE_PROJECT_GENERAL')"/>
+		<intercept-url pattern="/project/general/delete.action" access="hasRole('ROLE_PROJECT_GENERAL')"/>
+		<intercept-url pattern="/project/general/toModify.action" access="hasRole('ROLE_PROJECT_GENERAL')"/>
+		<intercept-url pattern="/project/general/modify.action" access="hasRole('ROLE_PROJECT_GENERAL')"/>
+		<intercept-url pattern="/project/general/toSelectExpert.action" access="hasRole('ROLE_PROJECT_GENERAL')"/>
+		<intercept-url pattern="/project/general/showExpertTree.action" access="hasRole('ROLE_PROJECT_GENERAL')"/>
+		<intercept-url pattern="/project/general/createExpertTree.action" access="hasRole('ROLE_PROJECT_GENERAL')"/>
+		<intercept-url pattern="/project/general/searchExpert.action" access="hasRole('ROLE_PROJECT_GENERAL')"/>
+		<intercept-url pattern="/project/general/enableReview.action" access="hasRole('ROLE_PROJECT_GENERAL')"/>
+		<intercept-url pattern="/project/general/toDisableReview.action" access="hasRole('ROLE_PROJECT_GENERAL')"/>
+		<intercept-url pattern="/project/general/disableReview.action" access="hasRole('ROLE_PROJECT_GENERAL')"/>
+		<intercept-url pattern="/project/general/deleteExpertProjects.action" access="hasRole('ROLE_PROJECT_GENERAL')"/>
+		<intercept-url pattern="/project/general/popAudit.action" access="hasRole('ROLE_PROJECT_GENERAL')"/>
+		<intercept-url pattern="/project/general/audit.action" access="hasRole('ROLE_PROJECT_GENERAL')"/>
+		<intercept-url pattern="/project/general/batchReplaceExpert.action" access="hasRole('ROLE_PROJECT_GENERAL')"/>
+		<intercept-url pattern="/project/general/transferMatch .action" access="hasRole('ROLE_PROJECT_GENERAL')"/>
+		<intercept-url pattern="/project/general/reMatchExpert.action" access="hasRole('ROLE_PROJECT_GENERAL')"/>
+		<intercept-url pattern="/project/general/granting.action" access="hasRole('ROLE_PROJECT_GENERAL')"/>
+		
+		<!-- 立项核算  -->
+		<intercept-url pattern="/finance/toCheck.action" access="hasRole('ROLE_FINANCE')"/>
+		<intercept-url pattern="/finance/init.action" access="hasRole('ROLE_FINANCE')"/>
+		<intercept-url pattern="/finance/checkByRate.action" access="hasRole('ROLE_FINANCE')"/>
+		<intercept-url pattern="/finance/initCheckById.action" access="hasRole('ROLE_FINANCE')"/>
+		<intercept-url pattern="/finance/checkById.action" access="hasRole('ROLE_FINANCE')"/>
+		<intercept-url pattern="/finance/initCheckZcById.action" access="hasRole('ROLE_FINANCE')"/>
+		<intercept-url pattern="/finance/finish.action" access="hasRole('ROLE_FINANCE')"/>
+
+		<!-- 一般项目初审结果管理  -->
+		<intercept-url pattern="/project/general/firstAudit/toList.action" access="hasRole('ROLE_PROJECT_GENERAL_FIRSTAUDIT')"/>
+		<intercept-url pattern="/project/general/firstAudit/list.action" access="hasRole('ROLE_PROJECT_GENERAL_FIRSTAUDIT')"/>
+		<intercept-url pattern="/project/general/firstAudit/simpleSearch.action" access="hasRole('ROLE_PROJECT_GENERAL_FIRSTAUDIT')"/>
+		<intercept-url pattern="/project/general/firstAudit/toView.action" access="hasRole('ROLE_PROJECT_GENERAL_FIRSTAUDIT')"/>
+		<intercept-url pattern="/project/general/firstAudit/view.action" access="hasRole('ROLE_PROJECT_GENERAL_FIRSTAUDIT')"/>
+		<intercept-url pattern="/project/general/firstAudit/prev.action" access="hasRole('ROLE_PROJECT_GENERAL_FIRSTAUDIT')"/>
+		<intercept-url pattern="/project/general/firstAudit/next.action" access="hasRole('ROLE_PROJECT_GENERAL_FIRSTAUDIT')"/>
+		<intercept-url pattern="/project/general/firstAudit/sort.action" access="hasRole('ROLE_PROJECT_GENERAL_FIRSTAUDIT')"/>
+		<intercept-url pattern="/project/general/firstAudit/changePageSize.action" access="hasRole('ROLE_PROJECT_GENERAL_FIRSTAUDIT')"/>
+		<intercept-url pattern="/project/general/firstAudit/toPage.action" access="hasRole('ROLE_PROJECT_GENERAL_FIRSTAUDIT')"/>
+		
+		<!-- 一般公示项目管理  -->
+		<intercept-url pattern="/project/general/publicity/toList.action" access="hasRole('ROLE_PROJECT_GENERAL_PUBLICITY')"/>
+		<intercept-url pattern="/project/general/publicity/list.action" access="hasRole('ROLE_PROJECT_GENERAL_PUBLICITY')"/>
+		<intercept-url pattern="/project/general/publicity/simpleSearch.action" access="hasRole('ROLE_PROJECT_GENERAL_PUBLICITY')"/>
+		<intercept-url pattern="/project/general/publicity/toView.action" access="hasRole('ROLE_PROJECT_GENERAL_PUBLICITY')"/>
+		<intercept-url pattern="/project/general/publicity/view.action" access="hasRole('ROLE_PROJECT_GENERAL_PUBLICITY')"/>
+		<intercept-url pattern="/project/general/publicity/prev.action" access="hasRole('ROLE_PROJECT_GENERAL_PUBLICITY')"/>
+		<intercept-url pattern="/project/general/publicity/next.action" access="hasRole('ROLE_PROJECT_GENERAL_PUBLICITY')"/>
+		<intercept-url pattern="/project/general/publicity/sort.action" access="hasRole('ROLE_PROJECT_GENERAL_PUBLICITY')"/>
+		<intercept-url pattern="/project/general/publicity/changePageSize.action" access="hasRole('ROLE_PROJECT_GENERAL_PUBLICITY')"/>
+		<intercept-url pattern="/project/general/publicity/toPage.action" access="hasRole('ROLE_PROJECT_GENERAL_PUBLICITY')"/>
+		<intercept-url pattern="/project/general/publicity/popInform.action" access="hasRole('ROLE_PROJECT_GENERAL_PUBLICITY')"/>
+		<intercept-url pattern="/project/general/publicity/addInform.action" access="hasRole('ROLE_PROJECT_GENERAL_PUBLICITY')"/>
+		<intercept-url pattern="/project/general/publicity/updatePublic.action" access="hasRole('ROLE_PROJECT_GENERAL_PUBLICITY')"/>
+		<intercept-url pattern="/project/general/publicity/confirmGrant.action" access="hasRole('ROLE_PROJECT_GENERAL_PUBLICITY')"/>
+		<intercept-url pattern="/project/general/publicity/exportPublicityList.action" access="hasRole('ROLE_PROJECT_GENERAL_PUBLICITY')"/>
+		
+		<!-- 专项任务管理  -->
+		<intercept-url pattern="/project/general/special/toList.action" access="hasRole('ROLE_PROJECT_GENERAL_SPECIAL')"/>
+		<intercept-url pattern="/project/general/special/list.action" access="hasRole('ROLE_PROJECT_GENERAL_SPECIAL')"/>
+		<intercept-url pattern="/project/general/special/simpleSearch.action" access="hasRole('ROLE_PROJECT_GENERAL_SPECIAL')"/>
+		<intercept-url pattern="/project/general/special/sort.action" access="hasRole('ROLE_PROJECT_GENERAL_SPECIAL')"/>
+		<intercept-url pattern="/project/general/special/changePageSize.action" access="hasRole('ROLE_PROJECT_GENERAL_SPECIAL')"/>
+		<intercept-url pattern="/project/general/special/toPage.action" access="hasRole('ROLE_PROJECT_GENERAL_SPECIAL')"/>
+		<intercept-url pattern="/project/general/special/toAdd.action" access="hasRole('ROLE_PROJECT_GENERAL_SPECIAL')"/>
+		<intercept-url pattern="/project/general/special/add.action" access="hasRole('ROLE_PROJECT_GENERAL_SPECIAL')"/>
+		<intercept-url pattern="/project/general/special/toModify.action" access="hasRole('ROLE_PROJECT_GENERAL_SPECIAL')"/>
+		<intercept-url pattern="/project/general/special/modify.action" access="hasRole('ROLE_PROJECT_GENERAL_SPECIAL')"/>
+		<intercept-url pattern="/project/general/special/toView.action" access="hasRole('ROLE_PROJECT_GENERAL_SPECIAL')"/>
+		<intercept-url pattern="/project/general/special/view.action" access="hasRole('ROLE_PROJECT_GENERAL_SPECIAL')"/>
+		<intercept-url pattern="/project/general/special/prev.action" access="hasRole('ROLE_PROJECT_GENERAL_SPECIAL')"/>
+		<intercept-url pattern="/project/general/special/next.action" access="hasRole('ROLE_PROJECT_GENERAL_SPECIAL')"/>
+		<intercept-url pattern="/project/general/special/delete.action" access="hasRole('ROLE_PROJECT_GENERAL_SPECIAL')"/>
+		
+		<!-- 基地项目管理  -->
+		<intercept-url pattern="/project/instp/toList.action" access="hasRole('ROLE_PROJECT_INSTP')"/>
+		<intercept-url pattern="/project/instp/list.action" access="hasRole('ROLE_PROJECT_INSTP')"/>
+		<intercept-url pattern="/project/instp/simpleSearch.action" access="hasRole('ROLE_PROJECT_INSTP')"/>
+		<intercept-url pattern="/project/instp/sort.action" access="hasRole('ROLE_PROJECT_INSTP')"/>
+		<intercept-url pattern="/project/instp/changePageSize.action" access="hasRole('ROLE_PROJECT_INSTP')"/>
+		<intercept-url pattern="/project/instp/toPage.action" access="hasRole('ROLE_PROJECT_INSTP')"/>
+		<intercept-url pattern="/project/instp/toView.action" access="hasRole('ROLE_PROJECT_INSTP')"/>
+		<intercept-url pattern="/project/instp/view.action" access="hasRole('ROLE_PROJECT_INSTP')"/>
+		<intercept-url pattern="/project/instp/prev.action" access="hasRole('ROLE_PROJECT_INSTP')"/>
+		<intercept-url pattern="/project/instp/next.action" access="hasRole('ROLE_PROJECT_INSTP')"/>
+		<intercept-url pattern="/project/instp/toAdd.action" access="hasRole('ROLE_PROJECT_INSTP')"/>
+		<intercept-url pattern="/project/instp/add.action" access="hasRole('ROLE_PROJECT_INSTP')"/>
+		<intercept-url pattern="/project/instp/delete.action" access="hasRole('ROLE_PROJECT_INSTP')"/>
+		<intercept-url pattern="/project/instp/toModify.action" access="hasRole('ROLE_PROJECT_INSTP')"/>
+		<intercept-url pattern="/project/instp/modify.action" access="hasRole('ROLE_PROJECT_INSTP')"/>
+		<intercept-url pattern="/project/instp/toSelectExpert.action" access="hasRole('ROLE_PROJECT_INSTP')"/>
+		<intercept-url pattern="/project/instp/showExpertTree.action" access="hasRole('ROLE_PROJECT_INSTP')"/>
+		<intercept-url pattern="/project/instp/createExpertTree.action" access="hasRole('ROLE_PROJECT_INSTP')"/>
+		<intercept-url pattern="/project/instp/searchExpert.action" access="hasRole('ROLE_PROJECT_INSTP')"/>
+		<intercept-url pattern="/project/instp/enableReview.action" access="hasRole('ROLE_PROJECT_INSTP')"/>
+		<intercept-url pattern="/project/instp/toDisableReview.action" access="hasRole('ROLE_PROJECT_INSTP')"/>
+		<intercept-url pattern="/project/instp/disableReview.action" access="hasRole('ROLE_PROJECT_INSTP')"/>
+		<intercept-url pattern="/project/instp/deleteExpertProjects.action" access="hasRole('ROLE_PROJECT_INSTP')"/>
+		<intercept-url pattern="/project/instp/popAudit.action" access="hasRole('ROLE_PROJECT_INSTP')"/>
+		<intercept-url pattern="/project/instp/audit.action" access="hasRole('ROLE_PROJECT_INSTP')"/>
+		<intercept-url pattern="/project/instp/batchReplaceExpert.action" access="hasRole('ROLE_PROJECT_INSTP')"/>
+		<intercept-url pattern="/project/instp/transferMatch .action" access="hasRole('ROLE_PROJECT_INSTP')"/>
+		<intercept-url pattern="/project/instp/reMatchExpert.action" access="hasRole('ROLE_PROJECT_INSTP')"/>
+		
+		<!-- 基地项目初审结果管理  -->
+		<intercept-url pattern="/project/instp/firstAudit/toList.action" access="hasRole('ROLE_PROJECT_INSTP_FIRSTAUDIT')"/>
+		<intercept-url pattern="/project/instp/firstAudit/list.action" access="hasRole('ROLE_PROJECT_INSTP_FIRSTAUDIT')"/>
+		<intercept-url pattern="/project/instp/firstAudit/simpleSearch.action" access="hasRole('ROLE_PROJECT_INSTP_FIRSTAUDIT')"/>
+		<intercept-url pattern="/project/instp/firstAudit/toView.action" access="hasRole('ROLE_PROJECT_INSTP_FIRSTAUDIT')"/>
+		<intercept-url pattern="/project/instp/firstAudit/view.action" access="hasRole('ROLE_PROJECT_INSTP_FIRSTAUDIT')"/>
+		<intercept-url pattern="/project/instp/firstAudit/prev.action" access="hasRole('ROLE_PROJECT_INSTP_FIRSTAUDIT')"/>
+		<intercept-url pattern="/project/instp/firstAudit/next.action" access="hasRole('ROLE_PROJECT_INSTP_FIRSTAUDIT')"/>
+		<intercept-url pattern="/project/instp/firstAudit/sort.action" access="hasRole('ROLE_PROJECT_INSTP_FIRSTAUDIT')"/>
+		<intercept-url pattern="/project/instp/firstAudit/changePageSize.action" access="hasRole('ROLE_PROJECT_INSTP_FIRSTAUDIT')"/>
+		<intercept-url pattern="/project/instp/firstAudit/toPage.action" access="hasRole('ROLE_PROJECT_INSTP_FIRSTAUDIT')"/>
+		
+		<!-- 奖励管理 -->
+		<!-- 奖励分组 -->
+		<intercept-url pattern="/award/moeSocial/awardGroup/toList.action" access="hasRole('ROLE_AWARD_MOESOCIAL')"/>
+		<intercept-url pattern="/award/moeSocial/awardGroup/list.action" access="hasRole('ROLE_AWARD_MOESOCIAL')"/>
+		<intercept-url pattern="/award/moeSocial/awardGroup/simpleSearch.action" access="hasRole('ROLE_AWARD_MOESOCIAL')"/>
+		<intercept-url pattern="/award/moeSocial/awardGroup/sort.action" access="hasRole('ROLE_AWARD_MOESOCIAL')"/>
+		<intercept-url pattern="/award/moeSocial/awardGroup/changePageSize.action" access="hasRole('ROLE_AWARD_MOESOCIAL')"/>
+		<intercept-url pattern="/award/moeSocial/awardGroup/toView.action" access="hasRole('ROLE_AWARD_MOESOCIAL')"/>
+		<intercept-url pattern="/award/moeSocial/awardGroup/view.action" access="hasRole('ROLE_AWARD_MOESOCIAL')"/>
+		<intercept-url pattern="/award/moeSocial/awardGroup/prev.action" access="hasRole('ROLE_AWARD_MOESOCIAL')"/>
+		<intercept-url pattern="/award/moeSocial/awardGroup/next.action" access="hasRole('ROLE_AWARD_MOESOCIAL')"/>
+		<intercept-url pattern="/award/moeSocial/awardGroup/toPage.action" access="hasRole('ROLE_AWARD_MOESOCIAL')"/>		
+		
+		<!-- 奖励分组匹配 -->
+		<intercept-url pattern="/award/moeSocial/awardGroupMatch/toList.action" access="hasRole('ROLE_AWARD_MOESOCIAL')"/>
+		<intercept-url pattern="/award/moeSocial/awardGroupMatch/list.action" access="hasRole('ROLE_AWARD_MOESOCIAL')"/>
+		<intercept-url pattern="/award/moeSocial/awardGroupMatch/simpleSearch.action" access="hasRole('ROLE_AWARD_MOESOCIAL')"/>
+		<intercept-url pattern="/award/moeSocial/awardGroupMatch/sort.action" access="hasRole('ROLE_AWARD_MOESOCIAL')"/>
+		<intercept-url pattern="/award/moeSocial/awardGroupMatch/changePageSize.action" access="hasRole('ROLE_AWARD_MOESOCIAL')"/>
+		<intercept-url pattern="/award/moeSocial/awardGroupMatch/toView.action" access="hasRole('ROLE_AWARD_MOESOCIAL')"/>
+		<intercept-url pattern="/award/moeSocial/awardGroupMatch/view.action" access="hasRole('ROLE_AWARD_MOESOCIAL')"/>
+		<intercept-url pattern="/award/moeSocial/awardGroupMatch/prev.action" access="hasRole('ROLE_AWARD_MOESOCIAL')"/>
+		<intercept-url pattern="/award/moeSocial/awardGroupMatch/next.action" access="hasRole('ROLE_AWARD_MOESOCIAL')"/>
+		<intercept-url pattern="/award/moeSocial/awardGroupMatch/toPage.action" access="hasRole('ROLE_AWARD_MOESOCIAL')"/>		
+		
+		<!-- 统计分析  -->
+		<intercept-url pattern="/reviewstatic/listExpert.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/reviewstatic/listUniversity.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/reviewstatic/sortExpert.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/reviewstatic/sortUniversity.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/disciplineMatrix.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/expert/changePageSize.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/expert/exportExpertStatistic.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/expert/list.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/expert/next.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/expert/prev.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/expert/simpleSearch.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/expert/sort.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/expert/statisticOne.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/expert/statisticThree.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/expert/statisticTwo.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/expert/toList.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/expert/toPage.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/expertReviewer/advSearch.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/expertReviewer/changePageSize.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/expertReviewer/list.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/expertReviewer/next.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/expertReviewer/prev.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/expertReviewer/simpleSearch.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/expertReviewer/sort.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/expertReviewer/toList.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/expertReviewer/toPage.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/univReviewer/advSearch.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/univReviewer/changePageSize.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/univReviewer/list.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/univReviewer/next.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/univReviewer/prev.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/univReviewer/simpleSearch.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/univReviewer/sort.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/univReviewer/toList.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/univReviewer/toPage.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/university/changePageSize.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/university/exportUniversityStatistic.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/university/list.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/university/simpleSearch.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/university/sort.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/university/statisticOne.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/university/statisticThree.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/university/statisticTwo.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/university/toList.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/university/toPage.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/universityUseStatistic.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/warnStatistic.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<!-- 待添加权限  -->
+		<intercept-url pattern="/statistic/review/expertTitle/project/toList.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/expertTitle/project/list.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/expertTitle/project/toPage.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/expertTitle/project/sort.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/expertTitle/project/changePageSize.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<intercept-url pattern="/statistic/review/expertTitle/project/simpleSearch.action" access="hasRole('ROLE_STATISTIC_REVIEW')"/>
+		<!-- 业务设置  -->
+		<intercept-url pattern="/main/configGeneral.action" access="hasRole('ROLE_BUSINESS_CONFIG')"/>
+		<intercept-url pattern="/main/toConfigGeneral.action" access="hasRole('ROLE_BUSINESS_CONFIG')"/>
+		<intercept-url pattern="/main/viewConfigGeneral.action" access="hasRole('ROLE_BUSINESS_CONFIG')"/>
+		<intercept-url pattern="/main/viewConfigInstp.action" access="hasRole('ROLE_BUSINESS_CONFIG')"/>
+		<intercept-url pattern="/main/toConfigInstp.action" access="hasRole('ROLE_BUSINESS_CONFIG')"/>
+		<intercept-url pattern="/main/configInstp.action" access="hasRole('ROLE_BUSINESS_CONFIG')"/>
+		
+		
+
+		<!-- 系统管理 -->
+		<!-- 用户管理  -->
+		<intercept-url pattern="/user/toList.action" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/user/list.action" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/user/sort.action" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/user/simpleSearch.action" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/user/changePageSize.action" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/user/next.action" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/user/prev.action" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/user/delete.action" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/user/groupDisableAccount.action" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/role/viewUserRole.action" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/role/userRole.action" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/user/toGroupOperationP.action" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/user/groupOperation.action" access="hasRole('ROLE_USER')"/>
+
+		<!-- 角色管理  -->
+		<intercept-url pattern="/role/toList.action" access="hasRole('ROLE_ROLE')"/>
+		<intercept-url pattern="/role/list.action" access="hasRole('ROLE_ROLE')"/>
+		<intercept-url pattern="/role/simpleSearch.action" access="hasRole('ROLE_ROLE')"/>
+		<intercept-url pattern="/role/sort.action" access="hasRole('ROLE_ROLE')"/>
+		<intercept-url pattern="/role/changePageSize.action" access="hasRole('ROLE_ROLE')"/>
+		<intercept-url pattern="/role/toPage.action" access="hasRole('ROLE_ROLE')"/>
+		<intercept-url pattern="/role/toAdd.action" access="hasRole('ROLE_ROLE')"/>
+		<intercept-url pattern="/role/add.action" access="hasRole('ROLE_ROLE')"/>
+		<intercept-url pattern="/role/toModify.action" access="hasRole('ROLE_ROLE')"/>
+		<intercept-url pattern="/role/modify.action" access="hasRole('ROLE_ROLE')"/>
+		<intercept-url pattern="/role/toView.action" access="hasRole('ROLE_ROLE')"/>
+		<intercept-url pattern="/role/view.action" access="hasRole('ROLE_ROLE')"/>
+		<intercept-url pattern="/role/prev.action" access="hasRole('ROLE_ROLE')"/>
+		<intercept-url pattern="/role/next.action" access="hasRole('ROLE_ROLE')"/>
+		<intercept-url pattern="/role/delete.action" access="hasRole('ROLE_ROLE')"/>
+		<intercept-url pattern="/role/viewUserRole.action" access="hasRole('ROLE_ROLE')"/>
+		<intercept-url pattern="/role/userRole.action" access="hasRole('ROLE_ROLE')"/>
+		
+		<!-- 权限管理  -->
+		<!-- 新增 -->
+		<intercept-url pattern="/right/toList.action" access="hasRole('ROLE_RIGHT')"/>
+		<intercept-url pattern="/right/list.action" access="hasRole('ROLE_RIGHT')"/>
+		<intercept-url pattern="/right/simpleSearch.action" access="hasRole('ROLE_RIGHT')"/>
+		<intercept-url pattern="/right/changePageSize.action" access="hasRole('ROLE_RIGHT')"/>
+		<intercept-url pattern="/right/toAdd.action" access="hasRole('ROLE_RIGHT')"/>
+		<intercept-url pattern="/right/add.action" access="hasRole('ROLE_RIGHT')"/>
+		<intercept-url pattern="/right/toView.action" access="hasRole('ROLE_RIGHT')"/>
+		<intercept-url pattern="/right/view.action" access="hasRole('ROLE_RIGHT')"/>
+		<intercept-url pattern="/right/toModify.action" access="hasRole('ROLE_RIGHT')"/>
+		<intercept-url pattern="/right/modify.action" access="hasRole('ROLE_RIGHT')"/>
+		<intercept-url pattern="/right/prev.action" access="hasRole('ROLE_RIGHT')"/>
+		<intercept-url pattern="/right/next.action" access="hasRole('ROLE_RIGHT')"/>
+		<intercept-url pattern="/right/delete.action" access="hasRole('ROLE_RIGHT')"/>
+		
+		
+		<!-- 邮件管理  -->
+		<intercept-url pattern="/mail/add.action" access="hasRole('ROLE_MAIL')"/>
+		<intercept-url pattern="/mail/cancel.action" access="hasRole('ROLE_MAIL')"/>
+		<intercept-url pattern="/mail/cancelAll.action" access="hasRole('ROLE_MAIL')"/>
+		<intercept-url pattern="/mail/changePageSize.action" access="hasRole('ROLE_MAIL')"/>
+		<intercept-url pattern="/mail/delete.action" access="hasRole('ROLE_MAIL')"/>
+		<intercept-url pattern="/mail/download.action" access="hasRole('ROLE_MAIL')"/>
+		<intercept-url pattern="/mail/list.action" access="hasRole('ROLE_MAIL')"/>
+		<intercept-url pattern="/mail/next.action" access="hasRole('ROLE_MAIL')"/>
+		<intercept-url pattern="/mail/prev.action" access="hasRole('ROLE_MAIL')"/>
+		<intercept-url pattern="/mail/send.action" access="hasRole('ROLE_MAIL')"/>
+		<intercept-url pattern="/mail/sendAgain.action" access="hasRole('ROLE_MAIL')"/>
+		<intercept-url pattern="/mail/sendAll.action" access="hasRole('ROLE_MAIL')"/>
+		<intercept-url pattern="/mail/simpleSearch.action" access="hasRole('ROLE_MAIL')"/>
+		<intercept-url pattern="/mail/sort.action" access="hasRole('ROLE_MAIL')"/>
+		<intercept-url pattern="/mail/toAdd.action" access="hasRole('ROLE_MAIL')"/>
+		<intercept-url pattern="/mail/toList.action" access="hasRole('ROLE_MAIL')"/>
+		<intercept-url pattern="/mail/toPage.action" access="hasRole('ROLE_MAIL')"/>
+		<intercept-url pattern="/mail/toView.action" access="hasRole('ROLE_MAIL')"/>
+		
+		<intercept-url pattern="/mail/view.action" access="hasRole('ROLE_MAIL')"/>
+		<intercept-url pattern="/mail/validateFile.action" access="hasRole('ROLE_MAIL')"/>
+		
+		
+		<!-- 系统配置  -->
+		<intercept-url pattern="/main/toConfig.action" access="hasRole('ROLE_SYSTEM_CONFIG')"/>
+		<intercept-url pattern="/main/toConfigPageSize.action" access="hasRole('ROLE_SYSTEM_CONFIG')"/>
+		<intercept-url pattern="/main/configPageSize.action" access="hasRole('ROLE_SYSTEM_CONFIG')"/>
+		<intercept-url pattern="/main/toConfigYear.action" access="hasRole('ROLE_SYSTEM_CONFIG')"/>
+		<intercept-url pattern="/main/configYear.action" access="hasRole('ROLE_SYSTEM_CONFIG')"/>
+		<intercept-url pattern="/main/toConfigMail.action" access="hasRole('ROLE_SYSTEM_CONFIG')"/>
+		<intercept-url pattern="/main/configMail.action" access="hasRole('ROLE_SYSTEM_CONFIG')"/>
+		<intercept-url pattern="/main/toConfigSystemStatus.action" access="hasRole('ROLE_SYSTEM_CONFIG')"/>
+		<intercept-url pattern="/main/configSystemStatus.action" access="hasRole('ROLE_SYSTEM_CONFIG')"/>
+		<intercept-url pattern="/execution/toExecute.action" access="hasRole('ROLE_SYSTEM_CONFIG')"/>
+		<intercept-url pattern="/execution/execute.action" access="hasRole('ROLE_SYSTEM_CONFIG')"/>
+		<intercept-url pattern="/expert/exportExcel.action" access="hasRole('ROLE_SYSTEM_CONFIG')"/>
+		
+		<!-- 系统日志  -->
+		<intercept-url pattern="/log/toList.action" access="hasRole('ROLE_SYSTEM_LOG')"/>
+		<intercept-url pattern="/log/list.action" access="hasRole('ROLE_SYSTEM_LOG')"/>
+		<intercept-url pattern="/log/simpleSearch.action" access="hasRole('ROLE_SYSTEM_LOG')"/>
+		<intercept-url pattern="/log/sort.action" access="hasRole('ROLE_SYSTEM_LOG')"/>
+		<intercept-url pattern="/log/changePageSize.action" access="hasRole('ROLE_SYSTEM_LOG')"/>
+		<intercept-url pattern="/log/toPage.action" access="hasRole('ROLE_SYSTEM_LOG')"/>
+		<intercept-url pattern="/log/toView.action" access="hasRole('ROLE_SYSTEM_LOG')"/>
+		<intercept-url pattern="/log/view.action" access="hasRole('ROLE_SYSTEM_LOG')"/>
+		<intercept-url pattern="/log/prev.action" access="hasRole('ROLE_SYSTEM_LOG')"/>
+		<intercept-url pattern="/log/next.action" access="hasRole('ROLE_SYSTEM_LOG')"/>
+		<intercept-url pattern="/log/delete.action" access="hasRole('ROLE_SYSTEM_LOG')"/>
+		
+		<!-- 超级管理员权限  -->
+		<!-- 专家导入功能  -->
+		<intercept-url pattern="/expert/toImportExpert.action" access="hasRole('ROLE_SUPER')"/>
+		<intercept-url pattern="/expert/importExpert.action" access="hasRole('ROLE_SUPER')"/>
+		<!-- 一般项目清空匹配以及自动匹配功能  -->
+		<intercept-url pattern="/project/general/toDeleteMatches.action" access="hasRole('ROLE_SUPER')"/>
+		<intercept-url pattern="/project/general/deleteMatches.action" access="hasRole('ROLE_SUPER')"/>
+		<intercept-url pattern="/project/general/matchExpert.action" access="hasRole('ROLE_SUPER')"/>
+		<!-- 一般项目的导入、导出功能  -->
+		<intercept-url pattern="/project/general/popExport.action" access="hasRole('ROLE_SUPER')"/>
+		<intercept-url pattern="/project/general/projectTemplate.action" access="hasRole('ROLE_SUPER')"/>
+		<intercept-url pattern="/project/general/exportProject.action" access="hasRole('ROLE_SUPER')"/>
+		<intercept-url pattern="/project/general/exportProjectReviewer.action " access="hasRole('ROLE_SUPER')"/>
+		<intercept-url pattern="/project/general/exportMatchUpdate.action" access="hasRole('ROLE_SUPER')"/>
+		<intercept-url pattern="/project/general/exportGrantingSchedule.action" access="hasRole('ROLE_SUPER')"/>
+		<intercept-url pattern="/project/general/exportGrantingList.action" access="hasRole('ROLE_SUPER')"/>
+		<intercept-url pattern="/project/general/importData.action" access="hasRole('ROLE_SUPER')"/>
+		<!-- 一般项目更新初审结果  -->
+		<intercept-url pattern="/project/general/firstAudit/updateFirstAudit.action" access="hasRole('ROLE_SUPER')"/>
+		<intercept-url pattern="/project/general/firstAudit/exportFirstAudit.action" access="hasRole('ROLE_SUPER')"/>
+		<!-- 基地项目清空匹配以及自动匹配功能  -->
+		<intercept-url pattern="/project/instp/toDeleteMatches.action" access="hasRole('ROLE_SUPER')"/>
+		<intercept-url pattern="/project/instp/deleteMatches.action" access="hasRole('ROLE_SUPER')"/>
+		<intercept-url pattern="/project/instp/matchExpert.action" access="hasRole('ROLE_SUPER')"/>
+		<!-- 基地项目导入、导出功能  -->
+		<intercept-url pattern="/project/instp/popExport.action" access="hasRole('ROLE_SUPER')"/>
+		<intercept-url pattern="/project/instp/exportProject.action" access="hasRole('ROLE_SUPER')"/>
+		<intercept-url pattern="/project/instp/exportProjectReviewer.action " access="hasRole('ROLE_SUPER')"/>
+		<intercept-url pattern="/project/instp/exportMatchUpdate.action" access="hasRole('ROLE_SUPER')"/>
+		<intercept-url pattern="/project/instp/importData.action" access="hasRole('ROLE_SUPER')"/>
+		 <!-- 基地项目更新初审结果  -->
+		<intercept-url pattern="/project/instp/firstAudit/updateFirstAudit.action" access="hasRole('ROLE_SUPER')"/>
+		<intercept-url pattern="/project/instp/firstAudit/exportFirstAudit.action" access="hasRole('ROLE_SUPER')"/>
+		
+		<!-- 重点信息管理  -->
+		<intercept-url pattern="/expert/toggleKey.action" access="hasRole('ROLE_TOGGLE_KEY')"/>
+		
+		<!-- 切换系统年份  -->
+		<intercept-url pattern="/main/changeYear.action" access="hasRole('ROLE_CHANGE_YEAR')"/>
+		
+		<!-- 尚在开发中的功能  -->
+		<intercept-url pattern="/project/general/granted/**.action" access="hasRole('ROLE_SUPER')"/>
+		<intercept-url pattern="/project/general/midinspection/**.action" access="hasRole('ROLE_SUPER')"/>
+		<intercept-url pattern="/project/general/variation/**.action" access="hasRole('ROLE_SUPER')"/>
+		<intercept-url pattern="/project/general/endinspection/**.action" access="hasRole('ROLE_SUPER')"/>
+		<intercept-url pattern="/project/instp/granted/**.action" access="hasRole('ROLE_SUPER')"/>
+		<intercept-url pattern="/project/instp/midinspection/**.action" access="hasRole('ROLE_SUPER')"/>
+		<intercept-url pattern="/project/instp/variation/**.action" access="hasRole('ROLE_SUPER')"/>
+		<intercept-url pattern="/project/instp/endinspection/**.action" access="hasRole('ROLE_SUPER')"/>
+		
+		<!-- 未配置的资源 -->
+		<intercept-url pattern="/**" access="denyAll"/> 
+		
+		<!-- 登录退出URL -->
+		<form-login login-processing-url="/login"
+					login-page="/main/toIndex.action"
+					authentication-failure-url="/main/toIndex.action?error=0"
+					default-target-url="/user/login.action"
+					always-use-default-target="true" />
+		<logout logout-url="/user/logout" logout-success-url="/main/toIndex.action"/>
+		
+		<!-- 最多允许N个同时在线,若个数自定义,自行实现 -->
+		<session-management invalid-session-url="/main/timeout.action" session-authentication-error-url="/unknowError.jsp" session-fixation-protection="migrateSession">
+			<concurrency-control max-sessions="100" expired-url="/main/timeout.action" error-if-maximum-exceeded="true" />
+		</session-management>
+		
+		<!-- 自定义过滤器 -->
+		<custom-filter before="FORM_LOGIN_FILTER" ref="myAuthenticationFilter"/>
+	</http>
+
+	<beans:bean id="myAuthenticationFilter" class="csdc.tool.security.MyAuthenticationFilter">
+		<beans:property name="myAuthentication" ref="myAuthentication"/>
+	</beans:bean>
+	
+	<beans:bean id="myAuthentication" class="csdc.tool.security.MyAuthentication">
+		<beans:property name="userService" ref="userService"/>
+	</beans:bean>
+	
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider user-service-ref="myUserDetailsService">
+			<password-encoder hash="md5"/>
+		</authentication-provider>
+	</authentication-manager>
+
+	<beans:bean id="myUserDetailsService" class="csdc.tool.security.MyUserDeitailsService">
+		<beans:property name="userService" ref="userService"/>
+	</beans:bean>
+	
+</beans:beans>

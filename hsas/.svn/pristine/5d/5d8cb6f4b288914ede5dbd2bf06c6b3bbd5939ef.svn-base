@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="group" extends="main" namespace="/system/dataDic/group">
+		<action name="toList" class="groupAction" method="toList">
+			<result>/jsp/system/dataDic/group/list.jsp</result>
+		</action>
+		
+		<action name="list" class="groupAction" method="list">
+			<result type="json"><param name="root">jsonMap</param></result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
+		</action>
+		
+		<action name="toAdd" class="groupAction" method="toAdd">
+			<result>/jsp/system/dataDic/group/add.jsp</result>
+		</action>
+		
+		<action name="add" class="groupAction" method="add">
+			<result type="redirectAction">
+				<param name="actionName">toList</param>
+				<param name="update">1</param>
+			</result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
+		</action>
+		
+		<action name="toView" class="groupAction" method="toView">
+			<result>/jsp/system/dataDic/group/view.jsp</result>
+		</action>
+
+		<action name="view" class="groupAction" method="view">
+			<result type="json"><param name="root">jsonMap</param></result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
+		</action>
+		<action name="toModify" class="groupAction" method="toModify">
+			<result>/jsp/system/dataDic/group/modify.jsp</result>
+		</action>
+
+		<action name="modify" class="groupAction" method="modify">
+			<result type="json"><param name="root">jsonMap</param></result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
+		</action>
+		<action name="delete" class="groupAction" method="delete">
+			<result type="json"><param name="root">jsonMap</param></result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
+		</action>
+		
+		<action name="sort" class="groupAction" method="sort">
+			<result type="chain">list</result>
+		</action>
+		
+		<action name="simpleSearch" class="groupAction" method="simpleSearch">
+			<result type="chain">list</result>
+		</action>
+		
+		<action name="advSearch" class="groupAction" method="advSearch">
+			<result type="chain">list</result>
+		</action>
+		
+		
+		<action name="prev" class="groupAction" method="prev">
+			<result type="redirectAction">
+				<param name="actionName">view</param>
+				<param name="entityId">${entityId}</param>
+			</result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
+		</action>
+
+		<action name="next" class="groupAction" method="next">
+			<result type="redirectAction">
+				<param name="actionName">view</param>
+				<param name="entityId">${entityId}</param>
+			</result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
+		</action>
+		
+		<action name="getAllDiscipline" class="groupAction" method="getAllDiscipline">
+			<result type="json"><param name="root">jsonMap</param></result>
+		</action>
+		
+		<action name="toPage" class="accountAction" method="toPage">
+			<result type="chain">list</result>
+		</action>
+	</package>
+</struts>

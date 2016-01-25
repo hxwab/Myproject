@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+	<package name="firstAudit" extends="main" namespace="/product/firstAudit">
+		
+		<action name="toList" class="firstAuditAction" method="toList">
+			<result>/jsp/product/firstAudit/list.jsp</result>
+		</action>
+
+		<action name="list" class="firstAuditAction" method="list">
+			<result type="json"><param name="root">jsonMap</param></result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
+		</action>
+		
+		<action name="delete" class="firstAuditAction" method="delete">
+			<result type="json"><param name="root">jsonMap</param></result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
+		</action>
+		
+		<action name="toAudit" class="firstAuditAction" method="toAudit">
+			<result>/jsp/pop/popAudit/popFirstAudit.jsp</result>
+		</action>
+		
+		<action name="audit" class="firstAuditAction" method="audit">
+			<result type="json"><param name="root">jsonMap</param></result>
+			<result name ="input" type="json"><param name="root">jsonMap</param></result>
+		</action>
+		
+		<!-- 修改result -->
+		<action name="toView" class="firstAuditAction" method="toView">
+			<result>/jsp/product/firstAudit/view.jsp</result>
+		</action>
+
+		<action name="view" class="productViewAction" method="view">
+			<result type="json"><param name="root">jsonMap</param></result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
+		</action>
+		<action name="toModify" class="firstAuditAction" method="toModify">
+			<result>/jsp/product/firstAudit/modify.jsp</result>
+		</action>
+
+		<action name="modify" class="firstAuditAction" method="modify">
+			<result type="json"><param name="root">jsonMap</param></result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
+		</action>
+
+
+		<action name = "download" class="firstAuditAction" method="download">
+			<result name ="success" type="stream">
+				<param name="contentType">applicationnd/vnd.ms-excel;charset=utf-8</param>
+				<param name="bufferSize">4096</param>
+				<param name="inputName">fileStream</param>
+				<param name="contentDisposition">attachment;filename=${fileName}</param>
+			</result>
+		</action>
+		
+		<action name = "mutiDownload" class="firstAuditAction" method="mutiDownload">
+			<result name ="success" type="stream">
+				<param name="contentType">applicationnd/vnd.ms-excel;charset=utf-8</param>
+				<param name="bufferSize">4096</param>
+				<param name="inputName">filesStream</param>
+				<param name="contentDisposition">attachment;filename=${fileName}</param>
+			</result>
+		</action>
+
+		<action name="toPage" class="firstAuditAction" method="toPage">
+			<result type="chain">list</result>
+		</action>
+		
+		<action name="sort" class="firstAuditAction" method="sort">
+			<result type="chain">list</result>
+		</action>
+		
+		<action name="simpleSearch" class="applyAction" method="simpleSearch">
+			<result type="chain">list</result>
+		</action>
+		
+		<action name="advSearch" class="firstAuditAction" method="advSearch">
+			<result type="chain">list</result>
+		</action>
+		
+		<action name="prev" class="firstAuditAction" method="prev">
+			<result type="redirectAction">
+				<param name="actionName">view</param>
+				<param name="entityId">${entityId}</param>
+			</result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
+		</action>
+
+		<action name="next" class="firstAuditAction" method="next">
+			<result type="redirectAction">
+				<param name="actionName">view</param>
+				<param name="entityId">${entityId}</param>
+			</result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
+		</action>
+	</package>
+</struts>
