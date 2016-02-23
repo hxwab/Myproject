@@ -1,0 +1,296 @@
+package csdc.action.system;
+
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import csdc.action.BaseAction;
+import csdc.model.Account;
+import csdc.model.Reward;
+import csdc.service.IRewardService;
+import csdc.tool.info.GlobalInfo;
+import csdc.tool.info.RewardInfo;
+
+@Component
+@Scope(value="prototype")
+
+public class RewardAction extends BaseAction{
+   
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8084750778942833900L;
+	private static final String TMP_ENTITY_ID = "accountId";// 缓存与session中，备用的账号ID变量名称
+	private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";// 列表时间格式
+	private static final String PAGE_NAME = "rewardListPage";
+	private static final String PAGE_BUFFER_ID = "r.id";// 上下条查看时用于查找缓存的字段名称
+	private static final String HQL = "select r.id, r.year, r.level, r.type, r.bonus, r.updateDate from Reward r where 1=1";// 上下条查看时用于查找缓存的字段名称HQL
+	private static final String[] SORT_COLUMNS = new String[] {
+		"r.year",
+		"r.level",
+		"r.type",
+		"r.bonus"
+	};
+	
+	private Reward reward; //奖励对象
+	private String keyword1, keyword2, keyword3, keyword4; //高级检索关键词
+	private List<String> bouns; //前台传来的每年奖金信息 {0:年份；1：论文特等奖； 2：论文一等奖 ；3：论文二等奖； 4：论文三等奖； 5：著作特等奖； 6:著作一等奖； 7：著作二等奖； 8：著作三等奖}
+	@Autowired
+	private IRewardService rewardService;
+	
+	@Override
+	public String toAdd() {
+		return SUCCESS;
+	}
+
+	@Override
+	@Transactional
+	public String add() {
+		Account creater= loginer.getAccount();
+		if(bouns.size()==9) {
+			List<Reward> rewards = rewardService.generateRewards(bouns,creater);
+			rewardService.addReward(rewards);
+		}
+		return SUCCESS;
+	}
+	
+	public void validateAdd() {
+		this.validateEdit(1);
+	}
+
+	@Override
+	@Transactional
+	public String delete() {
+		int flag;
+		flag = rewardService.deleteReward(entityIds);
+		if(flag==1) //是否删除成功
+			return SUCCESS;
+		else
+			return ERROR;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public String toModify() {
+		reward = (Reward) dao.query(Reward.class, entityId);// 获取奖励
+		if (reward == null) {// 奖励不存在，返回错误提示
+			this.addFieldError(GlobalInfo.ERROR_INFO, RewardInfo.ERROR_REWARD_NULL);
+			return INPUT;
+		} else {// 奖励存在，备用奖励ID
+			session.put(TMP_ENTITY_ID, entityId);
+			return SUCCESS;
+		}
+	}
+
+	@Override
+	@Transactional
+	public String modify() {
+		entityId = (String)session.get(TMP_ENTITY_ID);//获取备用奖励Id
+		Reward oldReward = (Reward)dao.query(Reward.class, entityId);
+		entityId = rewardService.modifyReward(oldReward, reward);//修改学科
+		session.remove(TMP_ENTITY_ID);
+		jsonMap.clear();
+		jsonMap.put("tag", 2);
+		return SUCCESS;
+	}
+	
+	public void validateModify() {
+		this.validateEdit(2);
+	}
+	
+	/**
+	 * 奖励编辑（添加、修改）校验
+	 * @param type 1:添加 2：修改
+	 */
+	@SuppressWarnings("unchecked")
+	public void validateEdit(int type) {
+		String info = "";
+		if(reward==null) {
+			this.addFieldError(GlobalInfo.ERROR_INFO, GlobalInfo.ERROR_EXCEPTION_INFO);
+		}
+		if(reward.getYear()==null||reward.getYear().isEmpty()) {
+			this.addFieldError(GlobalInfo.ERROR_INFO, RewardInfo.ERROR_REWARD_YEAR_NULL);
+			info += RewardInfo.ERROR_REWARD_YEAR_NULL;
+		}
+		if(reward.getType()==null) {
+			this.addFieldError(GlobalInfo.ERROR_INFO, RewardInfo.ERROR_REWARD_TYPE_NULL);
+			info += RewardInfo.ERROR_REWARD_TYPE_NULL;
+		}
+		if(reward.getLevel()==null) {
+			this.addFieldError(GlobalInfo.ERROR_INFO, RewardInfo.ERROR_REWARD_LEVEL_NULL);
+			info += RewardInfo.ERROR_REWARD_LEVEL_NULL;
+		}
+		if(reward.getBonus()==null) {
+			this.addFieldError(GlobalInfo.ERROR_INFO, RewardInfo.ERROR_REWARD_BONUS_NULL);
+			info += RewardInfo.ERROR_REWARD_BONUS_NULL;
+		}
+		switch(type) {
+		case 1:
+			if(rewardService.checkReward(reward)) {
+				this.addFieldError(GlobalInfo.ERROR_INFO, RewardInfo.ERROR_REWARD_EXIST);
+				info += RewardInfo.ERROR_REWARD_EXIST;
+			}
+			if(bouns.size()!=9) {
+				
+			}
+			break;
+		case 2:
+			Reward oldReward = (Reward)dao.query(Reward.class, (String)session.get(TMP_ENTITY_ID));
+			/**
+			 * 如果奖励字段中的年份、类型、等级有一个变化，则判断修改后的奖励信息是否存在
+			 */
+			if(!oldReward.getYear().equals(reward.getYear())||!oldReward.getType().equals(reward.getType())
+					||!oldReward.getLevel().equals(reward.getLevel())) {
+				if(rewardService.checkReward(reward)) {
+					this.addFieldError(GlobalInfo.ERROR_INFO, RewardInfo.ERROR_REWARD_EXIST);
+					info += RewardInfo.ERROR_REWARD_EXIST;
+				}
+			}
+			break;
+		default:
+			break;
+		}
+		if (info.length() > 0) {
+			jsonMap.put(GlobalInfo.ERROR_INFO, info);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public String view() {
+		if(entityId!=null) {
+			reward = (Reward) rewardService.viewReward(entityId);// 获取奖励
+		} else {
+			jsonMap.put(GlobalInfo.ERROR_INFO, RewardInfo.ERROR_REWARD_ID_NULL);
+			return INPUT;
+		}
+		if (reward == null) {// 奖励不存在，返回错误提示
+			jsonMap.put(GlobalInfo.ERROR_INFO, RewardInfo.ERROR_REWARD_NULL);
+			return INPUT;
+		} else {// 学科存在，存入jsonMap
+			jsonMap.put("reward", reward);
+			return SUCCESS;
+		}
+	}
+	
+	@Override
+	public String toView() {
+		return SUCCESS;
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public Object[] simpleSearchCondition() {
+		keyword = (keyword == null) ? "" : keyword.toLowerCase().trim();// 预处理关键字
+		StringBuffer hql = new StringBuffer();
+		Map map = new HashMap();
+		hql.append(HQL);
+		if (keyword != null && !keyword.isEmpty()) {
+			hql.append(" and ");
+			if (searchType == 1) { //初级 检索条件为年份
+				hql.append("LOWER(r.year) like :keyword");
+				map.put("keyword", "%" + keyword + "%");
+			} else if (searchType == 2) { //初级检索条件为等级
+				int level = Integer.valueOf(keyword);
+				hql.append("r.level = :keyword");
+				map.put("keyword", level);
+			} else if(searchType == 3) { //初级检索条件为类型
+				int level = Integer.valueOf(keyword);
+				hql.append("r.type = :keyword");
+				map.put("keyword", level);
+			} else if(searchType == 4) { //初级检索条件为奖金数额
+				hql.append("LOWER(r.bonus) like :keyword");
+				map.put("keyword", "%" + keyword + "%");
+			} else {
+				hql.append("(LOWER(r.year) like :keyword or LOWER(r.bonus) like :keyword)");
+				map.put("keyword", "%" + keyword + "%");
+			}
+		}
+		// 调用初级检索功能
+		return new Object[]{
+			hql.toString(),
+			map,
+			0,
+			GlobalInfo.ERROR_EXCEPTION_INFO
+		};
+	}
+
+	@Override
+	public Object[] advSearchCondition() {
+		StringBuffer hql = new StringBuffer();
+		Map map = new HashMap();
+		hql.append(HQL);
+		// 拼接检索条件，当检索关键字非空时，才添加检索条件，忽略大小写
+		if (keyword1 != null && !keyword1.isEmpty()) {//按奖励年份检索
+			keyword1 = keyword1.toLowerCase();
+			hql.append(" and LOWER(r.year) like :keyword1 ");
+			map.put("keyword1", "%" + keyword1 + "%");
+		}
+		if (keyword2 != null && !keyword2.isEmpty()) {//按奖励等级检索
+			int level = Integer.valueOf(keyword2);
+			hql.append(" and level = :level ");
+			map.put("level", level);
+		}
+		if(keyword3 != null && !keyword3.isEmpty()) {//按奖励类型检索
+			int type = Integer.valueOf(keyword3);
+			hql.append(" and type = :type");
+			map.put("type", type);
+		}
+		if(keyword4 != null && !keyword4.isEmpty()) {//按奖励金额检索
+			keyword4 = keyword4.toLowerCase();
+			hql.append(" and LOWER(r.bonus) like :keyword4 ");
+			map.put("keyword4", "%" + keyword4 + "%");
+		}
+		return new Object[] {
+			hql.toString(),
+			map,
+			0,
+			GlobalInfo.ERROR_EXCEPTION_INFO
+		};
+	}
+
+	@Override
+	public String pageName() {
+		return this.PAGE_NAME;
+	}
+
+	@Override
+	public String pageBufferId() {
+		// TODO Auto-generated method stub
+		return this.PAGE_BUFFER_ID;
+	}
+
+	@Override
+	public String[] sortColumn() {
+		return this.SORT_COLUMNS;
+	}
+
+	@Override
+	public String dateFormat() {
+		return this.DATE_FORMAT;
+	}
+
+	public Reward getReward() {
+		return reward;
+	}
+
+	public void setReward(Reward reward) {
+		this.reward = reward;
+	}
+
+	public List<String> getBouns() {
+		return bouns;
+	}
+
+	public void setBouns(List<String> bouns) {
+		this.bouns = bouns;
+	}
+	
+
+}

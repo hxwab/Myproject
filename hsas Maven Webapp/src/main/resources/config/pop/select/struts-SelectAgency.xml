@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+	<package name="selectAgency" extends="main" namespace="/selectAgency">
+		<action name="toList" class="agencyAction" method="toList">
+			<result>/jsp/pop/popSelect/popSelectAgency.jsp</result>
+		</action>
+
+		<action name="list" class="agencyAction" method="list">
+			<result type="json"><param name="root">jsonMap</param></result>
+			<result name="input" type="json"><param name="root">jsonMap</param></result>
+		</action>
+		
+		<action name="simpleSearch" class="agencyAction" method="simpleSearch">
+			<result type="chain">list</result>
+		</action>
+		
+		<action name="sort" class="agencyAction" method="sort">
+			<result type="chain">list</result>
+		</action>
+		
+		<action name="toPage" class="agencyAction" method="toPage">
+			<result type="chain">list</result>
+		</action>	
+
+	</package>
+
+</struts>

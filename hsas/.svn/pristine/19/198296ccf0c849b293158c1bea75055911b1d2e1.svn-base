@@ -1,9 +1,0 @@
-package csdc.service;
-
-import java.util.List;
-
-public interface IDataService {
-	
-	public List calcApplyAuthor();
-
-}

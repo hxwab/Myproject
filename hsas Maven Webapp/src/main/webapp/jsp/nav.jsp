@@ -1,0 +1,31 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+	<div class="container">
+	<div id="header">
+	<!-- 头部图片 -->
+		<div class="row myHeader">
+			<div class="col-xs-7">
+				<div class="headImg">
+					<p>湖北省社会科学优秀成果奖申报评审系统</p>
+				</div>
+			</div>
+		</div>
+	<!-- 头部导航 --> 
+		<div class="header">
+			<ul class="nav nav-pills myNav">
+				<li><a class="fnav" href="toIndex.action">网站首页</a></li>
+				<li>
+					<a class="fnav" href="javasript:void(0);">新闻公告</a>
+					<ul class="dropdown-menu">
+						<li><a href="portal/news/toList.action?type=news&update=1">社科动态</a></li>
+						<li><a href="portal/news/toList.action?type=notice&update=1">通知公告</a></li>
+						<li><a href="portal/news/toList.action?type=status&update=1">政策文件</a></li>
+						<li><a href="portal/news/toList.action?type=rules&update=1">注意事项</a></li>
+					</ul>
+				</li>
+				<li><a class="fnav" href="portal/download/toDownload.action">常用下载</a></li>
+				<li><a class="fnav" href="portal/aboutUs/toView.action">关于我们</a></li>
+			</ul>
+		</div>
+	</div>
+ <div id="content">
