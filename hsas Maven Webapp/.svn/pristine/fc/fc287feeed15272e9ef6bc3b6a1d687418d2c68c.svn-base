@@ -1,0 +1,57 @@
+package csdc.service.imp;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import csdc.model.Account;
+import csdc.model.Agency;
+import csdc.model.Person;
+import csdc.service.IRegisterService;
+
+@Service
+@Transactional
+
+public class RegisterService extends BaseService implements IRegisterService {
+
+	
+	//此处还需完善，要考虑申请人信息已经有的情况
+	@Override
+	public String addPerson(Person person) {
+		
+		return dao.add(person);
+	}
+
+	
+	/**
+	 * 默认情况下账户类型为停用、申请人、用户注册
+	 * 
+	 */
+	@Override
+	public String addAccount(Account account, Person person,Map map) {
+		String personId = dao.add(person);
+		Person p = dao.query(Person.class, personId);
+		account.setPerson(person);
+		Agency agency = getAgency(map.get("agencyName").toString());
+		account.setAgency(agency);
+		account.setType(6);
+		account.setStatus(0);
+		account.setStartDate(new Date());
+		account.setCreateType(1);
+		return dao.add(account);
+	}
+
+	
+	@Override
+	public Agency getAgency(String agencyName) {
+		Map map = new HashMap();
+		map.put("agencyName", agencyName);
+		String hql = "select a from Agency a where a.name = : agencyName";
+		
+		return (Agency) dao.queryUnique(hql, map);
+	}
+
+}

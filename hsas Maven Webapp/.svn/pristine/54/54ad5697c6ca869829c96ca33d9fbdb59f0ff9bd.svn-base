@@ -1,0 +1,47 @@
+package csdc.service;
+
+import java.util.List;
+import java.util.Map;
+
+import csdc.model.Award;
+import csdc.model.Person;
+import csdc.model.SolicitPapers;
+/**
+ * 
+ * @author huangxw
+ * @since 15-9
+ *
+ */
+public interface IPersonInfoService {
+	
+	/**
+	 * 由username查出个人信息
+	 * @param username
+	 * @return
+	 */
+	public Person getPersonByUsername(String username);
+	
+	/**
+	 * 获取该账号所属人员的默认信息
+	 * @return
+	 */
+	public Person getPersonByDefaultAccount();
+	
+	/**
+	 * 根据账号名找到对应的申报成果
+	 * @param username
+	 * @return
+	 */
+	public List getAwardByUsername(String username);
+	
+	
+	public String modifyPersonInfo(Person newPerson,Person old);
+	
+	public Boolean checkPassword(String password ,String username);
+	
+	public String modifyPassword(String oldPassword ,String newPassword,String username);
+	
+
+	
+
+}

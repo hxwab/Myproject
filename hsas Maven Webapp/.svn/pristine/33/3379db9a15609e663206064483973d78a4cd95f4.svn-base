@@ -1,0 +1,151 @@
+define(function(require, exports, module){
+	var nameSpace = "award";
+	require("validation");
+	require("validationInit");
+	require("form");
+
+	var award_info_setting = new Setting({
+		id: "award_info",
+		buttons: ['next', 'retry', 'cancel'],
+		out_check: function() {
+			var validationResult = $.makeArray($("#award_info input, #award_info select, #award_info textarea").map(function(previousValue, currentValue, index, array) {
+				return ($(currentValue).validationEngine('validate'));
+			}));
+			
+			return ! validationResult.reduce(function(previousValue, currentValue, index, array) {
+				  return previousValue || currentValue;
+			});
+		}
+	});
+	var person_info_setting = new Setting({
+		id: "person_info",
+		buttons: ['prev', 'next', 'cancel'],
+		out_check: function() {
+			var validationResult = $.makeArray($("#person_info input, #person_info select, #person_info textarea").map(function(previousValue, currentValue, index, array) {
+				return ($(currentValue).validationEngine('validate'));
+			}));
+			
+			return ! validationResult.reduce(function(previousValue, currentValue, index, array) {
+				  return previousValue || currentValue;
+			});
+		}
+	});
+	
+	var contact_info_setting = new Setting({
+		id: "contact_info",
+		buttons: ['prev', 'finish', 'retry', 'cancel'],
+		out_check: function() {
+			var validationResult = $.makeArray($("#contact_info input, #contact_info select, #contact_info textarea").map(function(previousValue, currentValue, index, array) {
+				return ($(currentValue).validationEngine('validate'));
+			}));
+			
+			return ! validationResult.reduce(function(previousValue, currentValue, index, array) {
+				  return previousValue || currentValue;
+			});
+		}
+	});
+	
+	
+	step_controller = new Step_controller();
+	
+	step_controller.after_move_opt = function(){
+		var flag = false;
+		for (step in step_controller.steps){
+			var $curLi = $("li[name=" + step_controller.steps[step].id + "]");
+			if (step_controller.steps[step].id == step_controller.state){
+				flag = true;
+				$curLi.attr("class", "proc step_d");
+			} else if (!flag){
+				$curLi.attr("class", "proc step_e");
+			} else {
+				$curLi.attr("class", "proc step_f");
+			}
+		}
+	};
+	
+	step_controller.add_step(award_info_setting);
+	step_controller.add_step(person_info_setting);
+	step_controller.add_step(contact_info_setting);
+	step_controller.init();
+	
+	
+	
+	$("#prev").click(function(){
+		step_controller.prev();
+	});
+
+	$("#next").click(function(){
+		step_controller.next();
+	});
+
+	$("#confirm").click(function(){
+		step_controller.next();
+	});
+
+	$("#retry").click(function(){
+		location.reload();
+	});
+
+	$("#cancel").click(function(){
+		history.go(-1);
+	});
+
+	$("#finish").click(function(){
+		step_controller.submit();
+	});
+
+	$("#award_info").show();
+	
+	$("#form_award_application").validationEngine({
+		scroll: false,
+		isOverflown:true,
+		validateNonVisibleFields: true,
+		promptPosition: 'centerRight',
+		addPromptClass: 'formError-noArrow formError-text'
+	}).ajaxForm({
+		type: "post",
+		dataType: "json",
+		beforeSubmit: function(){
+		},
+		success: function(data) {
+			if (data.tag == "1") {
+				dialog({
+					title: '提示',
+					content: '角色添加成功!',
+					okValue: '确定',
+					width: 260,
+					ok: function() {
+						window.location.href = nameSpace + "/toList.action";
+					},
+					onclose: function(){
+						window.location.href = nameSpace + "/toList.action";
+					}
+				}).showModal();
+			} else if (data.tag == "2") {
+				dialog({
+					title: '提示',
+					content: '角色修改成功!',
+					okValue: '确定',
+					width: 260,
+					ok: function() {
+						window.location.href = nameSpace + "/toList.action";
+					},
+					onclose: function(){
+						window.location.href = nameSpace + "/toList.action";
+					}
+				}).showModal();
+			} else {
+				dialog({
+					title: '提示',
+					content: '角色添加失败!',
+					width: 260,
+					okValue: '确定',
+					ok: function() {
+//						window.location.reload();
+					}
+				}).showModal();
+			}
+		}
+	});
+	exports.init = function(){}
+})

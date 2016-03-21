@@ -1,0 +1,75 @@
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ page isELIgnored ="true"%><%--添加对EL表达式的支持--%>
+<%@ taglib prefix="s" uri="/struts-tags"%> <%--添加对struts标签的支持 --%>
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>湖北省社会科学优秀成果奖申报评审系统</title>
+		<%@ include file="/jsp/base.jsp"%>
+	</head>
+	<body>
+		<!-- 页头 -->
+		<%@ include file="/jsp/innerNav.jsp"%>
+		<a name="top" id="top"></a>
+		
+		<!-- 页面主体 -->
+		<div class="row mySlide">
+			<!-- 当前位置 -->
+			<ol class="breadcrumb mybreadcrumb">当前位置：
+				<li><a href="#">系统管理</a></li>
+				<li><a href="#">数据字典管理</a></li>
+				<li class="active">奖金管理</li>
+			</ol>
+			
+			<!-- 列表 -->
+			<div class="col-xs-12">
+				<textarea id="list_template" style="display:none;">
+					<table class="table-bordered">
+						<thead>
+							<tr >
+								<th class="text-center" width="30"><input type="checkbox" name="check" title="全选/全不选" onclick="checkAll(this.checked, 'generalIds')" value="false" /></td>
+								<th class="text-center" width="50">序号</td>
+								<th class="text-center" width="80">年份</td>
+								<th class="text-center" width="100">特等奖<br>（著作）</td>
+								<th class="text-center" width="100">一等奖<br>（著作）</td>
+								<th class="text-center" width="100">二等奖<br>（著作）</td>
+								<th class="text-center" width="100">三等奖<br>（著作）</td>
+								<th class="text-center" width="100">特等奖<br>（著作）</td>
+								<th class="text-center" width="100">一等奖<br>（论文）</td>
+								<th class="text-center" width="100">二等奖<br>（论文）</td>
+								<th class="text-center" width="100">三等奖<br>（论文）</td>
+								<th class="text-center" width="80">操作</td>
+							</tr>
+						</thead>
+						<tbody>
+							{for item in bonusList}
+							<tr>
+								<td class="text-center"><s:checkbox name="bonusIds" fieldValue="${item[0]}" value="false" theme="simple" /></td>
+								<td class="text-center">${num = num + 1}</td>
+								<td class="text-center">${item[1]}</td>
+								<td class="text-center">${item[2]}</td>
+								<td class="text-center">${item[3]}</td>
+								<td class="text-center">${item[4]}</td>
+								<td class="text-center">${item[5]}</td>
+								<td class="text-center">${item[6]}</td>
+								<td class="text-center">${item[7]}</td>
+								<td class="text-center">${item[8]}</td>
+								<td class="text-center">${item[9]}</td>
+								<td class="text-center">${item[10]}</td>
+							</tr>
+							{/for}
+						</tbody>
+					</table>
+				</textarea>
+			</div>
+		</div>
+		
+		<!-- 页脚 -->
+		<div class="row">
+		<%@ include file="/jsp/footer.jsp"%>
+	</body>
+	<script>
+		seajs.use("js/system/dataDic/bonus/view.js", function(list) {
+		});
+	</script>
+</html>

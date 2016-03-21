@@ -1,0 +1,9 @@
+package csdc.service;
+
+import csdc.model.SolicitPapers;
+
+public interface IDownload {
+	
+	public SolicitPapers getAttachment(String id);
+
+}

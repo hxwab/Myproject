@@ -1,0 +1,212 @@
+package csdc.action.portal;
+
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import csdc.action.BaseAction;
+import csdc.model.Article;
+import csdc.model.SolicitPapers;
+import csdc.service.IDownload;
+import csdc.service.INews;
+import csdc.service.imp.DownloadService;
+import csdc.service.imp.NewsService;
+import csdc.tool.ApplicationContainer;
+import csdc.tool.info.GlobalInfo;
+
+@Component
+@Scope(value="prototype")
+
+public class DownloadAction extends BaseAction{
+
+	/**
+	 * 遍历文件，链接下载（提供详情么？）
+	 * 表格下载和文章下载
+	 */
+	private static final long serialVersionUID = 6312354941195229315L;
+	
+	private InputStream fileStream;
+	private String  fileName;
+	private String  fileFileName;
+	
+	@Autowired
+	private IDownload downloadService;
+
+	private String type;
+	
+	
+	/**
+	 * 提供论文或表格的批量下载
+	 * @return
+	 */
+	public String download(){
+		
+		SolicitPapers attachment = downloadService.getAttachment(entityId);
+		if (attachment == null) {
+			return INPUT;
+		}
+		if (attachment.getFile() == null) {
+			return INPUT;
+		}
+		//文件名后缀
+		String suffix = attachment.getFile().substring(attachment.getFile().lastIndexOf("."), attachment.getFile().length());
+		//完整文件名
+		fileFileName = attachment.getName()+suffix;
+		fileStream = ApplicationContainer.sc.getResourceAsStream(attachment.getFile());
+		if (fileStream == null) {
+			return INPUT;
+		}
+		try {
+			fileName = new String(fileFileName.getBytes(), "ISO8859-1");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return SUCCESS;
+		
+	}
+
+	@Override
+	public String toAdd() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String add() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String delete() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String toModify() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String modify() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String view() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String toView() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * 此处复用该方法，传参数辨别列表是表格下载还是文章下载
+	 * 
+	 */
+	
+	
+	@Override
+	public Object[] simpleSearchCondition() {
+		 StringBuffer hql = new StringBuffer();
+		 Map map = new HashMap();
+		 if(type.equals("paper")){
+			 
+			 hql.append("select sp.id,sp.name,sp.author,sp.createDate,sp.type from SolicitPapers sp where 1=1");
+			 
+			 if(keyword!=null&&!keyword.isEmpty()){
+				 hql.append(" and ");
+					if (searchType == 1) {
+						hql.append("LOWER(sp.name) like :keyword");
+						map.put("keyword", "%" + keyword + "%");
+					} else if (searchType == 2) {
+						hql.append("LOWER(sp.author) like :keyword");
+						map.put("keyword", "%" + keyword + "%");
+					} else if(searchType==3){
+						hql.append("LOWER(sp.type) like :keyword");
+						map.put("keyword", "%" + keyword + "%");
+					} 
+			 }
+			 
+		 }else if(type.equals("article")){
+			 
+			 hql.append("select a.id ,a.attachmentName from Article a where 1=1");
+			 if(keyword!=null&&!keyword.isEmpty()){
+					if (searchType == 1) {
+						hql.append("and LOWER(a.attachmentName) like :keyword");
+						map.put("keyword", "%" + keyword + "%");
+					}
+			 }
+		 }
+		
+		return new Object[]{
+				hql.toString(),
+				map,
+				0,
+				null,
+				null
+		};
+	}
+	
+
+	@Override
+	public Object[] advSearchCondition() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String pageName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String pageBufferId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String[] sortColumn() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String dateFormat() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	
+	
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+
+	
+	
+	
+
+}

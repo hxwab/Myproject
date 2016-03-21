@@ -1,0 +1,438 @@
+package csdc.service.imp;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.stereotype.Service;
+
+import csdc.model.Account;
+import csdc.model.Agency;
+import csdc.model.Discipline;
+import csdc.model.Person;
+import csdc.model.Product;
+import csdc.model.ProductAuthor;
+import csdc.service.IApplyService;
+/**
+ * 
+ * 需要操作的表有 Person、Product、Agency、product_member
+ * 
+ * 首先添加Person，因为无任何外键关联（在添加人员信息时，需要检测数据库中是否已经存在；不存在直接添加，否则更新）
+ * 其次添加Agency,跟person有外键关联
+ * 再添加Product,跟person/agency/systemoption有关 
+ * 最后添加中间表product_member，跟person/agency/product有关
+ * 
+ * @author huangxw
+ *
+ */
+@Service
+public class ApplyService extends BaseService implements IApplyService {
+
+	
+	
+	
+
+	@Override
+	public void delete(List<String> awardIds) {
+		
+		
+		
+	}
+
+	/**
+	 * 添加person,若数据库中存在该人员，则更新信息，否则直接添加
+	 */
+	@Override
+	public String addPerson(Person person) {
+		
+		StringBuffer str ;
+		Map map =new HashMap();
+		map.put("birthday", person.getBirthday());
+		map.put("agencyName", person.getAgencyName());
+		map.put("name", person.getName());
+		String hql ="select p from Person p where p.name = :name and p.birthday = :birthday and p.agencyName= :agencyName";
+		Person p =(Person) dao.queryUnique(hql, map);
+		
+		if(p==null){
+			person.setCreateDate(new Date());
+			return dao.add(person);
+		} else {
+			
+			
+			if(person.getOfficePhone()!=null){
+				if(p.getOfficePhone()!=null&&!p.getOfficePhone().equals(person.getOfficePhone())){
+					str = new StringBuffer();
+					str.append(person.getOfficePhone()+";").append(p.getOfficePhone());
+					p.setOfficePhone(str.toString());
+				} else {
+					p.setOfficePhone(person.getOfficePhone());
+				}
+			}
+			
+			if(person.getMobilePhone()!=null){
+				if(p.getMobilePhone()!=null&&!p.getMobilePhone().equals(person.getMobilePhone())){
+					str = new StringBuffer();
+					str.append(person.getMobilePhone()+";").append(p.getMobilePhone());
+					p.setMobilePhone(str.toString());
+				} else {
+					p.setMobilePhone(person.getMobilePhone());
+				}
+			}
+			
+	
+			
+			if(person.getEmail()!=null){
+				if(p.getEmail()!=null && !p.getEmail().equals(person.getEmail())){
+					str = new StringBuffer();
+					str.append(person.getEmail()+";").append(p.getEmail());
+					p.setEmail(str.toString());
+				} else {
+					p.setEmail(person.getEmail());
+				}
+			}
+			
+			if(person.getAddress()!=null){
+				if(p.getAddress()!=null && !p.getAddress().equals(person.getAddress())){
+					str = new StringBuffer();
+					str.append(person.getAddress()+";").append(p.getAddress());
+					p.setAddress(str.toString());
+				} else {
+					p.setAddress(person.getAddress());
+				}
+			}
+			
+		
+			if(person.getEthnic()!=null){
+				if(p.getEthnic()!=null && !p.getEthnic().equals(person.getEthnic())){
+					str = new StringBuffer();
+					str.append(person.getEthnic()+";").append(p.getEthnic());
+					p.setEthnic(str.toString());
+				} else {
+					p.setEthnic(person.getEthnic());
+				}
+			}
+			
+
+			
+			if(person.getGender()!=null){
+				
+					p.setGender(person.getGender());
+				
+			}
+			
+			p.setIntroduction(person.getIntroduction());
+			p.setUpdateDate(new Date());
+			
+			 dao.modify(p);
+			 return p.getId();
+			
+		}
+		
+		
+	}
+
+	@Override
+	public List<String> addPersons(List<Person> person,Map map) {
+		
+		List<String> list = new ArrayList<String>();
+		//List<String> agencyNames = (List<String>) map.get("agencyName");
+		List<String> agencyIds =(List<String>) map.get("agencyId");
+		
+		int i=0;
+		for(Person p : person){
+			if(p!=null){
+				
+				if(!agencyIds.isEmpty()){
+
+					Agency agency = dao.query(Agency.class, agencyIds.get(i++));
+					p.setAgency(agency);
+					p.setAgencyName(agency.getName());
+				}
+			
+			String id =addPerson(p);
+			list.add(id);
+			}
+		}
+		return list;
+	}
+
+	/**
+	 * 要添加机构、人员和学科代码（均为外键关联）
+	 * 
+	 */
+	@Override
+	public String addProduct(Product product) {
+		product.setCreateDate(new Date());
+		return dao.add(product);
+	}
+
+	/**
+	 * 要添加到product_member表中去
+	 */
+	@Override
+	public String addApplyInfo(Person person, Product product, Agency agency,Map map) {
+		
+		String personId = addPerson(person);
+		/*
+		 * 先找机构负责人，再将机构负责人设置为agency的属性
+		 * Person agencyDirector = dao.query(***);
+		 * agency.setDirector(agencyDirector);
+		 */
+		String agencyId = dao.add(agency);
+		
+		/**
+		 * 
+		 * 必须是先存入再取出，因为外键关联存的是对象（该对象必须具有主键ID）
+		 * 
+		 * 1、找到作者 author = dao.query(Person.Class, personId);
+		 * 2、找到机构 agency = dao.query(Agency.Class , agencyId);
+		 * 3、找到学习代码  systemOptin = dao.query("***",map);
+		 * 
+		 * 然后是set属性
+		 */
+		String prouctId = addProduct(product);
+		
+		//***
+		/**
+		 * 待添加bean文件再完善
+		 * 判断是否负责人，将负责人信息装入map中
+		 * 取出person/agency/product，然后设置属性
+		 */
+		/*ProduceMember productMember = new 	ProduceMember();
+		
+		productMember.setProduct(**);
+		productMember.setAgency(**);
+		productMember.setPerson(**);
+		productMember.setXX(**);*/
+		
+		
+		
+		return null;
+	}
+
+	
+	/**
+	 * 批量添加成员信息
+	 * 此处机构信息未确定
+	 */
+	@Override
+	public String addApplyInfos(List<Person> person, Product product,Agency agency,Map map) {
+	
+		Map argMap = new HashMap();
+		List<Agency> agencys = new ArrayList<Agency>();
+		
+		List<String> personIds =addPersons(person,map);//实际添加的人数，List<Person>里为空的元素不添加
+		List<String> workDivisions = (List<String>) map.get("workDivision");
+		List<String> positions = (List<String>) map.get("position");
+		List<String> agencyIds = (List<String>) map.get("agencyId");
+		
+		
+		
+		for(int i =0;i<personIds.size();i++){
+			agency = dao.query(Agency.class, agencyIds.get(i));
+			agencys.add(agency);
+		}
+		
+		
+		/*
+		 * 先找机构负责人，再将机构负责人设置为agency的属性(机构信息和机构负责人信息是直接录入的)
+		 * Person agencyDirector = dao.query(***);
+		 * agency.setDirector(agencyDirector);
+		 */
+		
+		//有可能前台直接传agencyName或agency过来
+		//String agencyName = agencys.get(0);
+		
+		/**
+		 * 
+		 * 必须是先存入再取出，因为外键关联存的是对象（该对象必须具有主键ID）
+		 * 
+		 * 1、找到作者 author = dao.query(Person.Class, personIds.get(0));
+		 * 2、找到机构 agency = dao.query(Agency.Class , agencyId);
+		 * 3、找到学科代码  systemOptin = dao.query("***",map);
+		 * 
+		 * 然后是set属性
+		 */
+		Person author = dao.query(Person.class,personIds.get(0));
+		//Agency agen = getAgency(agencyName);
+		String  disciplineName = (String) map.get("disciplineName");
+		Discipline discipline = getDiscipline(parseDisciplineName(disciplineName));
+		
+		
+		
+		product.setAuthor(author);
+		//初次提交时设置为暂存状态
+		product.setSubmitStatus(1);
+		product.setAgency(agencys.get(0));
+		product.setAgencyName(agencys.get(0).getName());
+		product.setDiscipline(discipline);
+		
+		String prouctId = addProduct(product);
+		
+		//***
+		/**
+		 * 待添加bean文件再完善
+		 * 判断是否负责人，将负责人信息装入map中
+		 * 取出person/agency/product，然后设置属性
+		 * 
+		 * 怎么设置非一作的信息
+		 */
+		
+		for(int i =0;i<personIds.size();i++ ){
+			
+		Person p = dao.query(Person.class, personIds.get(i));
+		
+		ProductAuthor productAuthor = new ProductAuthor();
+		
+		productAuthor.setProduct(product);
+		productAuthor.setPerson(p);
+		if(i==0){
+			productAuthor.setIsFirstAuthor(1);
+		}else {
+			productAuthor.setIsFirstAuthor(0);
+		}
+		productAuthor.setOrder(i+1);
+		
+		productAuthor.setAgency(agencys.get(i));
+		productAuthor.setAgencyName(agencys.get(i).getName());
+		productAuthor.setPosition(positions.get(i));
+		productAuthor.setWorkDivision(workDivisions.get(i));
+		
+		dao.add(productAuthor);
+			
+		}
+		
+		return prouctId;
+		
+	}
+
+	@Override
+	public Map getProducts() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Product getProductById(String id) {
+		
+		return dao.query(Product.class, id);
+	}
+
+	@Override
+	public Product getProductByAccount(Account account) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String modify(Product oldProduct, Product newProduct) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * 获取项目成员，不包括负责人
+	 */
+	@Override
+	public List getProductMembersByProductId(String entityId) {
+		Map map = new HashMap();
+		map.put("id", entityId);
+		String hql = "select pm from ProductMember pm left join pm.product p where p.id = :id and isdirector=0";
+		return dao.query(hql, map);
+	}
+
+	@Override
+	public Agency getAgency(String agencyName) {
+		Map map = new HashMap();
+		map.put("name", agencyName);
+		String hql = "select a from Agency a where a.name = :name";
+		return (Agency) dao.queryUnique(hql,map);
+	}
+
+	@Override
+	public Discipline getDiscipline(String disciplineName) {
+		Map map = new HashMap();
+		map.put("name", disciplineName);
+		String hql = "select d from Discipline d where d.name = :name";
+		return (Discipline) dao.queryUnique(hql,map);
+	}
+
+	@Override
+	public List<String> getArgsList(String ArgsName, int number) {
+		
+		return null;
+	}
+
+	@Override
+	public List<Object[]> getMemberInfo(String productId) {
+		
+		Map map = new HashMap();
+		map.put("productId", productId);
+		//String hql = "select pa.person,pa.workDivision,pa.position,pa.agencyName from ProductAuthor pa where pa.product.id= :productId order by pa.order";
+		String hql = "select pa.person,pa.workDivision,pa.position,pa.agency.id from ProductAuthor pa where pa.product.id= :productId order by pa.order";
+
+		return  dao.query(hql,map);
+	}
+
+	@Override
+	public String modifyInfos(List<Person> person, Product product, Map map) {
+		return addApplyInfos(person, product, null, map);
+	}
+
+	
+
+	private String parseDisciplineName(String disciplineName){
+		
+		String str="";
+		switch (Integer.parseInt(disciplineName)) {
+		case 0:
+			str="马克思主义与党建（社科）";
+			break;
+		case 1:
+			str = "经济理论学";
+			break;
+		case 2:
+			str="应用经济学";
+			break;
+		case 3:
+			str="哲学与社会学";
+			break;	
+			
+		case 4:
+			str="历史学（考古学）";
+			break;
+		case 5:
+			str="语言文字（文化研究，新闻学，图书情报学）";
+			break;	
+			
+		case 6:
+			str="法学（政治学）";
+			break;	
+			
+		case 7:
+			str="综合一组（教育学，体育学等）";
+			break;
+		case 8:
+			str="综合二组（民族学，宗教学，艺术学，交叉学科等）";
+			break;	
+		case 9:
+			str="综合三组（市州及其他）";
+			break;
+	
+		default:
+			break;
+		}
+		
+		return str;
+	}
+
+	@Override
+	public Agency getAgencyById(String agencyId) {
+		
+		return dao.query(Agency.class, agencyId);
+	}
+	
+
+}

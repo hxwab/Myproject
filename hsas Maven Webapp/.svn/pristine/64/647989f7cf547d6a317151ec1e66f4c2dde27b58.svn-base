@@ -1,0 +1,23 @@
+/*
+ * @author fengzheqi
+ * @date 2015/08/25
+ * @description 个人信息
+ */
+define(function(require, exports, module){
+	var view = require('view');
+	var nameSpace = 'personInfo';
+	
+	exports.init = function() {
+		view.show(nameSpace, showDetail);
+	};
+
+  function showDetail(results) {
+    if(results.errorInfo == null || results.errorInfo == '') {
+      $('#view_container').hide();
+      $('#view_container').html(TrimPath.processDOMTemplate('view_template', results.person));
+      $('#view_container').show();
+    } else {
+      alert(results.errorInfo);
+    }
+  }
+})

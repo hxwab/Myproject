@@ -1,0 +1,27 @@
+/*
+ * @author fengzheqi
+ * @date 2015/08/26
+ * @description 奖励管理
+ * */
+
+define(function(require, exports, module){
+	require('form');
+	require('datePicker');
+	var view = require('view');
+	var nameSpace = "system/dataDic/reward";
+	
+	exports.init = function() {
+		view.show(nameSpace, showDetails);
+	}
+		
+	function showDetails(results) {
+		if(results.errorInfo == null || results.errorInfo == ""){
+			$("#view_container").hide();
+			$("#view_container").html(TrimPath.processDOMTemplate("view_template",results));
+			$("#view_container").show();
+		} else{
+			alert(results.errorInfo);
+		}
+		$.isLoading("hide");//关闭加载信息
+	}
+})

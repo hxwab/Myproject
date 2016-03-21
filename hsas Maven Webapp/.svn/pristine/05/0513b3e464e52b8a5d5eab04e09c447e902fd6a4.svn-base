@@ -1,0 +1,224 @@
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ page isELIgnored ="true"%><%--添加对EL表达式的支持--%>
+<%@ taglib prefix="s" uri="/struts-tags"%> <%--添加对struts标签的支持 --%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>湖北省社会科学优秀成果奖申报评审系统</title>
+        <%@ include file="/jsp/base.jsp"%>
+        <link rel="stylesheet" href="lib/uploadify/css/uploadify.css">
+        <link rel="stylesheet" href="lib/bootstrap-datepicker-1.4.0-dist/css/bootstrap-datepicker3.css">
+    </head>
+    <body>
+   		<%@ include file="/jsp/nav.jsp"%>
+   		<a name="top" id="top"></a>
+			<div class="row main-content">
+				<ol class="breadcrumb mybreadcrumb">当前位置：
+				  <li><a href="#">评奖管理</a></li>
+				   <li><a href="#">申报数据</a></li>
+				  <li class="active">添加</li>
+				</ol>
+			    <div class="col-xs-10">
+				   <div class="addTable">
+				   
+				    	<form action="award/add.action" method="post" id="form_award_application">
+				    	<div id="procedure" class="step_css">
+							<ul>
+								<li class="proc" name="award_info"><span class="right_step">奖励信息</span><span class="triangle"></span></li>
+								<li class="proc" name="person_info"><span class="right_step">申请人信息</span><span class="triangle"></span></li>
+								<li class="proc" name="contact_info"><span class="right_step">联系方式</span><span class="triangle"></span></li>
+								<li class="proc step_oo" name="finish"><span class="right_step">完成</span></li>
+							</ul>
+						</div>
+						<div id="award_info" style="display:none">
+							<table width="100%">
+				    			<tbody>
+					    			<tr>
+					    				<td width="80" class="text-right required-label">申请人：</td>
+					    				<td><input type="text" name="" class="form-control input-sm validate[required]" placeholder=""></td>
+					    			</tr>
+					    			<tr>
+					    				<td width="80" class="text-right required-label">奖励名称：</td>
+					    				<td><input type="text" name="" class="form-control input-sm validate[required]" placeholder=""></td>
+					    			</tr>
+					    			<tr>
+					    				<td width="80" class="text-right required-label">成果形式：</td>
+					    				<td><input type="text" name="" class="form-control input-sm validate[required]" placeholder=""></td>
+					    			</tr>
+					    			<tr>
+					    				<td width="80" class="text-right required-label">学科代码：</td>
+					    				<td><input type="text" name="" class="form-control input-sm validate[required]" placeholder=""></td>
+					    			</tr>
+					    			<tr>
+					    				<td width="80" class="text-right required-label">学科分组：</td>
+					    				<td><input type="text" name="" class="form-control input-sm validate[required]" placeholder=""></td>
+					    			</tr>
+					    			<tr>
+					    				<td width="80" class="text-right required-label">合作者：</td>
+					    				<td><input type="text" name="" class="form-control input-sm validate[required]" placeholder=""></td>
+					    			</tr>
+					    			<tr>
+					    				<td width="140" class="text-right required-label">出版社或发表刊物：</td>
+					    				<td><input type="text" name="" class="form-control input-sm validate[required]" placeholder=""></td>
+					    			</tr>
+					    			<tr>
+					    				<td width="80" class="text-right required-label">出版或发表时间：</td>
+					    				<td><input type="text" name="" class="form-control input-sm validate[required]" placeholder=""></td>
+					    			</tr>
+					    			<tr>
+					    				<td width="80" class="text-right " style="vertical-align:top">成果简介：</td>
+					    				<td><textarea type="text" name="" class="form-control input-sm" placeholder=""></textarea></td>
+					    			</tr>
+				    			</tbody>
+				    		</table>
+						</div>
+						<div id="person_info" style="display:none">
+							<table width="100%">
+				    			<tbody>
+					    			<tr>
+					    				<td width="80" class="text-right required-label">姓名：</td>
+					    				<td><input type="text" name="" class="form-control input-sm validate[required]" placeholder=""></td>
+					    			</tr>
+					    			<tr>
+					    				<td width="80" class="text-right required-label">性别：</td>
+					    				<td><input type="text" name="" class="form-control input-sm validate[required]" placeholder=""></td>
+					    			</tr>
+					    			<tr>
+					    				<td width="80" class="text-right ">民族：</td>
+					    				<td><input type="text" name="" class="form-control input-sm " placeholder=""></td>
+					    			</tr>
+					    			<tr>
+					    				<td width="80" class="text-right required-label">出生日期：</td>
+					    				<td><input type="text" name="" class="form-control input-sm validate[required]" placeholder=""></td>
+					    			</tr>
+					    			<tr>
+					    				<td width="80" class="text-right required-label">证件类型：</td>
+					    				<td><input type="text" name="" class="form-control input-sm validate[required]" placeholder=""></td>
+					    			</tr>
+					    			<tr>
+					    				<td width="80" class="text-right required-label">证件号：</td>
+					    				<td><input type="text" name="" class="form-control input-sm validate[required]" placeholder=""></td>
+					    			</tr>
+					    			<tr>
+					    				<td width="80" class="text-right required-label">所在单位：</td>
+					    				<td><input type="text" name="" class="form-control input-sm validate[required]" placeholder=""></td>
+					    			</tr>
+					    			<tr>
+					    				<td width="80" class="text-right required-label">所在部门：</td>
+					    				<td><input type="text" name="" class="form-control input-sm validate[required]" placeholder=""></td>
+					    			</tr>
+					    			<tr>
+					    				<td width="80" class="text-right required-label">职务：</td>
+					    				<td><input type="text" name="" class="form-control input-sm validate[required]" placeholder=""></td>
+					    			</tr>
+					    			<tr>
+					    				<td width="80" class="text-right required-label">所属专业：</td>
+					    				<td><input type="text" name="" class="form-control input-sm validate[required]" placeholder=""></td>
+					    			</tr>
+					    			<tr>
+					    				<td width="80" class="text-right required-label">最后学历：</td>
+					    				<td><input type="text" name="" class="form-control input-sm validate[required]" placeholder=""></td>
+					    			</tr>
+					    			<tr>
+					    				<td width="80" class="text-right required-label">最后学位：</td>
+					    				<td><input type="text" name="" class="form-control input-sm validate[required]" placeholder=""></td>
+					    			</tr>
+					    			<tr>
+					    				<td width="80" class="text-right required-label">专业职称：</td>
+					    				<td><input type="text" name="" class="form-control input-sm validate[required]" placeholder=""></td>
+					    			</tr>
+					    			<tr>
+					    				<td width="80" class="text-right required-label">研究方向：</td>
+					    				<td><input type="text" name="" class="form-control input-sm validate[required]" placeholder=""></td>
+					    			</tr>
+					    			
+				    			</tbody>
+				    		</table>
+						</div>
+						<div id="contact_info" style="display:none">
+							<table width="100%">
+							<tbody>
+					    			<tr>
+					    				<td width="80" class="text-right required-label">办公地址：</td>
+					    				<td><input type="text" name="" class="form-control input-sm validate[required]" placeholder=""></td>
+					    			</tr>
+					    			<tr>
+									    <td width="80" class="text-right required-label">办公邮编：</td>
+									    <td>
+									        <input type="text" name="" class="form-control input-sm validate[required]" placeholder="">
+									    </td>
+									</tr>
+									<tr>
+									    <td width="80" class="text-right required-label">办公电话：</td>
+									    <td>
+									        <input type="text" name="" class="form-control input-sm validate[required]" placeholder="">
+									    </td>
+									</tr>
+									<tr>
+									    <td width="80" class="text-right required-label">办公传真：</td>
+									    <td>
+									        <input type="text" name="" class="form-control input-sm validate[required]" placeholder="">
+									    </td>
+									</tr>
+									<tr>
+									    <td width="80" class="text-right required-label">住宅地址：</td>
+									    <td>
+									        <input type="text" name="" class="form-control input-sm validate[required]" placeholder="">
+									    </td>
+									</tr>
+									<tr>
+									    <td width="80" class="text-right required-label">住宅邮编：</td>
+									    <td>
+									        <input type="text" name="" class="form-control input-sm validate[required]" placeholder="">
+									    </td>
+									</tr>
+									<tr>
+									    <td width="80" class="text-right required-label">住宅电话：</td>
+									    <td>
+									        <input type="text" name="" class="form-control input-sm validate[required]" placeholder="">
+									    </td>
+									</tr>
+									<tr>
+									    <td width="80" class="text-right required-label">住宅传真：</td>
+									    <td>
+									        <input type="text" name="" class="form-control input-sm validate[required]" placeholder="">
+									    </td>
+									</tr>
+									<tr>
+									    <td width="80" class="text-right required-label">手机：</td>
+									    <td>
+									        <input type="text" name="" class="form-control input-sm validate[required]" placeholder="">
+									    </td>
+									</tr>
+									<tr>
+									    <td width="80" class="text-right required-label">邮箱：</td>
+									    <td>
+									        <input type="text" name="" class="form-control input-sm validate[required]" placeholder="">
+									    </td>
+									</tr>
+					    	</tbody>
+					    	</table>
+						</div>
+				    	<div id="optr" class="text-center">
+				    		<div class="btn-group">
+								<input id="prev" class="btn btn-sm btn-default" type="button" style="display: none" value="上一步" />
+								<input id="next" class="btn btn-sm btn-default" type="button" style="display: none" value="下一步" />
+								<input id="finish" class="btn btn-sm btn-default" type="submit" style="display: none" value="完成" />
+								<input id="retry" class="btn btn-sm btn-default" type="button" style="display: none" value="重填" />
+								<input id="confirm" class="btn btn-sm btn-default" type="button" style="display: none" value="确定" />
+								<input id="cancel" class="btn btn-sm btn-default" type="button" style="display: none" value="取消" />
+							</div>
+						</div>	
+				   		</form>
+				    </div>
+			    </div>
+			</div>
+			<div class="row">
+   		<%@ include file="/jsp/footer.jsp"%>
+		<script>
+		    seajs.use("js/award/application/add.js", function(add) {
+		    	add.init();
+		    });
+		</script>
+	</body>
+</html>

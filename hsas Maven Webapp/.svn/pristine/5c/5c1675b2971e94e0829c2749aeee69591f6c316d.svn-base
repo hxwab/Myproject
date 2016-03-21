@@ -1,0 +1,52 @@
+package csdc.service.imp;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.stereotype.Service;
+
+import csdc.model.Account;
+import csdc.model.Award;
+import csdc.service.IApply;
+
+@Service
+public class ApplyService extends BaseService implements IApply {
+
+	
+	@Override
+	public Map getAwards() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Award getAwardById(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Award getAwardByAccount(Account account) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String addAward(Award award) {
+		
+		return null;
+	}
+
+	@Override
+	public String modify(Award oldAward, Award newAward) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String delete(List<Award> award) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

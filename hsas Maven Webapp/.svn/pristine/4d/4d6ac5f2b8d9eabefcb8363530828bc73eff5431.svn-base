@@ -1,0 +1,166 @@
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ page isELIgnored ="true"%><%--添加对EL表达式的支持--%>
+<%@ taglib prefix="s" uri="/struts-tags"%> <%--添加对struts标签的支持 --%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>湖北省社会科学优秀成果奖申报评审系统</title>
+        <%@ include file="/jsp/base.jsp"%>
+        <link rel="stylesheet" href="lib/uploadify/css/uploadify.css">
+        <link rel="stylesheet" href="lib/bootstrap-datepicker-1.4.0-dist/css/bootstrap-datepicker3.css">
+    </head>
+    <body>
+   		<%@ include file="/jsp/nav.jsp"%>
+   		<a name="top" id="top"></a>
+			<div class="row main-content">
+				<ol class="breadcrumb mybreadcrumb">当前位置：
+				  <li><a href="#">评奖管理</a></li>
+				  <li class="active">成果申报</li>
+				</ol>
+			    <div class="col-xs-10">
+				   <div class="addTable">
+				   
+				    	<form action="award/add.action" method="post" id="form_award_application">
+				    	<div id="procedure" class="step_css">
+							<ul>
+								<li class="proc" name="award_info"><span class="right_step">成果信息</span><span class="triangle"></span></li>
+								<li class="proc" name="person_info"><span class="right_step">第一作者信息</span><span class="triangle"></span></li>
+								<li class="proc step_oo" name="finish"><span class="right_step">完成</span></li>
+							</ul>
+						</div>
+						<div id="award_info" style="display:none">
+							<table width="100%">
+				    			<tbody>
+
+					    			<tr>
+					    				<td width="80" class="text-right required-label">成果名称：</td>
+					    				<td><input type="text" name="product.chineseName" class="form-control input-sm validate[required]" placeholder=""></td>
+					    			</tr>
+					    			<tr>
+					    				<td width="80" class="text-right required-label">第一作者：</td>
+					    				<td><input type="text" name="product.author" class="form-control input-sm validate[required]" placeholder=""></td>
+					    			</tr>
+					    			<tr>
+					    				<td width="80" class="text-right ">合作者：</td>
+					    				<td><input type="text" name="product.member" class="form-control input-sm " placeholder=""></td>
+					    			</tr>
+					    			<tr>
+					    				<td width="80" class="text-right required-label">成果形式：</td>
+					    				<td>
+					    					<select name="product.type" class="form-control input-sm validate[required]" placeholder="">
+					    					<option>著作</option>
+					    					<option>单篇论文</option>
+					    					<option>系列论文</option>
+					    					<option>调研报告</option>
+					    					</select>
+					    				</td>
+					    			</tr>
+					    			<tr>
+					    				<td width="80" class="text-right required-label">研究类型：</td>
+					    				<td><input type="text" name="product.researchType" class="form-control input-sm validate[required]" placeholder=""></td>
+					    			</tr>
+					    			<tr>
+					    				<td width="80" class="text-right required-label">学科代码：</td>
+					    				<td><input type="text" name="product.discipline" class="form-control input-sm validate[required]" placeholder=""></td>
+					    			</tr>
+					    			<tr>
+					    				<td width="80" class="text-right required-label">依托机构：</td>
+					    				<td><input type="text" name="product.agencyName" class="form-control input-sm validate[required]" placeholder=""></td>
+					    			</tr>
+					    			
+					    			<tr>
+					    				<td width="180" class="text-right ">出版社或发表刊物名称：</td>
+					    				<td><input type="text" name="product.publishName" class="form-control input-sm " placeholder=""></td>
+					    			</tr>
+					    			<tr>
+					    				<td width="140" class="text-right ">出版社或发表刊物级别：</td>
+					    				<td><input type="text" name="product.publishLevel" class="form-control input-sm " placeholder=""></td>
+					    			</tr>
+					    			<tr>
+					    				<td width="80" class="text-right ">出版或发表时间：</td>
+					    				<td><input type="text" name="product.publishDate" class="form-control input-sm dataPicker validate[custom[date]]" placeholder=""></td>
+					    			</tr>
+					    			<tr>
+					    				<td width="80" class="text-right ">成果社会反映：</td>
+					    				<td><input type="text" name="product.socialEffect" class="form-control input-sm validate[custom[date]] " placeholder=""></td>
+					    			</tr>
+					    			<tr>
+					    				<td width="80" class="text-right ">推荐意见：</td>
+					    				<td><input type="text" name="product.recommendation" class="form-control input-sm " placeholder=""></td>
+					    			</tr>
+					    			<tr>
+					    				<td width="80" class="text-right " style="vertical-align:top">成果概要：</td>
+					    				<td><textarea type="text" name="product.abstract" class="form-control input-sm" placeholder=""></textarea></td>
+					    			</tr>
+					    			<tr>
+					    				<td width="80" class="text-right " style="vertical-align:top">成果简介：</td>
+					    				<td><textarea type="text" name="product.introduction" class="form-control input-sm" placeholder=""></textarea></td>
+					    			</tr>
+				    			</tbody>
+				    		</table>
+						</div>
+						<div id="person_info" style="display:none">
+							<table width="100%">
+				    			<tbody>
+					    			<tr>
+					    				<td width="80" class="text-right required-label">姓名：</td>
+					    				<td><input type="text" name="person.name" class="form-control input-sm validate[required]" placeholder=""></td>
+					    			</tr>
+					    			<tr>
+					    				<td width="80" class="text-right required-label">性别：</td>
+					    				<td><input type="text" name="person.gender" class="form-control input-sm validate[required]" placeholder=""></td>
+					    			</tr>
+					    			<tr>
+					    				<td width="80" class="text-right required-label">民族：</td>
+					    				<td><input type="text" name="pserson.ethnic" class="form-control input-sm validate[required]" placeholder=""></td>
+					    			</tr>
+					    			<tr>
+					    				<td width="80" class="text-right required-label">身份证号：</td>
+					    				<td><input type="text" name="person.idCard" class="form-control input-sm validate[required,chinaId]" placeholder=""></td>
+					    			</tr>
+					    			<tr>
+					    				<td width="80" class="text-right required-label">出生日期：</td>
+					    				<td><input type="text" name="person.birthday" class="form-control input-sm dataPicker validate[required]" placeholder=""></td>
+					    			</tr>
+					    			<tr>
+					    				<td width="80" class="text-right required-label">Email：</td>
+					    				<td><input type="text" name="person.email" class="form-control input-sm validate[required]" placeholder=""></td>
+					    			</tr>
+					    			<tr>
+					    				<td width="80" class="text-right required-label">手机：</td>
+					    				<td><input type="text" name="person.mobilePhone" class="form-control input-sm validate[required]" placeholder=""></td>
+					    			</tr>
+					    			<tr>
+					    				<td width="80" class="text-right">联系地址：</td>
+					    				<td><input type="text" name="person.address" class="form-control input-sm " placeholder=""></td>
+					    			</tr>
+					    			<tr>
+					    				<td width="80" class="text-right ">个人简介：</td>
+					    				<td><textarea type="text" name="person.introduction" class="form-control input-sm " placeholder=""></textarea></td>
+					    			</tr>
+				    			</tbody>
+				    		</table>
+						</div>
+				    	<div id="optr" class="text-center">
+				    		<div class="btn-group">
+								<input id="prev" class="btn btn-sm btn-default" type="button" style="display: none" value="上一步" />
+								<input id="next" class="btn btn-sm btn-default" type="button" style="display: none" value="下一步" />
+								<input id="finish" class="btn btn-sm btn-default" type="submit" style="display: none" value="完成" />
+								<input id="retry" class="btn btn-sm btn-default" type="button" style="display: none" value="重填" />
+								<input id="confirm" class="btn btn-sm btn-default" type="button" style="display: none" value="确定" />
+								<input id="cancel" class="btn btn-sm btn-default" type="button" style="display: none" value="取消" />
+							</div>
+						</div>	
+				   		</form>
+				    </div>
+			    </div>
+			</div>
+			<div class="row">
+   		<%@ include file="/jsp/footer.jsp"%>
+		<script>
+		    seajs.use("js/award/application/add.js", function(add) {
+		    	add.init();
+		    });
+		</script>
+	</body>
+</html>

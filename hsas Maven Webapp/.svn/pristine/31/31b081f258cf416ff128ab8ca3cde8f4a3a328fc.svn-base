@@ -1,0 +1,106 @@
+package csdc.service.imp;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import csdc.model.Discipline;
+import csdc.model.SystemOption;
+import csdc.service.IDisciplineService;
+/**
+ * 学科管理接口实现
+ * @author Yaoyota
+ *
+ */
+@Service
+@Transactional
+public class DisciplineService extends BaseService implements IDisciplineService {
+	private static final String META_GROUP_NAME = "学科分组";
+	@Override
+	public boolean checkDisciplineName(String disciplineName) {
+		if(disciplineName == null) {
+			return true; //学科名称为空，视为存在
+		} else {
+			Map map = new HashMap();
+			map.put("disName", disciplineName);
+			List list = dao.query("from SystemOption so where so.name = :disName", map);
+			return list.isEmpty()? false:true;
+		}
+	}
+
+	@Override
+	public boolean checkDisciplineCode(String disciplineCode) {
+		if(disciplineCode == null) {
+			return true;
+		} else {
+			Map map = new HashMap();
+			map.put("disCode", disciplineCode);
+			List list = dao.query("from SystemOption so where so.code = :disCode", map);
+			return list.isEmpty()? false:true;
+		}
+	}
+
+	@Override
+	public String addDiscipline(SystemOption discipline) {
+		discipline.setParentId((SystemOption)dao.queryUnique("select so from SystemOptioin so where so.id=?", discipline.getParentIdStr()));
+		return (String)dao.add(discipline);
+	}
+
+	@Override
+	public int deleDiscipline(List<String> disciplineIds) {
+		try {
+			for(String id: disciplineIds) {
+				dao.delete(SystemOption.class, id);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			return 0;//删除失败，返回0
+		}
+		return 1;//删除成功，返回1
+	}
+
+	@Override
+	public String modifyDiscipline(SystemOption oldDiscipline,
+			SystemOption newDiscipline) {
+		//更新学科属性值
+		oldDiscipline.setName(newDiscipline.getName());
+		oldDiscipline.setCode(newDiscipline.getCode());
+		oldDiscipline.setParentId((SystemOption)dao.queryUnique("select so from SystemOption so where so.id= ?", newDiscipline.getParentIdStr()));
+		oldDiscipline.setDescription(newDiscipline.getDescription());
+		oldDiscipline.setIsAvailable(newDiscipline.getIsAvailable());
+		oldDiscipline.setStandard(newDiscipline.getStandard());
+		oldDiscipline.setAbbr(newDiscipline.getAbbr());
+		dao.modify(oldDiscipline);//修改学科数据
+		return oldDiscipline.getId();
+		
+	}
+
+	@Override
+	public SystemOption viewDiscipline(String disciplineId) {
+		return (SystemOption)dao.query(SystemOption.class, disciplineId);
+	}
+
+	@Override
+	public List<String[]> getDisciplineGroup() {
+		List group =  new ArrayList<String[]>();
+		String[] discipline;
+		Map map = new HashMap();
+		map.put("metaName", META_GROUP_NAME);
+		List list = dao.query("select so.id so.name from SystemOption so where so.parentId.name=:metaName or so.name=:metaName order by so.name",map);
+		for(Object g: list) {
+			discipline = (String[])g;
+			group.add(discipline);
+		}
+		return group;
+	}
+	
+	@Override
+	public Discipline getDiscipline(String name) {
+		return (Discipline)dao.queryUnique("select disc from Discipline disc where disc.name='" + name + "'");
+	}
+
+}

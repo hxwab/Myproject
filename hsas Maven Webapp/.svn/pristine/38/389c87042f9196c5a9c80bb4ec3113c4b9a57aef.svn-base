@@ -1,0 +1,146 @@
+package csdc.action.award;
+
+import java.io.File;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import csdc.action.BaseAction;
+import csdc.model.Award;
+import csdc.service.IApply;
+import csdc.service.IUploadService;
+import csdc.tool.ApplicationContainer;
+import csdc.tool.FileTool;
+import csdc.tool.bean.FileRecord;
+import csdc.tool.bean.UploadPath;
+/**
+ * 
+ * @author huangxw
+ * 上传、详情列表，增、删、改 ，查、下载（仅限管理员）
+ *
+ */
+
+@Component
+@Scope(value="prototype")
+
+public class ApplyAction extends BaseAction {
+
+	//private static final String HQL = "select"
+	
+	private  Award award;
+	
+	@Autowired
+	private IApply applyService;
+	
+	@Autowired
+	private IUploadService uploadService;
+	
+	@Override
+	public String toAdd() {
+		return SUCCESS;
+	}
+
+	@Override
+	public String add() {
+		String fileGroupId = "awardApplyUpload";
+		String fileSavePath = null;
+       
+        	fileSavePath = (String) ApplicationContainer.sc.getAttribute(UploadPath.AWARD_APPLY);//设置论坛附件的路径
+		
+		
+		//String fileSavePath = (String) ApplicationContainer.sc.getAttribute("FileUploadPath");//设置附件的路径
+		for (FileRecord fileRecord : uploadService.getGroupFiles(fileGroupId)) {
+			String newFilePath = FileTool.getAvailableFilename(fileSavePath, fileRecord.getOriginal());
+			award.setFile(newFilePath);
+			fileRecord.setDest(new File(ApplicationContainer.sc.getRealPath(award.getFile())));//将文件移至新的位置(不立刻执行，而在uploadService.flush时再执行)
+		}
+		uploadService.flush(fileGroupId);
+		entityId = applyService.addAward(award);
+		jsonMap.put("tag", "1");
+		return null;
+	}
+
+	@Override
+	public String delete() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String toModify() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String modify() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String view() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String toView() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object[] simpleSearchCondition() {
+		
+		
+		
+		
+		
+		return null;
+	}
+
+	@Override
+	public Object[] advSearchCondition() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String pageName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String pageBufferId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String[] sortColumn() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String dateFormat() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+
+	public Award getAward() {
+		return award;
+	}
+
+	public void setAward(Award award) {
+		this.award = award;
+	}
+	
+	
+
+}

@@ -1,0 +1,30 @@
+package csdc.service.imp;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import csdc.model.Person;
+import csdc.service.IViewService;
+
+@Service
+@Transactional
+public class ViewService extends BaseService implements IViewService {
+
+	@Override
+	public Map viewPerson(String entityId) {
+		Map map = new HashMap();
+		Person p =dao.query(Person.class, entityId);
+		
+		return null;
+	}
+
+	@Override
+	public Map viewAgency(String entityId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

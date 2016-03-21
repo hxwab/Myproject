@@ -1,0 +1,175 @@
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ page isELIgnored ="true"%><%--添加对EL表达式的支持--%>
+<%@ taglib prefix="s" uri="/struts-tags"%> <%--添加对struts标签的支持 --%>
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>湖北省社会科学优秀成果奖励申报评审系统</title>
+		<%@ include file="/jsp/base.jsp"%>
+	</head>
+	<body>
+		<!-- 页头 -->
+		<%@ include file="/jsp/innerNav.jsp"%>
+		<a name="top" id="top"></a>
+		
+		<!-- 页面主体 -->
+		<div class="row mySlide">
+			<!-- 当前位置 -->
+			<ol class="breadcrumb mybreadcrumb">当前位置：
+				<li><a href="#">专家管理</a></li>
+				<li class="active">专家库</li>
+			</ol>
+			
+			<!-- 添加专家 -->
+			<div class="col-xs-12">
+				<div class="addTable">
+					<form action="expert/add.action" method="post" id="form_expert_application">
+						<div id="procedure" class="step_css">
+							<ul>
+								<li class="proc" name="basic_info"><span class="right_step">基本信息</span><span class="triangle"></span></li>
+								<li class="proc" name="expert_info"><span class="right_step">专家信息</span><span class="triangle"></span></li>
+								<li class="proc step_oo" name="finish"><span class="right_step">完成</span></li>
+							</ul>
+						</div>
+						<div id="basic_info" style="display:none">
+							<table width="100%">
+								<tbody>
+									<tr>
+										<td width="150" class="text-right required-label">姓名：</td>
+										<td><s:textfield name="person.name" value="%{person.name}" /></td>
+										<td width="100"></td>
+									</tr>
+									<tr>
+										<td width="150" class="text-right required-label">性别：</td>
+										<td>
+											<select class="select validate[required]">
+												<option value="男">男</option>
+												<option value="女">女</option>
+											</select>
+										</td>
+										<td width="100"></td>
+									</tr>
+									
+									<tr>
+										<td width="150" class="text-right">民族：</td>
+										<td>
+											<select class="select validate[required]">
+												<option>汉族</option>
+											</select>
+										</td>
+										<td width="100"></td>
+									</tr>
+									<tr>
+										<td width="150" class="text-right required-label">出生日期：</td>
+										<td><input type="text" name="person.birthday" class="form-control input-sm datePicker validate[required]" placeholder="请输入"></td>
+										<td width="100"></td>
+									</tr>
+									<tr>
+										<td width="150" class="text-right required-label">所在机构：</td>
+										<td><input type="text" name="person.agencyName" class="form-control input-sm validate[required]" placeholder="请输入"></td>
+										<td width="100"></td>
+									</tr>
+									<tr>
+										<td width="150" class="text-right">身份证号：</td>
+										<td><input type="text" name="person.idcardNumber" class="form-control input-sm " placeholder="请输入"></td>
+										<td width="100"></td>
+									</tr>
+									<tr>
+										<td width="150" class="text-right required-label">手机：</td>
+										<td><input type="text" name="person.mobilePhone" class="form-control input-sm validate[required]" placeholder="请输入"></td>
+										<td width="100"></td>
+									</tr>
+									<tr>
+										<td width="150" class="text-right required-label">邮箱：</td>
+										<td><input type="text" name="person.email" class="form-control input-sm validate[required]" placeholder="请输入"></td>
+										<td width="100"></td>
+									</tr>
+									<tr>
+										<td width="150" class="text-right">办公电话：</td>
+										<td><input type="text" name="person.officePhone" class="form-control input-sm " placeholder="请输入"></td>
+										<td width="100"></td>
+									</tr>
+									<tr>
+										<td width="150" class="text-right">家庭电话：</td>
+										<td><input type="text" name="person.homePhone" class="form-control input-sm " placeholder="请输入"></td>
+										<td width="100"></td>
+									</tr>
+									<tr>
+										<td width="150" class="text-right">邮编：</td>
+										<td><input type="text" name="person.postCode" class="form-control input-sm " placeholder="请输入"></td>
+										<td width="100"></td>
+									</tr>
+									<tr>
+										<td width="150" class="text-right">联系地址：</td>
+										<td><input type="text" name="person.address" class="form-control input-sm " placeholder="请输入"></td>
+										<td width="100"></td>
+									</tr>
+									<tr>
+										<td width="150" class="text-right">个人简介：</td>
+										<td><textarea name="person.introduction" class="form-control input-sm " rows="5" placeholder="请输入"></textarea></td>
+										<td width="100"></td>
+									</tr>
+									
+								</tbody>
+							</table>
+						</div>
+						<div id="expert_info" style="display:none">
+							<table width="100%">
+								<tbody>
+									<tr>
+										<td width="150" class="text-right required-label">专业职称：</td>
+										<td><input type="text" name="expert.specialityTitle" class="form-control input-sm " placeholder="请输入名称"></td>
+										<td width="100"></td>
+									</tr>
+									<tr>
+										<td width="150" class="text-right required-label">研究方向：</td>
+										<td><input type="text" name="expert.researchField" class="form-control input-sm " placeholder="请输入名称"></td>
+										<td width="100"></td>
+									</tr>
+									<tr>
+										<td width="150" class="text-right required-label">学科门类：</td>
+										<td><input type="text" name="discipline.name" class="form-control input-sm " placeholder="请输入名称"></td>
+										<td width="100"></td>
+									</tr>
+									<tr>
+										<td width="150" class="text-right">最后学位：</td>
+										<td><input type="text" name="expert.lastDegree" class="form-control input-sm " placeholder="请输入名称"></td>
+										<td width="100"></td>
+									</tr>
+									<tr>
+										<td width="150" class="text-right">最后学历：</td>
+										<td><input type="text" name="expert.lastEducation" class="form-control input-sm " placeholder="请输入名称"></td>
+										<td width="100"></td>
+									</tr>
+									<tr>
+										<td width="150" class="text-right">备注：</td>
+										<td><textarea name="expert.note" class="form-control input-sm " rows="5" placeholder="请输入"></textarea></td>
+										<td width="100"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div id="optr" class="text-center">
+							<div class="btn-group">
+								<input id="prev" class="btn btn-sm btn-default" type="button" style="display: none" value="上一步" />
+								<input id="next" class="btn btn-sm btn-default" type="button" style="display: none" value="下一步" />
+								<input id="finish" class="btn btn-sm btn-default" type="submit" style="display: none" value="完成" />
+								<input id="retry" class="btn btn-sm btn-default" type="button" style="display: none" value="重填" />
+								<input id="confirm" class="btn btn-sm btn-default" type="button" style="display: none" value="确定" />
+								<input id="cancel" class="btn btn-sm btn-default" type="button" style="display: none" value="取消" />
+							</div>
+						</div>	
+				   		</form>
+				    </div>
+			</div>
+		</div>
+		
+		<!-- 页脚 -->
+		<div class="row">
+		<%@ include file="/jsp/footer.jsp"%>
+	</body>
+	<script>
+		seajs.use("js/expert/modify.js", function() {
+		});
+	</script>
+</html>

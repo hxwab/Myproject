@@ -1,0 +1,230 @@
+package csdc.action.selfspace;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import com.opensymphony.xwork2.ActionContext;
+
+import csdc.action.BaseAction;
+import csdc.model.Account;
+import csdc.model.Person;
+import csdc.model.Product;
+import csdc.model.SolicitPapers;
+import csdc.service.IPersonInfoService;
+import csdc.tool.bean.LoginInfo;
+import csdc.tool.info.GlobalInfo;
+import csdc.tool.info.RightInfo;
+
+@Component
+@Scope(value = "prototype")
+public class PersonInfoAction extends BaseAction {
+	
+	
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4856000556466257974L;
+	
+	private static final String PAGE_NAME = "personInfoPage";// 列表页面名称
+	private static final String DATE_FORMAT = "yyyy-MM-dd";// 列表时间格式
+	private static final String PAGE_BUFFER_ID = "paper.id";// 上下条查看时用于查找缓存的字段
+	private static final String TMP_ENTITY_ID = "personId";// 用于session缓存实体的ID名称
+
+	private String oldPassword;
+	private String newPassword;
+	private String reNewPassword;
+	private Person person;
+	
+	@Autowired
+	private IPersonInfoService personInfoService;
+	
+	
+
+	public String toModifyPassword(){
+		return SUCCESS;
+	}
+	
+	public String modifyPassword(){
+		LoginInfo  loginer = (LoginInfo) ActionContext.getContext().getSession().get(GlobalInfo.LOGINER);
+		String username = loginer.getAccount().getUsername();
+		
+		if(!reNewPassword.equals(newPassword)){
+			this.addFieldError(GlobalInfo.ERROR_INFO, "两次输入密码不一致");
+			jsonMap.put("tag", "3");
+			return INPUT;
+		}
+		if(!personInfoService.checkPassword(oldPassword, username)){
+			this.addFieldError(GlobalInfo.ERROR_INFO, "用户密码错误");
+			jsonMap.put("tag", "2");
+			return INPUT;
+		}else {
+			
+			personInfoService.modifyPassword(oldPassword, newPassword, username);
+			jsonMap.put("tag", "1");
+		}
+		
+		return SUCCESS;
+	}
+	
+	
+	
+	public String toPersonInfo(){
+		return SUCCESS;
+	}
+	
+	/**
+	 * 取出个人信息和申报信息
+	 * 
+	 * @return
+	 */
+	public String personInfo(){
+		
+		LoginInfo  loginer = (LoginInfo) ActionContext.getContext().getSession().get(GlobalInfo.LOGINER);
+		Account account = loginer.getAccount();
+		
+		List  person = personInfoService.getPersonByAccount(account);
+		jsonMap.put("person", person);
+		
+		List<Product> products =personInfoService.getProductByAccount(account);
+	
+		jsonMap.put("products", products);
+		
+		return SUCCESS;
+	}
+	
+	
+	
+	@Override
+	public String toAdd() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String add() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String delete() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * 修改个人信息
+	 */
+	@Override
+	public String toModify() {
+		ActionContext.getContext().getSession().put(TMP_ENTITY_ID, entityId);
+		return SUCCESS;
+	}
+
+	@Override
+	public String modify() {
+		personInfoService.modifyPersonInfo(person, null);
+		jsonMap.put("tag", "2");
+		return SUCCESS;
+	}
+
+	@Override
+	public String view() {
+		LoginInfo  loginer = (LoginInfo) ActionContext.getContext().getSession().get(GlobalInfo.LOGINER);
+		Account account = loginer.getAccount();
+		
+		/*List  person = personInfoService.getPersonByAccount(account);
+		jsonMap.put("person", person);*/
+		jsonMap.put("account", account);
+		
+		List<Product> products =personInfoService.getProductByAccount(account);
+	
+		jsonMap.put("products", products);
+		
+		return SUCCESS;
+	}
+
+	@Override
+	public String toView() {
+		return SUCCESS;
+	}
+
+	
+	@Override
+	public Object[] simpleSearchCondition() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object[] advSearchCondition() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String pageName() {
+		
+		return this.PAGE_NAME;
+	}
+
+	@Override
+	public String pageBufferId() {
+		
+		return this.PAGE_BUFFER_ID;
+	}
+
+	@Override
+	public String[] sortColumn() {
+		
+		return null;
+	}
+
+	@Override
+	public String dateFormat() {
+		
+		return this.DATE_FORMAT;
+	}
+
+	public Person getPerson() {
+		return person;
+	}
+
+	public void setPerson(Person person) {
+		this.person = person;
+	}
+
+	public String getOldPassword() {
+		return oldPassword;
+	}
+
+	public void setOldPassword(String oldPassword) {
+		this.oldPassword = oldPassword;
+	}
+
+	public String getNewPassword() {
+		return newPassword;
+	}
+
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
+	}
+
+	public String getReNewPassword() {
+		return reNewPassword;
+	}
+
+	public void setReNewPassword(String reNewPassword) {
+		this.reNewPassword = reNewPassword;
+	}
+
+	
+	
+	
+}

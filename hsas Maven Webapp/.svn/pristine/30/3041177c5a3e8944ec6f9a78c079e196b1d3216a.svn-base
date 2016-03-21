@@ -1,0 +1,15 @@
+define(function(require, exports, module){
+	$("body").on("click", ".select-agency", function(){
+		dialog({
+			title: '选择机构',
+			url:"jsp/pop/popSelect/popSelectAgency.jsp",
+			data: function(){
+				var pop = dialog.getCurrent();
+				// 重新计算iframe高度和宽度
+				pop.height($(pop.content().iframeNode.contentDocument)[0].body.scrollHeight);
+				pop.width($(pop.content().iframeNode.contentDocument)[0].body.scrollWidth);
+			}
+		}).showModal();
+		return false;
+	});
+});

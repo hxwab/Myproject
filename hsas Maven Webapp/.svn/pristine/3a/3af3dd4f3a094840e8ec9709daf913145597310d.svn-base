@@ -1,0 +1,76 @@
+package csdc.action.pop;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import com.opensymphony.xwork2.ActionSupport;
+
+import csdc.action.BaseAction;
+import csdc.service.IViewService;
+import csdc.service.imp.BaseService;
+
+@Component
+@Scope(value="prototype")
+public class ViewAction extends ActionSupport {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1390391427234904053L;
+	
+	private HttpServletRequest request;
+	private String entityId;// 查看的实体ID
+	private Map jsonMap = new HashMap();
+	
+	@Autowired
+	private IViewService viewService;
+
+	
+	public String toViewPerson(){
+		return SUCCESS;
+	}
+	
+	public String viewPerson(){
+		entityId="4028d88e5063a7be015063bbf6ab0000";
+		jsonMap = viewService.viewPerson(entityId);
+		return SUCCESS;
+	}
+
+	public String toViewAgency(){
+		return SUCCESS;
+	}
+	
+	public String viewAgency(){
+		jsonMap =viewService.viewAgency(entityId);
+		return SUCCESS;
+	}
+	
+	
+
+	public String getEntityId() {
+		return entityId;
+	}
+
+
+	public void setEntityId(String entityId) {
+		this.entityId = entityId;
+	}
+
+	public Map getJsonMap() {
+		return jsonMap;
+	}
+
+	public void setJsonMap(Map jsonMap) {
+		this.jsonMap = jsonMap;
+	}
+	
+	
+	
+
+}

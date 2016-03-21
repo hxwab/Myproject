@@ -1,0 +1,294 @@
+package csdc.model;
+
+import java.io.Serializable;
+import java.util.Date;
+
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.GenericGenerator;
+import org.omg.CORBA.PRIVATE_MEMBER;
+
+@Entity
+@Table(name="T_EXPERT" )
+public class Expert implements Serializable {
+	private static final long serialVersionUID = 7151871470737916338L;
+
+	private String id; //评审专家id（PK）
+	private Person person; //人员id（FK）
+	private String number; //专家编号
+	private Agency agencyId; //机构（高校）代码（FK）
+	private String agencyName; //机构（高校）名称
+	private String specialityTitle; //专业职称
+	private String researchField; //学术研究方向
+	private String disciplineType; //学科门类
+	private String discipline; //学科代码
+	private String rating; //评价等级（值越大，等级越高）
+	private String lastDegree; //最后学位
+	private String lastEducation; //最后学历
+	private String language; //外语语种
+	private Integer isDoctorTutor; //是否博导[1：是；0：否]
+	private Integer isPostdoctor; //是否博士后[1：是；0：否]
+	private String reviewerYears; //参评年份
+	private String type; //人员类型[专职人员、兼职人员]
+	private String computerLevel; //计算机操作水平[精通，熟练，一般，较差]
+	private Integer isReviewer;//是否参评专家
+	private String abroad;//出国经历[国外留学（一年以上），访问学者（一年以上），短期交流访问]
+	private String parttime;//学术兼职
+	private String project;//承担项目情况
+	private String warning;//警告
+	private String note;//备注
+	private String addYear;//进入专家库的年份
+
+	@Id	
+	@Column(name="C_ID", length=40)  
+	@GeneratedValue(generator="idGenerator")
+    @GenericGenerator(name="idGenerator", strategy="uuid")
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	@OneToOne
+	@JoinColumn(name="C_PERSON_ID")
+	public Person getPerson() {
+		return person;
+	}
+
+	public void setPerson(Person person) {
+		this.person = person;
+	}
+
+	@Column(name="C_NUMBER", length=40, nullable=false)
+	public String getNumber() {
+		return number;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
+	}
+	
+	@ManyToOne
+	@JoinColumn(name="C_AGENCY_ID", nullable = false)
+	public Agency getAgencyId() {
+		return agencyId;
+	}
+
+	public void setAgencyId(Agency agencyId) {
+		this.agencyId = agencyId;
+	}
+
+	@Column(name="C_AGENCY_NAME", length=400)
+	public String getAgencyName() {
+		return agencyName;
+	}
+
+	public void setAgencyName(String agencyName) {
+		this.agencyName = agencyName;
+	}
+	
+	@Column(name="C_SPECIALITY_TITLE", length=200)
+	public String getSpecialityTitle() {
+		return specialityTitle;
+	}
+
+	public void setSpecialityTitle(String specialityTitle) {
+		this.specialityTitle = specialityTitle;
+	}
+
+	@Column(name="C_RESEARCH_FIELD", length=400)  
+	public String getResearchField() {
+		return researchField;
+	}
+
+	public void setResearchField(String researchField) {
+		this.researchField = researchField;
+	}
+
+	@Column(name="C_DISCIPLINE_TYPE")
+	public String getDisciplineType() {
+		return disciplineType;
+	}
+
+	public void setDisciplineType(String disciplineType) {
+		this.disciplineType = disciplineType;
+	}
+
+	@Column(name="C_DISCIPLINE")
+	public String getDiscipline() {
+		return discipline;
+	}
+
+	public void setDiscipline(String discipline) {
+		this.discipline = discipline;
+	}
+	
+	@Column(name="C_RATING", length=40)
+	public String getRating() {
+		return rating;
+	}
+
+	public void setRating(String rating) {
+		this.rating = rating;
+	}
+
+	@Column(name="C_LAST_DEGREE", length=40)
+	public String getLastDegree() {
+		return lastDegree;
+	}
+
+	public void setLastDegree(String lastDegree) {
+		this.lastDegree = lastDegree;
+	}
+	
+	@Column(name="C_LAST_EDUCATION", length=40)
+	public String getLastEducation() {
+		return lastEducation;
+	}
+
+	public void setLastEducation(String lastEducation) {
+		this.lastEducation = lastEducation;
+	}
+
+	@Column(name="C_LANGUAGE", length=400) 
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+
+	@Column(name="C_IS_DOCTOR_TUTOR", scale=1)
+	public Integer getIsDoctorTutor() {
+		return isDoctorTutor;
+	}
+
+	public void setIsDoctorTutor(Integer isDoctorTutor) {
+		this.isDoctorTutor = isDoctorTutor;
+	}
+	
+	@Column(name="C_IS_POSTDOCTOR", scale=1)
+	public Integer getIsPostdoctor() {
+		return isPostdoctor;
+	}
+
+	public void setIsPostdoctor(Integer isPostdoctor) {
+		this.isPostdoctor = isPostdoctor;
+	}
+
+
+	@Column(name="C_REVIEWER_YEARS", length=200) 
+	public String getReviewerYears() {
+		return reviewerYears;
+	}
+
+	public void setReviewerYears(String reviewerYears) {
+		this.reviewerYears = reviewerYears;
+	}
+
+	@Column(name="C_TYPE", length=40)
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+	
+	@Column(name="C_COMPUTER_LEVEL", length=40)
+	public String getComputerLevel() {
+		return computerLevel;
+	}
+
+	public void setComputerLevel(String computerLevel) {
+		this.computerLevel = computerLevel;
+	}
+	
+	@Column(name="C_IS_REVIEWER", scale=1)
+	public Integer getIsReviewer() {
+		return isReviewer;
+	}
+
+	public void setIsReviewer(Integer isReviewer) {
+		this.isReviewer = isReviewer;
+	}
+	
+	@Lob 
+	@Basic(fetch = FetchType.LAZY) 
+	@Column(name="C_ABROAD", columnDefinition="TEXT", nullable=true) 
+	public String getAbroad() {
+		return abroad;
+	}
+
+	public void setAbroad(String abroad) {
+		this.abroad = abroad;
+	}
+
+	@Lob 
+	@Basic(fetch = FetchType.LAZY) 
+	@Column(name="C_PARTTIME", columnDefinition="TEXT", nullable=true)
+	public String getParttime() {
+		return parttime;
+	}
+
+	public void setParttime(String parttime) {
+		this.parttime = parttime;
+	}
+
+	@Lob 
+	@Basic(fetch = FetchType.LAZY) 
+	@Column(name="C_PROJECT", columnDefinition="TEXT", nullable=true)
+	public String getProject() {
+		return project;
+	}
+
+	public void setProject(String project) {
+		this.project = project;
+	}
+
+	@Lob 
+	@Basic(fetch = FetchType.LAZY) 
+	@Column(name="C_WARNING", columnDefinition="TEXT", nullable=true)
+	public String getWarning() {
+		return warning;
+	}
+
+	public void setWarning(String warning) {
+		this.warning = warning;
+	}
+
+	@Lob 
+	@Basic(fetch = FetchType.LAZY) 
+	@Column(name="C_NOTE", columnDefinition="TEXT", nullable=true)
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
+	
+	@Column(name="C_ADD_YEAR", length=4)
+	public String getAddYear() {
+		return addYear;
+	}
+
+	public void setAddYear(String addYear) {
+		this.addYear = addYear;
+	}
+}

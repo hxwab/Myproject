@@ -1,0 +1,24 @@
+package csdc.action;
+
+public interface IBase {
+	
+	public String toAdd();
+	
+	public  String add();
+	
+	public  String  delete();
+	
+	public  String toModify();
+	
+	public  String  modify();
+	
+	public  String view();
+	
+	public  String toView();
+	
+	
+	public  String toList();
+	
+	public  String list();
+
+}

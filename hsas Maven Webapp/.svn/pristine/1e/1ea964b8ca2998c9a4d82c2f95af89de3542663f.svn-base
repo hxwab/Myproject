@@ -1,0 +1,548 @@
+package csdc.action.product;
+
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+import csdc.action.BaseAction;
+import csdc.model.Agency;
+import csdc.model.Person;
+import csdc.model.Product;
+import csdc.service.IApplyService;
+import csdc.service.IDisciplineService;
+import csdc.service.IUploadService;
+import csdc.service.imp.DisciplineService;
+import csdc.tool.ApplicationContainer;
+import csdc.tool.FileTool;
+import csdc.tool.bean.FileRecord;
+import csdc.tool.bean.UploadPath;
+import csdc.tool.info.DiscipinlesAndGroups;
+
+/**
+ * 
+ * @author huangxw
+ * 上传、详情列表，增、删、改 ，查、下载（仅限管理员）
+ * 
+ * 申请人只能看到自己的申报信息，管理员可以看到所有或部分的申报信息
+ *
+ */
+
+@Component
+@Scope(value="prototype")
+
+public class ApplyAction extends BaseAction {
+
+	
+	//作者相应分工情况
+	private String workDivision1;
+	private String workDivision2;
+	private String workDivision3;
+	private String workDivision4;
+	private String workDivision5;
+	
+	//作者相应职位
+	private String position1;
+	private String position2;
+	private String position3;
+	private String position4;
+	private String position5;
+	
+	//作者所属机构名称
+	private String agencyId1;
+	private String agencyId2;
+	private String agencyId3;
+	private String agencyId4;
+	private String agencyId5;
+	
+	private Product product;
+	
+	private Person person;//负责人
+	
+	private Person member1;//项目成员
+	
+	private Person member2;
+	
+	private Person member3;
+	
+	private Person member4;
+	
+	private Agency agency;
+	
+	private String  disciplineName;
+	
+	private HashMap map = new HashMap();
+	
+	@Autowired
+	private IApplyService applyService;
+	
+	@Autowired
+	private IUploadService uploadService;
+	
+	@Autowired
+	private DisciplineService disciplineService;
+	
+	
+	@Override
+	public String toAdd() {
+	//	DiscipinlesAndGroups.getDiscipinlesAndGroups();
+		return SUCCESS;
+	}
+
+	@Override
+	public String add() {
+		String fileGroupId = "awardApplyUpload";
+		String fileSavePath = null;
+       
+        fileSavePath = (String) ApplicationContainer.sc.getAttribute(UploadPath.AWARD_APPLY);
+		
+		for (FileRecord fileRecord : uploadService.getGroupFiles(fileGroupId)) {
+			String newFilePath = FileTool.getAvailableFilename(fileSavePath, fileRecord.getOriginal());
+			product.setFile(newFilePath);
+			fileRecord.setDest(new File(ApplicationContainer.sc.getRealPath(product.getFile())));//将文件移至新的位置(不立刻执行，而在uploadService.flush时再执行)
+		}
+		uploadService.flush(fileGroupId);
+		
+		List<Person> persons = new ArrayList<Person>();
+		persons.add(person);
+		persons.add(member1);
+		persons.add(member2);
+		persons.add(member3);
+		persons.add(member4);
+		
+		//可考虑单独提取方法进行封装
+		List<String> workDivision = new ArrayList<String>();
+		workDivision.add(workDivision1);
+		workDivision.add(workDivision2);
+		workDivision.add(workDivision3);
+		workDivision.add(workDivision4);
+		workDivision.add(workDivision5);
+		
+		List<String> position = new ArrayList<String>();
+		position.add(position1);
+		position.add(position2);
+		position.add(position3);
+		position.add(position4);
+		position.add(position5);
+		
+		List<String> agencyId = new ArrayList<String>();
+		agencyId.add(agencyId1);
+		agencyId.add(agencyId2);
+		agencyId.add(agencyId3);
+		agencyId.add(agencyId4);
+		agencyId.add(agencyId5);
+		
+		/**
+		 * map封装其他参数
+		 */
+		map.put("workDivision", workDivision);
+		map.put("position", position);
+		map.put("agencyId", agencyId);
+		map.put("disciplineName", disciplineName);
+		
+		applyService.addApplyInfos(persons, product, null, map);
+		
+		jsonMap.put("tag", "1");
+		return SUCCESS;
+	}
+
+	@Override
+	public String delete() {
+		applyService.delete(entityIds);
+		return SUCCESS;
+	}
+
+	//传一个productId过来
+	@Override
+	public String toModify() {
+	
+		//entityId="4028d88e504badea01504bae67460000";
+		List<Object[]> memberInfos = applyService.getMemberInfo(entityId);
+		int numbers =memberInfos.size();
+		Object[] o;
+		switch (numbers) {
+		case 5:
+			o = memberInfos.get(4);
+			member4 = (Person) o[0];
+			workDivision5 = (String) o[1];
+			position5 = (String) o[2];
+			agencyId5 = (String) o[3];
+			
+
+		case 4:
+			 o = memberInfos.get(3);
+			member3 = (Person) o[0];
+			workDivision4 = (String) o[1];
+			position4 = (String) o[2];
+			agencyId4 = (String) o[3];
+			
+		case 3:
+			 o = memberInfos.get(2);
+			member2 = (Person) o[0];
+			workDivision3 = (String) o[1];
+			position3 = (String) o[2];
+			agencyId3 = (String) o[3];
+			
+			
+		case 2:
+			 o = memberInfos.get(1);
+			member1 = (Person) o[0];
+			workDivision2 = (String) o[1];
+			position2 = (String) o[2];
+			agencyId2 = (String) o[3];
+		
+		case 1:
+			o = memberInfos.get(0);
+			person = (Person) o[0];
+			workDivision1 = (String) o[1];
+			position1 = (String) o[2];
+			agencyId1 = (String) o[3];
+			break;
+			
+		default:
+			break;
+		}
+		
+		product = applyService.getProductById(entityId);
+		
+		
+		return SUCCESS;
+	}
+
+	@Override
+	public String modify() {
+		
+		List<Person> persons = new ArrayList<Person>();
+		persons.add(person);
+		persons.add(member1);
+		persons.add(member2);
+		persons.add(member3);
+		persons.add(member4);
+		
+		//可考虑单独提取方法进行封装
+		List<String> workDivision = new ArrayList<String>();
+		workDivision.add(workDivision1);
+		workDivision.add(workDivision2);
+		workDivision.add(workDivision3);
+		workDivision.add(workDivision4);
+		workDivision.add(workDivision5);
+		
+		List<String> position = new ArrayList<String>();
+		position.add(position1);
+		position.add(position2);
+		position.add(position3);
+		position.add(position4);
+		position.add(position5);
+		
+		List<String> agencyId = new ArrayList<String>();
+		agencyId.add(agencyId1);
+		agencyId.add(agencyId2);
+		agencyId.add(agencyId3);
+		agencyId.add(agencyId4);
+		agencyId.add(agencyId5);
+		
+		/**
+		 * map封装其他参数
+		 */
+		map.put("workDivision", workDivision);
+		map.put("position", position);
+		map.put("agencyId", agencyId);
+		map.put("disciplineName", disciplineName);
+		applyService.modifyInfos(persons, product, map);
+		jsonMap.put("tag", "1");
+		return SUCCESS;
+	}
+
+	//前台要显示机构名，此处agencyId赋值为机构名
+	@Override
+	public String view() {
+		List<Object[]> memberInfos = applyService.getMemberInfo(entityId);
+		int numbers =memberInfos.size();
+		Object[] o;
+		switch (numbers) {
+		case 5:
+			o = memberInfos.get(4);
+			member4 = (Person) o[0];
+			workDivision5 = (String) o[1];
+			position5 = (String) o[2];
+			agencyId5 = applyService.getAgencyById((String) o[3]).getName();
+			
+
+		case 4:
+			 o = memberInfos.get(3);
+			member3 = (Person) o[0];
+			workDivision4 = (String) o[1];
+			position4 = (String) o[2];
+			agencyId4 = applyService.getAgencyById((String) o[3]).getName();;
+			
+		case 3:
+			 o = memberInfos.get(2);
+			member2 = (Person) o[0];
+			workDivision3 = (String) o[1];
+			position3 = (String) o[2];
+			agencyId3 = applyService.getAgencyById((String) o[3]).getName();
+			
+			
+		case 2:
+			 o = memberInfos.get(1);
+			member1 = (Person) o[0];
+			workDivision2 = (String) o[1];
+			position2 = (String) o[2];
+			agencyId2 = applyService.getAgencyById((String) o[3]).getName();
+		
+		case 1:
+			o = memberInfos.get(0);
+			person = (Person) o[0];
+			workDivision1 = (String) o[1];
+			position1 = (String) o[2];
+			agencyId1 = applyService.getAgencyById((String) o[3]).getName();
+			break;
+			
+		default:
+			break;
+		}
+		
+		product = applyService.getProductById(entityId);
+		
+		jsonMap.put("product", product);
+		jsonMap.put("members", memberInfos);
+		return SUCCESS;
+	}
+
+	@Override
+	public String toView() {
+		return SUCCESS;
+	}
+
+	@Override
+	public Object[] simpleSearchCondition() {
+		
+		return null;
+	}
+
+	@Override
+	public Object[] advSearchCondition() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String pageName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String pageBufferId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String[] sortColumn() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String dateFormat() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+
+
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+
+	public Person getPerson() {
+		return person;
+	}
+
+	public void setPerson(Person person) {
+		this.person = person;
+	}
+
+	public Person getMember1() {
+		return member1;
+	}
+
+	public void setMember1(Person member1) {
+		this.member1 = member1;
+	}
+
+	public Person getMember2() {
+		return member2;
+	}
+
+	public void setMember2(Person member2) {
+		this.member2 = member2;
+	}
+
+	public Person getMember3() {
+		return member3;
+	}
+
+	public void setMember3(Person member3) {
+		this.member3 = member3;
+	}
+
+	public Person getMember4() {
+		return member4;
+	}
+
+	public void setMember4(Person member4) {
+		this.member4 = member4;
+	}
+
+
+	public Agency getAgency() {
+		return agency;
+	}
+
+	public void setAgency(Agency agency) {
+		this.agency = agency;
+	}
+
+	public String getWorkDivision1() {
+		return workDivision1;
+	}
+
+	public void setWorkDivision1(String workDivision1) {
+		this.workDivision1 = workDivision1;
+	}
+
+	public String getWorkDivision2() {
+		return workDivision2;
+	}
+
+	public void setWorkDivision2(String workDivision2) {
+		this.workDivision2 = workDivision2;
+	}
+
+	public String getWorkDivision3() {
+		return workDivision3;
+	}
+
+	public void setWorkDivision3(String workDivision3) {
+		this.workDivision3 = workDivision3;
+	}
+
+	public String getWorkDivision4() {
+		return workDivision4;
+	}
+
+	public void setWorkDivision4(String workDivision4) {
+		this.workDivision4 = workDivision4;
+	}
+
+	public String getWorkDivision5() {
+		return workDivision5;
+	}
+
+	public void setWorkDivision5(String workDivision5) {
+		this.workDivision5 = workDivision5;
+	}
+
+	public String getPosition1() {
+		return position1;
+	}
+
+	public void setPosition1(String position1) {
+		this.position1 = position1;
+	}
+
+	public String getPosition2() {
+		return position2;
+	}
+
+	public void setPosition2(String position2) {
+		this.position2 = position2;
+	}
+
+	public String getPosition3() {
+		return position3;
+	}
+
+	public void setPosition3(String position3) {
+		this.position3 = position3;
+	}
+
+	public String getPosition4() {
+		return position4;
+	}
+
+	public void setPosition4(String position4) {
+		this.position4 = position4;
+	}
+
+	public String getPosition5() {
+		return position5;
+	}
+
+	public void setPosition5(String position5) {
+		this.position5 = position5;
+	}
+
+	
+	public String getAgencyId1() {
+		return agencyId1;
+	}
+
+	public void setAgencyId1(String agencyId1) {
+		this.agencyId1 = agencyId1;
+	}
+
+	public String getAgencyId2() {
+		return agencyId2;
+	}
+
+	public void setAgencyId2(String agencyId2) {
+		this.agencyId2 = agencyId2;
+	}
+
+	public String getAgencyId3() {
+		return agencyId3;
+	}
+
+	public void setAgencyId3(String agencyId3) {
+		this.agencyId3 = agencyId3;
+	}
+
+	public String getAgencyId4() {
+		return agencyId4;
+	}
+
+	public void setAgencyId4(String agencyId4) {
+		this.agencyId4 = agencyId4;
+	}
+
+	public String getAgencyId5() {
+		return agencyId5;
+	}
+
+	public void setAgencyId5(String agencyId5) {
+		this.agencyId5 = agencyId5;
+	}
+
+	public String getDisciplineName() {
+		return disciplineName;
+	}
+
+	public void setDisciplineName(String disciplineName) {
+		this.disciplineName = disciplineName;
+	}
+
+	
+}

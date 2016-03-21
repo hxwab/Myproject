@@ -1,0 +1,174 @@
+package csdc.action.expert;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import csdc.action.BaseAction;
+import csdc.model.Expert;
+import csdc.model.Person;
+import csdc.tool.info.GlobalInfo;
+import csdc.tool.info.RightInfo;
+
+@Component   
+@Scope(value="prototype")
+public class ExpertAction extends BaseAction {
+
+	private static final long serialVersionUID = -7305780982528326793L;
+	protected static final String DATE_FORMAT = "yyyy-MM";// 列表时间格式
+
+	private static final String HQL = "select p.name, p.agencyName, e.specialityTitle, e.disciplineType, e.addYear, e.id from Expert e left join e.person p where 1=1";
+	private static final String PAGE_NAME = "expertPage";
+	private static final String PAGE_BUFFER_ID = "e.id";//缓存id
+	private static final String column[] = {
+		"p.name",
+		"p.agencyName",
+		"e.specialityTitle",
+		"e.disciplineType",
+		"e.addYear"
+	};// 排序用的列
+	
+	private final static String[] SEARCH_CONDITIONS = new String[]{
+		"LOWER(p.name) like :keyword",
+		"LOWER(p.agencyName) like :keyword",
+		"LOWER(e.specialityTitle) like :keyword",
+		"LOWER(e.disciplineType) like :keyword",
+		"LOWER(e.addYear) like :keyword"
+	};//初级检索所用条件范围
+	
+	private Expert expert;
+	private Person person;
+	
+
+	@Override
+	public String toAdd() {
+		return SUCCESS;
+	}
+
+	@Override
+	public String add() {
+		return null;
+	}
+
+	@Override
+	public String delete() {
+		return null;
+	}
+
+	@Override
+	public String toModify() {
+		return SUCCESS;
+	}
+
+	@Override
+	public String modify() {
+		return null;
+	}
+
+	@Override
+	public String view() {
+		expert = dao.query(Expert.class, entityId);
+		if (expert == null) {
+			jsonMap.put(GlobalInfo.ERROR_INFO, "该专家已不存在");
+			return INPUT;
+		} else { 
+			person = expert.getPerson();
+		}
+		jsonMap.put("expert", expert);
+		jsonMap.put("person", person);
+		return SUCCESS;
+	}
+
+	@Override
+	public String toView() {
+		return SUCCESS;
+	}
+	
+	public void validateToView() {
+		if (entityId == null || entityId.trim().isEmpty()) {// 查看officer ID不得为空
+			this.addFieldError(GlobalInfo.ERROR_INFO, RightInfo.ERROR_VIEW_NULL);
+		}
+	}
+	
+	/**
+	 * 查看信息时校验ID不得为空
+	 */
+	public void validateView() {
+		if (entityId == null || entityId.trim().isEmpty()) {// 查看部级管理员ID不得为空
+			this.addFieldError(GlobalInfo.ERROR_INFO, RightInfo.ERROR_VIEW_NULL);
+			jsonMap.put(GlobalInfo.ERROR_INFO, RightInfo.ERROR_VIEW_NULL);
+		}
+	}
+
+	@Override
+	public Object[] simpleSearchCondition() {
+		StringBuffer hql = new StringBuffer();
+		Map<String, String> map = new HashMap<String, String>();
+		hql.append(HQL);
+		if (keyword != null && !keyword.trim().isEmpty()) {
+			boolean flag = false;
+			String[] sc = searchConditions();
+			for (int i = 0; !flag && i < sc.length; i++) {
+				if (searchType == i) {
+					hql.append(" and ").append(sc[i]);
+					flag = true;
+				}
+			}
+			map.put("keyword", "%" + (keyword == null ? "" : keyword.toLowerCase()) + "%");
+		}
+		return new Object[]{
+			hql.toString(),
+			map,
+			0,
+			null
+		};
+	}
+
+	@Override
+	public Object[] advSearchCondition() {
+		return null;
+	}
+
+	@Override
+	public String pageName() {
+		return PAGE_NAME;
+	}
+
+	@Override
+	public String pageBufferId() {
+		return ExpertAction.PAGE_BUFFER_ID;
+	}
+
+	@Override
+	public String[] sortColumn() {
+		return column;
+	}
+
+	@Override
+	public String dateFormat() {
+		return DATE_FORMAT;
+	}
+	
+	public String[] searchConditions() {
+		return SEARCH_CONDITIONS;
+	}
+	
+	public Expert getExpert() {
+		return expert;
+	}
+
+	public void setExpert(Expert expert) {
+		this.expert = expert;
+	}
+	
+	public Person getPerson() {
+		return person;
+	}
+
+	public void setPerson(Person person) {
+		this.person = person;
+	}
+	
+}

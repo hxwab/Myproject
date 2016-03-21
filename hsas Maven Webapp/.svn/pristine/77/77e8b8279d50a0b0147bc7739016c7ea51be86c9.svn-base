@@ -1,0 +1,98 @@
+package csdc.service.imp;
+
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import csdc.dao.HibernateBaseDao;
+import csdc.dao.IBaseDao;
+import csdc.dao.IHibernateBaseDao;
+import csdc.model.Article;
+import csdc.service.IBaseService;
+
+@Service
+
+public class BaseService implements IBaseService {
+	
+	
+	private IBaseDao baseDao;
+	
+	@Autowired
+	protected HibernateBaseDao dao;
+
+	
+	public IBaseDao getBaseDao() {
+		return baseDao;
+	}
+
+	public void setBaseDao(IBaseDao baseDao) {
+		this.baseDao = baseDao;
+	}
+	
+	public String accquireFileSize(long fileLength) {
+		DecimalFormat df = new DecimalFormat("#.00");
+		String fileSizeString = "";
+		if (fileLength < 1024) {
+			fileSizeString = df.format((double) fileLength) + "B";
+		} else if (fileLength < 1048576) {
+			fileSizeString = df.format((double) fileLength / 1024) + "K";
+		} else if (fileLength < 1073741824) {
+			fileSizeString = df.format((double) fileLength / 1048576) + "M";
+		} else {
+			fileSizeString = df.format((double) fileLength / 1073741824) + "G";
+		}
+		return fileSizeString;
+	}
+	
+	/**
+	 * 将DATE格式化后转化为string 类型
+	 * @param date
+	 * @return
+	 */
+	public String Date2String(Date date){
+		
+		SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");// 时间格式化对象
+		String datestr = dateformat.format(date);
+		
+		return datestr;
+	}
+	
+	
+	public List  pageListDealWith(List  list) {
+	    List laData = new ArrayList();// 处理之后的列表数据
+		Object[] o;// 缓存查询结果的一行
+		String[] item;// 缓存查询结果一行中的每一字段
+		SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");// 时间格式化对象
+		String datestr;// 格式化之后的时间字符串
+		
+		// 遍历初始查询列表数据，按照指定格式，格式化其中的时间字段，其它字段转化为字符串
+		for (Object p : list) {
+			o = (Object[]) p;
+			item = new String[o.length];
+			for (int i = 0; i < o.length; i++) {
+				if (o[i] == null) {// 如果字段值为空，则以""替换
+					item[i] = "";
+				} else {// 如果字段值非空，则做进一步判断
+					if (o[i] instanceof Date) {// 如果字段为时间对象，则按照子类定义的时间格式格式化
+						datestr = dateformat.format((Date) o[i]);
+						item[i] = datestr.substring(0, datestr.length()-3);
+					} else {// 如果字段非时间对象，则直接转化为字符串
+						item[i] = o[i].toString();
+					}
+				}
+			}
+			laData.add(item);// 将处理好的数据存入laData
+		}
+		return laData;
+	}
+
+}

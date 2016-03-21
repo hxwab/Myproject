@@ -1,0 +1,125 @@
+package csdc.action.system;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import csdc.action.BaseAction;
+
+@Component
+@Scope(value="prototype")
+
+public class BonusAction extends BaseAction{
+   
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private static final String TMP_ACCOUNT_ID = "accountId";// 缓存与session中，备用的账号ID变量名称
+	private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";// 列表时间格式
+	private static final String PAGE_NAME = "bonusListPage";
+	private static final String PAGE_BUFFER_ID = "b.id";// 上下条查看时用于查找缓存的字段名称
+	private static final String HQL = "select b.id, b.year, b.level, b.type, b.bonus, b.createDate, b.updateDate from bonus b";// 上下条查看时用于查找缓存的字段名称HQL
+	private static final String[] SORT_COLUMNS = new String[] {
+		"b.year"
+	};
+	
+
+	@Override
+	public String toAdd() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String add() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String delete() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String toModify() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String modify() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String view() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String toView() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object[] simpleSearchCondition() {
+		keyword = (keyword == null) ? "" : keyword.toLowerCase().trim();// 预处理关键字
+		StringBuffer hql = new StringBuffer();
+		Map map = new HashMap();
+		hql.append(HQL);
+		if (keyword != null && !keyword.isEmpty()) {
+			hql.append(" where ");
+			if (searchType == 1) {
+				hql.append("LOWER(b.year) like :keyword");
+				map.put("keyword", "%" + keyword + "%");
+			} 
+		}
+		// 调用初级检索功能
+		return new Object[]{
+			hql.toString(),
+			map,
+			0,
+			null,
+			null
+		};
+	}
+
+	@Override
+	public Object[] advSearchCondition() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String pageName() {
+		return this.PAGE_NAME;
+	}
+
+	@Override
+	public String pageBufferId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String[] sortColumn() {
+		return this.SORT_COLUMNS;
+	}
+
+	@Override
+	public String dateFormat() {
+		return this.DATE_FORMAT;
+	}
+
+	
+	
+
+}

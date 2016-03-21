@@ -1,0 +1,18 @@
+package csdc.service.imp;
+
+import org.springframework.stereotype.Service;
+
+import csdc.model.SolicitPapers;
+import csdc.service.IDownload;
+
+@Service
+public class DownloadService extends BaseService implements IDownload {
+
+	
+	public SolicitPapers getAttachment(String id) {
+		
+		return dao.query(SolicitPapers.class, id);
+	}
+
+
+}

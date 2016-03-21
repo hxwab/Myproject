@@ -1,0 +1,53 @@
+package csdc.service;
+
+import java.util.List;
+import java.util.Map;
+
+import csdc.model.Account;
+import csdc.model.Award;
+
+public interface IApply {
+	
+	/**
+	 * 获取所有的申报成果
+	 * @return
+	 */
+	public Map getAwards();
+	
+	/**
+	 * 根据成果id获取项的成果
+	 * @param id
+	 * @return
+	 */
+	public Award getAwardById(String id);
+	
+	/**
+	 * 获取账户所申报的成果
+	 * @param account
+	 * @return
+	 */
+	public Award getAwardByAccount(Account account);
+	
+	/**
+	 * 添加成果
+	 * @param award
+	 * @return
+	 */
+	public String addAward(Award award);
+	
+	/**
+	 * 修改
+	 * @param oldAward
+	 * @param newAward
+	 * @return
+	 */
+	public String modify(Award oldAward , Award newAward);
+	
+	/**
+	 * 删除
+	 * @param award
+	 * @return
+	 */
+	public String delete(List<Award> award);
+
+}

@@ -1,0 +1,13 @@
+/*
+ * @author fengzheqi
+ * @date 2015/08/26
+ * @description 奖励管理
+ * */
+
+define(function(require, exports, module){
+	require('form');
+	require('datePicker');
+	var nameSpace = "system/dataDic/bonus"
+	
+	
+})
